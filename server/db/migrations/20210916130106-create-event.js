@@ -15,10 +15,24 @@ module.exports = {
         type: Sequelize.TEXT
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Users'
+          },
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       place_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Places'
+          },
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       date: {
         type: Sequelize.DATE
@@ -28,9 +42,6 @@ module.exports = {
       },
       image: {
         type: Sequelize.STRING
-      },
-      image_id: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

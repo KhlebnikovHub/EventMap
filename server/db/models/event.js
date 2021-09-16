@@ -11,6 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
+      });
+      this.belongsTo(models.Place, {
+        foreignKey: "place_id",
+      });
+      this.hasMany(models.Image, {
+        foreignKey:"event_id",
+      })
+
     }
   };
   Event.init({
@@ -21,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATE,
     private: DataTypes.BOOLEAN,
     image: DataTypes.STRING,
-    image_id: DataTypes.INTEGER
+   
   }, {
     sequelize,
     modelName: 'Event',
