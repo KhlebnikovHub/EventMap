@@ -5,12 +5,14 @@ const path = require('path');
 const multer = require('multer');
 const morgan = require('morgan');
 
-const app = express()
+const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT ?? 3002;
 
-//routes
+// routes
 const currentUser = require('./routes/currentUser');
+const allUsersRouter = require('./routes/allUsers');
+const oneUserRouter = require('./routes/oneUser');
 
 app.use(cors());
 app.use(morgan());
@@ -29,7 +31,8 @@ const storageConfig = multer.diskStorage({
 
 app.use(multer({ storage: storageConfig }).single('avatar'));
 
-
 app.use('/profile', currentUser);
+app.use('/allUsers', allUsersRouter);
+app.use('/oneUser', oneUserRouter);
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));

@@ -7,6 +7,8 @@ export const getCurrentUser = (currentuser) => ({
   payload: { currentuser }
 })
 
+
+
 //midleware
 export const setCurrentUser = (id) => async(dispatch) => {
   const response = await axios(`${process.env.REACT_APP_API_URL}/profile/${id}`)
