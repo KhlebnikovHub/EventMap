@@ -1,3 +1,4 @@
+
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import initialState from './state';
@@ -11,3 +12,4 @@ const store = createStore(
 )
 
 export default store
+
