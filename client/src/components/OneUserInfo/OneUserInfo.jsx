@@ -10,7 +10,6 @@ function OneUserInfo() {
   const {id} = useParams()
 
   const { list, isLoading, error } = useSelector((state) => state.oneUser)
-  console.log("ONEUSER", list.Events);
 
   useEffect(() => {
     dispatch(getOneUser(id))

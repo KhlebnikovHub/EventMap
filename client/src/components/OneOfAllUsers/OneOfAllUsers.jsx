@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 export default function OneOfAllUsers({ id, email, firstname, lastname, avatar }) {
-  console.log("KYKYK");
   return (
     <div>
       <br/>

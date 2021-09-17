@@ -17,6 +17,8 @@ import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 function Header() {
+  const id = 1;
+
   return (
     <>
       <header className={style.header}>
@@ -33,7 +35,7 @@ function Header() {
                 {/* Мои события  */}
               </Link>
 
-              <Link to="/Profile" className={style.header__nav}>
+              <Link to={`/Profile/${id}`} className={style.header__nav}>
                 <AccountBoxIcon fontSize="large" className={style.header__nav_icon} />
                 <p className={style.header__nav_text}>Профиль</p>
                 {/* Профиль */}

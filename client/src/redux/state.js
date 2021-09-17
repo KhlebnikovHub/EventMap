@@ -8,5 +8,7 @@ export const initialState = {
     list: {},
     isLoading: false,
     error: false
-  }
+  },
+  currentuser: {},
 }
+

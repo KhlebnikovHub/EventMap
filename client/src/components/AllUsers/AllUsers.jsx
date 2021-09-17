@@ -8,7 +8,6 @@ function AllUsers() {
 
   const dispatch = useDispatch()
   const { list, isLoading, error } = useSelector((state) => state.allUsers)
-  console.log('ENTO LIST', list);
   const newArr = new Array(10).fill('');
 
   useEffect(() => {
