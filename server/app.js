@@ -9,6 +9,9 @@ const app = express()
 
 const PORT = process.env.PORT;
 
+//routes
+const currentUser = require('./routes/currentUser');
+
 app.use(cors());
 app.use(morgan());
 app.use(express.json());
@@ -19,11 +22,14 @@ const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public/uploads');
   },
-  filename: (req, file, cb) =>{
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-app.use(multer({ storage: storageConfig }).single('file'));
+app.use(multer({ storage: storageConfig }).single('avatar'));
+
+
+app.use('/profile', currentUser);
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));
