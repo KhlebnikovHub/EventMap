@@ -15,7 +15,7 @@ const allUsersRouter = require('./routes/allUsers');
 const oneUserRouter = require('./routes/oneUser');
 
 app.use(cors());
-app.use(morgan());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
@@ -34,5 +34,6 @@ app.use(multer({ storage: storageConfig }).single('avatar'));
 app.use('/profile', currentUser);
 app.use('/allUsers', allUsersRouter);
 app.use('/oneUser', oneUserRouter);
+
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));
