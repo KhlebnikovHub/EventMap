@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -13,41 +12,47 @@ import Profile from '../Profile/Profile.jsx'
 import AllUsers from '../AllUsers/AllUsers.jsx'
 import Event from '../Event/Event.jsx'
 import Map from '../Map/Map.jsx'
+import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
 
 import style from "./Main.module.css";
 
 function Main() {
   return (
     <>
+
       <main className={style.main}>
         <Switch>
-          <Router exact path="/">
+          <Route exact path="/">
             <Start />
-          </Router>
+          </Route>
 
-          <Router exact path="/Friends/:id">
+          <Route exact path="/Friends/:id">
             <Friends />
-          </Router>
+          </Route>
 
-          <Router exact path="/Auth">
+          <Route exact path="/Auth">
             <Auth />
-          </Router>
+          </Route>
 
-          <Router exact path="/Profile/:id">
+          <Route exact path="/Profile/:id">
             <Profile />
-          </Router>
+          </Route>
 
-          <Router exact path="/AllUsers">
+          <Route exact path="/AllUsers">
             <AllUsers />
-          </Router>
+          </Route>
 
-          <Router exact path="/Event/:id">
+          <Route exact path="/Event/:id">
             <Event />
-          </Router>
+          </Route>
 
-          <Router exact path="/Map/:id">
+          <Route exact path="/Map/:id">
             <Map />
-          </Router>
+          </Route>
+
+          <Route exact path="/User/:id">
+            <OneUserInfo />
+          </Route>
         </Switch>
         </main>
     </>

@@ -5,7 +5,10 @@ const path = require('path');
 const multer = require('multer');
 const morgan = require('morgan');
 
-const app = express()
+const allUsersRouter = require('./routes/allUsers');
+const oneUserRouter = require('./routes/oneUser');
+
+const app = express();
 
 const PORT = process.env.PORT;
 
@@ -19,10 +22,13 @@ const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public/uploads');
   },
-  filename: (req, file, cb) =>{
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
+
+app.use('/allUsers', allUsersRouter);
+app.use('/oneUser', oneUserRouter);
 
 app.use(multer({ storage: storageConfig }).single('file'));
 
