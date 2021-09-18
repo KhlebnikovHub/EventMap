@@ -3,8 +3,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
 
+export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
+ if(!avatar?.includes('http')) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`
+  }
   const dispatch = useDispatch()
   
   const stateId = 2
@@ -15,14 +18,14 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
       url:  `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
       data: {id}
     })
-      
-    // dispatch(addToFriend({ id, stateId }))
+     
   }
+
 
   return (
     <div>
       <br/>
-      <img src={avatar} style={{width: '300px'}}/>
+      <img src={`${avatar}`} style={{width: '300px'}}/>
       <p>{email}</p>
       <p>{firstname}</p>
       <p>{lastname}</p>

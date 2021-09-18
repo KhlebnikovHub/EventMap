@@ -1,4 +1,4 @@
-import { GET_CURRENT_USER } from "../types/currentUserTypes";
+import { EDIT_USER_AVATAR, GET_CURRENT_USER } from "../types/currentUserTypes";
 
 function currentUserReducer(state = {}, action) {
   const { type, payload } = action;
@@ -9,7 +9,13 @@ function currentUserReducer(state = {}, action) {
       return currentuser
     }
     
-    
+    case EDIT_USER_AVATAR: {
+      const { newAvatar } = payload;
+      return {
+        ...state,
+        avatar: newAvatar
+      }
+    }
 
     default: {
       return state

@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentUser } from '../../redux/actions/currentUser.action';
 import ProfileUserCard from '../ProfileUserCard/ProfileUserCard';
 
@@ -11,12 +10,11 @@ function Profile() {
 
   const id = 1 
 
-  console.log(id)
 
   useEffect(() => {
     const curr = dispatch(setCurrentUser(id))
     console.log(curr)
-  }, [id])
+  }, [id, currentUserFromState.avatar])
 
   return (
     <>
