@@ -1,7 +1,9 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Header from "../Header/Header.jsx";
+
 
 export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
 
@@ -13,7 +15,7 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
     const response = await axios({
       method: 'POST',
       url:  `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
-      data: {id}
+      data: { id }
     })
       
     // dispatch(addToFriend({ id, stateId }))
@@ -30,10 +32,11 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
       <Link to={`/User/${id}`} >Podrobnee</Link>
       <br/>
       {id !== stateId ?
-
+      (Friends?.find(el => el.user_id === stateId && el.friend_id === id) ?
+       'Udoli' :
       (Requests?.find(el => el.applicant_id === stateId && el.respondent_id === id ) ? 
       <p >zayzvka Otpravlena</p> :
-      <button onClick={() => addToFriendsHandler(id)}>Dobavit' v druz'ya</button>)
+      <button onClick={() => addToFriendsHandler(id)}>Dobavit' v druz'ya</button>))
       : ''
        } 
       <hr/>

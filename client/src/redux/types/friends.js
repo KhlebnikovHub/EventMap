@@ -1,3 +1,6 @@
 export const SET_FRIENDS = 'SET_FRIENDS'
 export const SET_LOADING = 'SET_LOADING'
 export const SET_ERROR = 'SET_ERROR'
+export const SET_REQUEST_LIST = 'SET_REQUEST_LIST'
+export const DELETE_REQUEST = 'DELETE_REQUEST'
+export const APPROVE_REQUEST = 'APPROVE_REQUEST'
