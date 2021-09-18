@@ -1,4 +1,5 @@
 'use strict';
+
 const {
   Model
 } = require('sequelize');
@@ -11,25 +12,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Event,{
-        foreignKey:"user_id",
-      })
-      this.hasMany(models.Place,{
-        foreignKey:"user_id",
-      })
-      this.hasMany(models.Friend,{
-        foreignKey:"user_id",
-      })
-      this.hasMany(models.Friend,{
-        foreignKey:"friend_id",
-      })
+      this.hasMany(models.Event, {
+        foreignKey: 'user_id',
+      });
+      this.hasMany(models.Place, {
+        foreignKey: 'user_id',
+      });
+      this.hasMany(models.Friend, {
+        foreignKey: 'user_id',
+      });
+      this.hasMany(models.Friend, {
+        foreignKey: 'friend_id',
+      });
+      this.hasMany(models.Request, {
+        foreignKey: 'applicant_id',
+      });
+      this.hasMany(models.Request, {
+        foreignKey: 'respondent_id',
+      });
     }
   };
   User.init({
     email: DataTypes.STRING,
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
-    avatar: DataTypes.TEXT
+    avatar: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'User',

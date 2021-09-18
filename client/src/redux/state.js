@@ -10,5 +10,10 @@ export const initialState = {
     error: false
   },
   currentuser: {},
+  userFriends: {  
+    list: [],
+    isLoading: false,
+    error: false
+  }
 }
 
