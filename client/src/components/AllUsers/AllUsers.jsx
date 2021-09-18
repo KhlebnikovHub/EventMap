@@ -8,7 +8,8 @@ function AllUsers() {
 
   const dispatch = useDispatch()
   const { list, isLoading, error } = useSelector((state) => state.allUsers)
-  const newArr = new Array(10).fill('');
+
+  console.log("Vse LYDI", list);
 
   useEffect(() => {
     dispatch(getAllUsers())

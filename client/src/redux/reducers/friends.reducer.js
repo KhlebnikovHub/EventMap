@@ -1,7 +1,8 @@
-import { SET_ERROR, SET_LOADING, SET_ONE_USER } from "../types/oneUser"
+import { SET_ERROR, SET_FRIENDS, SET_LOADING } from "../types/friends"
 
 
-export const oneUserReducer = (state = {}, action) => {
+
+export const userFriendsReducer = (state = {}, action) => {
   const { type, payload, error } = action
 
   switch (type) {
@@ -11,9 +12,9 @@ export const oneUserReducer = (state = {}, action) => {
       case SET_LOADING: {
           return { list: state.list, isLoading: true, error: null }
       }
-      case SET_ONE_USER: {
-        const { oneUser } = payload
-        return {...state, list: oneUser }
+      case SET_FRIENDS: {
+        const { userFriends } = payload
+        return {...state, list: userFriends }
     }
       default: {
           return state;

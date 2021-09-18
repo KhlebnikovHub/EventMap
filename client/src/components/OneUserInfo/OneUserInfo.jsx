@@ -14,6 +14,7 @@ function OneUserInfo() {
   useEffect(() => {
     dispatch(getOneUser(id))
   }, [])
+  
   return (
     <div>
       <br/>

@@ -1,9 +1,11 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
+const { User, Request, Friend } = require('../db/models');
 
 router.route('/')
   .get(async (req, res) => {
-    const allUsers = await User.findAll();
+    const allUsers = await User.findAll({
+      include: [{ model: Request }, { model: Friend }],
+    });
     res.json(allUsers);
   })
 
