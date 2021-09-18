@@ -13,6 +13,7 @@ const PORT = process.env.PORT ?? 3002;
 const currentUser = require('./routes/currentUser');
 const allUsersRouter = require('./routes/allUsers');
 const oneUserRouter = require('./routes/oneUser');
+const friendsRouter = require('./routes/friends');
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -34,6 +35,7 @@ app.use(multer({ storage: storageConfig }).single('avatar'));
 app.use('/profile', currentUser);
 app.use('/allUsers', allUsersRouter);
 app.use('/oneUser', oneUserRouter);
+app.use('/friends', friendsRouter);
 
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));

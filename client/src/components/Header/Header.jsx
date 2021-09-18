@@ -47,7 +47,7 @@ function Header() {
                 {/* Пользователи */}
               </Link>
 
-              <Link to="/Friends" className={style.header__nav}>
+              <Link to={`/Friends/${id}`} className={style.header__nav}>
                 <PeopleIcon fontSize="large" className={style.header__nav_icon} />
                 <p className={style.header__nav_text}>Друзья</p>
                 {/* Друзья */}

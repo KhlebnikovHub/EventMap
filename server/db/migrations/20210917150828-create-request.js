@@ -1,15 +1,14 @@
 'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Friends', {
+    await queryInterface.createTable('Requests', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      applicant_id: {
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -19,7 +18,7 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
-      friend_id: {
+      respondent_id: {
         type: Sequelize.INTEGER,
         references: {
           model: {
@@ -40,6 +39,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Friends');
+    await queryInterface.dropTable('Requests');
   }
 };
