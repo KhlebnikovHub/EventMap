@@ -14,7 +14,7 @@ export const userFriendsReducer = (state = {}, action) => {
       }
       case SET_FRIENDS: {
         const { userFriends } = payload
-        return {...state, list: userFriends }
+        return {...state, list: userFriends, isLoading: false }
     }
       default: {
           return state;

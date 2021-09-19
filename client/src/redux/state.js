@@ -14,6 +14,11 @@ export const initialState = {
     list: [],
     isLoading: false,
     error: false
+  },
+  allPlaces: {
+    list: [],
+    isLoading: false,
+    error: false
   }
 }
 

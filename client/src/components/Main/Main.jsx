@@ -5,7 +5,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import Start from '../Start/Start.jsx'
+
 import Friends from '../Friends/Friends.jsx'
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
@@ -15,15 +15,16 @@ import Map from '../Map/Map.jsx'
 import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
 
 import style from "./Main.module.css";
+import Events from "../Events/Events.jsx";
 
 function Main() {
   return (
     <>
-
+        
       <main className={style.main}>
         <Switch>
-          <Route exact path="/">
-            <Start />
+          <Route exact path="/Events">
+            <Events />
           </Route>
 
           <Route exact path="/Friends/:id">

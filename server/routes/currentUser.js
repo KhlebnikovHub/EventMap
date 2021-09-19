@@ -9,6 +9,7 @@ router.route('/:id')
   })
   .patch( async(req, res) => {
     const { id } = req.params;
+    console.log('PATHHHH', req.file.path);
     const filePath = req.file.path.slice(6);
     await User.update({ avatar: filePath }, { where: { id: Number(id) } });
     const newProfile = await User.findOne({ where: { id } });
