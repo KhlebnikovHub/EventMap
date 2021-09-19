@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_ALL_USERS, SET_ALL_USERS, SET_ERROR, SET_LOADING } from '../types/allUsers'
+import { DELETE_FRIENDS_FROM_ALL_USERS, GET_ALL_USERS, SET_ALL_USERS, SET_ERROR, SET_LOADING } from '../types/allUsers'
 
 //middleware
 export const getAllUsers = () => async (dispatch) => {
@@ -15,7 +15,28 @@ export const getAllUsers = () => async (dispatch) => {
   }
 }
 
+export const deleteFriendsFromAllUsers = (id, stateId) => async (dispatch) => {
+  try {
+    dispatch(setLoading())
+    
+    const response = await axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
+      data: { id }
+    })
+
+    dispatch(setDeleteFriendFromAllUsers(id, stateId))
+  } catch(error) {
+    dispatch(setError(error))
+  }
+}
+
 //actionCreater
+export const setDeleteFriendFromAllUsers = (id, stateId) => ({
+  type: DELETE_FRIENDS_FROM_ALL_USERS,
+  payload: { id, stateId }
+})
+
 export const setAllUsers = (allUsers) => ({
   type: SET_ALL_USERS,
   payload: {allUsers}

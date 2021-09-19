@@ -1,4 +1,4 @@
-import { APPROVE_REQUEST, DELETE_REQUEST, SET_REQUEST_LIST } from "../types/friends";
+import { ADD_TO_REQUEST, APPROVE_REQUEST, DELETE_REQUEST, SET_REQUEST_LIST } from "../types/friends";
 
 export const requestListReducer = (state = [], action) => {
   const { payload, type } = action
@@ -18,3 +18,4 @@ export const requestListReducer = (state = [], action) => {
     }
   }
 }
+

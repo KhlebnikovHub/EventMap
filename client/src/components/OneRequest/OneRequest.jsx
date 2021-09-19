@@ -9,7 +9,7 @@ function OneRequest({ id, avatar, firstname, lastname, email}) {
 
   const requestList = useSelector((state) => state.requestList)
 
-  const stateId = 3
+  const stateId = 2
   
   const deleteRequestHandler = async (id) => {
   dispatch(deleteRequest(id, stateId))

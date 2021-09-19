@@ -1,4 +1,5 @@
-import { APPROVE_REQUEST, SET_ERROR, SET_FRIENDS, SET_LOADING } from "../types/friends"
+import { ADD_TO_REQUEST, APPROVE_REQUEST, DELETE_FROM_FRIENDS, SET_ERROR, SET_FRIENDS, SET_LOADING } from "../types/friends"
+import { requestListReducer } from "./request.reducer"
 
 
 
@@ -18,9 +19,12 @@ export const userFriendsReducer = (state = {}, action) => {
     }
     case APPROVE_REQUEST: {
       const { newFriend } = payload
-      console.log('XALUPA', newFriend);
       return {list: [...state.list, newFriend], isLoading: false, error: null}
     }
+    case DELETE_FROM_FRIENDS: {
+      const { id, stateId } = payload
+      return {list:  state.list.filter(el => el.id !== id)}
+  }
       default: {
           return state;
       }

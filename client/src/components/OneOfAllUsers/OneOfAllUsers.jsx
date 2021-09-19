@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { deleteFriendsFromAllUsers } from '../../redux/actions/allUsers.action.js';
+import { addToRequest } from '../../redux/actions/requests.action.js';
 import Header from "../Header/Header.jsx";
 
 
@@ -9,16 +11,16 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
 
   const dispatch = useDispatch()
   
-  const stateId = 2
+  const { list, isLoading, error } = useSelector((state) => state.userFriends)
 
-  const addToFriendsHandler = async (id) => {
-    const response = await axios({
-      method: 'POST',
-      url:  `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
-      data: { id }
-    })
-      
-    // dispatch(addToFriend({ id, stateId }))
+  const stateId = 3
+
+  const addToRequestHandler = async (id) => {
+    dispatch(addToRequest(id, stateId))
+  }
+
+  const deleteFromFriendsHandler = (id) => {
+    dispatch(deleteFriendsFromAllUsers(id, stateId))
   }
 
   return (
@@ -31,12 +33,13 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
       <br/>
       <Link to={`/User/${id}`} >Podrobnee</Link>
       <br/>
-      {id !== stateId ?
+      
+      {(id !== stateId) ?
       (Friends?.find(el => el.user_id === stateId && el.friend_id === id) ?
-       'Udoli' :
+      <button onClick={() => deleteFromFriendsHandler(id)}>UDALIT'</button> :
       (Requests?.find(el => el.applicant_id === stateId && el.respondent_id === id ) ? 
       <p >zayzvka Otpravlena</p> :
-      <button onClick={() => addToFriendsHandler(id)}>Dobavit' v druz'ya</button>))
+      <button onClick={() => addToRequestHandler(id)}>Dobavit' v druz'ya</button>))
       : ''
        } 
       <hr/>

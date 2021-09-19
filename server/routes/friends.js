@@ -10,7 +10,7 @@ router.route('/:id')
         where: { user_id: id },
         include: [{ model: User }],
       });
-      let newFriends = [];
+      const newFriends = [];
       for(let friend of currentUserFriends) {
         newFriends.push(friend?.User);
       }
@@ -35,7 +35,23 @@ router.route('/:id')
       console.log(error);
       return res.sendStatus(500).end();
     }
-  });
+  })
+  .delete(async (req, res) => {
+    const { id } = req.params;
+    const respondentId = req.body;
+    console.log("PARAMS---->", req.params, '\nBODY-------------->', req.body);
+    await Friend.destroy({ where: {
+      friend_id: respondentId.id,
+      user_id: id,
+    }});
+    await Friend.destroy({ where: {
+      user_id: respondentId.id,
+      friend_id: id,
+    }});
+    res.json({ 123: 123 });
+  })
+
+
 
 router.route('/requests/:id')
   .get(async (req, res) => {

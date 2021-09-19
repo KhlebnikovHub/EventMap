@@ -1,5 +1,5 @@
 import axios from "axios"
-import { APPROVE_REQUEST, DELETE_REQUEST, SET_REQUEST_LIST } from "../types/friends"
+import { ADD_TO_REQUEST, APPROVE_REQUEST, DELETE_REQUEST, SET_REQUEST_LIST } from "../types/friends"
 
 
 export const getRequestList = (id) => async (dispatch) => {
@@ -10,7 +10,22 @@ export const getRequestList = (id) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
-} 
+}
+
+export const addToRequest = (id, stateId) => async (dispatch) => {
+  try {
+  const response = await axios({
+    method: 'POST',
+    url:  `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
+    data: { id }
+  })
+  const newRequest = response.data
+
+  dispatch(setNewRequest(newRequest, id))
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const deleteRequest = (id, stateId) => async(dispatch) => {
   const response = await axios({
@@ -33,6 +48,11 @@ export const approveRequest = (id, stateId) => async(dispatch) => {
   console.log('ADSADSDDSADSAD', newFriend);
   dispatch(setApproveRequest(newFriend))
 }
+
+export const setNewRequest = (newRequest, id) => ({
+  type: ADD_TO_REQUEST,
+  payload: { newRequest, id }
+})
 
 export const setApproveRequest = (newFriend) => ({
   type: APPROVE_REQUEST,
