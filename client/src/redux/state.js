@@ -15,10 +15,12 @@ export const initialState = {
     isLoading: false,
     error: false
   },
+  requestList: [],
   allPlaces: {
     list: [],
     isLoading: false,
     error: false
   }
+
 }
 
