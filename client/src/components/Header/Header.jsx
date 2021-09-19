@@ -29,7 +29,7 @@ function Header() {
 
           <nav className={style.header__navPart}>
             <ul className={style.header__navBar}>
-              <Link to="/Start" className={style.header__nav}>
+              <Link to="/Events" className={style.header__nav}>
                 <EventIcon fontSize="large" className={style.header__nav_icon}/>
                 <p className={style.header__nav_text}>Мои события</p>
                 {/* Мои события  */}

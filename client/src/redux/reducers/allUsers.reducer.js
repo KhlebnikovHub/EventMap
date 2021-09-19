@@ -16,7 +16,7 @@ export const allUsersReducer = (state = {}, action) => {
       }
       case SET_ALL_USERS: {
         const { allUsers } = payload
-        return {...state, list: allUsers }
+        return {...state, list: allUsers, isLoading: false }
     }
     case ADD_TO_REQUEST: {
       const { newRequest, id } = payload

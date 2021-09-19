@@ -7,10 +7,14 @@ import { addToRequest } from '../../redux/actions/requests.action.js';
 import Header from "../Header/Header.jsx";
 
 
-export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
 
+export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
+ if(!avatar?.includes('http')) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`
+  }
   const dispatch = useDispatch()
   
+
   const { list, isLoading, error } = useSelector((state) => state.userFriends)
 
   const stateId = 3
@@ -21,12 +25,14 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
 
   const deleteFromFriendsHandler = (id) => {
     dispatch(deleteFriendsFromAllUsers(id, stateId))
+
   }
+
 
   return (
     <div>
       <br/>
-      <img src={avatar} style={{width: '300px'}}/>
+      <img src={`${avatar}`} style={{width: '300px'}}/>
       <p>{email}</p>
       <p>{firstname}</p>
       <p>{lastname}</p>

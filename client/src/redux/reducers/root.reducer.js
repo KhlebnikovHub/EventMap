@@ -4,6 +4,7 @@ import currentUserReducer from "./currentUser.reducer";
 import { userFriendsReducer } from "./friends.reducer";
 import { oneUserReducer } from "./oneUser.reducer";
 import { requestListReducer } from "./request.reducer";
+import { allPlacesReducer } from "./places.reducer";
 
 
 
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   oneUser: oneUserReducer,
   currentuser: currentUserReducer,
   userFriends: userFriendsReducer,
-  requestList: requestListReducer
+  requestList: requestListReducer,
+  allPlaces: allPlacesReducer,
 })

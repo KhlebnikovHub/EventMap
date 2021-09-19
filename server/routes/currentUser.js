@@ -7,11 +7,14 @@ router.route('/:id')
     const currentUser = await User.findOne({ where: { id: Number(id) } });
     res.json(currentUser);
   })
-  .post((req, res) => {
+  .patch( async(req, res) => {
     const { id } = req.params;
-    
-    console.log(req.body)
-    console.log(req.file);
+    console.log('PATHHHH', req.file.path);
+    const filePath = req.file.path.slice(6);
+    await User.update({ avatar: filePath }, { where: { id: Number(id) } });
+    const newProfile = await User.findOne({ where: { id } });
+    console.log( '=========', newProfile)
+    res.json(newProfile);
   })
 
 
