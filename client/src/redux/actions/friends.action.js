@@ -20,7 +20,6 @@ export const addToFriend = ({id, stateId}) => async (dispatch) => {
     
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/friends/${id}`, stateId)
     const newRequest = response.data
-      console.log("DRUZYASHKI", newRequest);
     dispatch(setAllUsers(newRequest))
   } catch(error) {
     dispatch(setError(error))

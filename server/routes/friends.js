@@ -4,7 +4,6 @@ const { User, Friend, Request } = require('../db/models');
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
       const currentUserFriends = await Friend.findAll({
         where: { user_id: id },
@@ -19,7 +18,6 @@ router.route('/:id')
   .post(async (req, res) => {
     const { id } = req.params;
     const respondentId = req.body;
-    console.log(respondentId, id);
     try {
       const request = await Request.create({
         applicant_id: id,
