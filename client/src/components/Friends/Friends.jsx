@@ -9,6 +9,8 @@ import RequestList from '../RequestList/RequestList'
 function Friends() {
 
   const [friendsPage, setFriendsPage] = useState(<FriendList/>)
+
+  
   
   const { id } = useParams()
   

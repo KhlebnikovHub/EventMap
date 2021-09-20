@@ -6,7 +6,7 @@ export const getAllFriends = (id) => async (dispatch) => {
   try {
     dispatch(setLoading())
     
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/friends/${id}`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/friends/${id}`, {withCredentials: true})
     const userFriends = response.data
     dispatch(setAllUsers(userFriends))
   } catch(error) {
@@ -18,7 +18,7 @@ export const addToFriend = ({id, stateId}) => async (dispatch) => {
   try {
     dispatch(setLoading())
     
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/friends/${id}`, stateId)
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/friends/${id}`, stateId, {withCredentials: true})
     const newRequest = response.data
       console.log("DRUZYASHKI", newRequest);
     dispatch(setAllUsers(newRequest))
@@ -35,7 +35,7 @@ export const deleteFromFriends = (id, stateId) => async (dispatch) => {
       method: "DELETE",
       url: `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
       data: { id }
-    })
+    }, {withCredentials: true})
   
     dispatch(setDeleteFromFriends(id, stateId))
   } catch(error) {

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { editAvaToBack } from "../../redux/actions/currentUser.action";
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
+  console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
 

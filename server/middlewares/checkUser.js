@@ -28,7 +28,8 @@ const checkUser = async (req, res, next) => {
     }
     return next();
   } else {
-    return res.redirect('/user/signIn');
+    // return res.redirect('/user/signIn');
+    console.log("PISYAKAKA");
   }
 };
 

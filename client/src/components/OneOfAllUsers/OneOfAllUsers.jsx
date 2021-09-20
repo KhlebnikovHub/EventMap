@@ -14,10 +14,10 @@ export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, 
   }
   const dispatch = useDispatch()
   
+  const currentUserFromState = useSelector((state) => state.currentuser);
+    const { list, isLoading, error } = useSelector((state) => state.userFriends)
 
-  const { list, isLoading, error } = useSelector((state) => state.userFriends)
-
-  const stateId = 3
+  const stateId = currentUserFromState?.id
 
   const addToRequestHandler = async (id) => {
     dispatch(addToRequest(id, stateId))

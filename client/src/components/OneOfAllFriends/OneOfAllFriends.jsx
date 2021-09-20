@@ -1,13 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteFromFriends } from '../../redux/actions/friends.action'
 
 function OneOfAllFriends({ id, email, firstname, lastname, avatar,}) {
 
  const dispatch = useDispatch()
-
- const stateId = 3
+ const currentUserFromState = useSelector((state) => state.currentuser);
+ const stateId = currentUserFromState?.id
  
  const deleteFriendHandler  = (id) => {
    dispatch(deleteFromFriends(id, stateId))
