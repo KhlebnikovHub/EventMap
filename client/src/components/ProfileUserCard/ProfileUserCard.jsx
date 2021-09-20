@@ -10,8 +10,9 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   const editAvaHandler = async (event) => {
     event.preventDefault();
     const file = event.target.avatar.files[0];
-    let {latitude, longitude} = await exifr.gps(file);
-    console.log(latitude, longitude)
+    
+    // let {latitude, longitude} = await exifr.gps(file);
+    // console.log(latitude, longitude)
  
     const formData = new FormData()
     formData.append('avatar', file)
@@ -30,8 +31,10 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   const dropHandler = async (event) => {
     event.preventDefault()
     let fileDrag = event.dataTransfer.files[0];
-    let {latitude, longitude} = await exifr.gps(fileDrag);
-    console.log(latitude, longitude)
+    // if(exifr?.gps) {
+    //   let {latitude, longitude} = await exifr.gps(fileDrag);
+    //   console.log(latitude, longitude)
+    // }
     const formDragData = new FormData();
     formDragData.append('avatar', fileDrag)
     dispatch(editAvaToBack(id, formDragData))
