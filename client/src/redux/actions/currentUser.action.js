@@ -25,6 +25,5 @@ export const editAvaToBack = (id, newAva) => async(dispatch) => {
     method: 'PATCH',
     body: newAva
   })
-  console.log('=======', response)
   dispatch(editAva(response))
 }
