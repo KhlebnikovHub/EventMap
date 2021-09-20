@@ -14,6 +14,7 @@ router.route('/:id')
   })
   .patch( async(req, res) => {
     const { id } = req.params;
+    console.log('PATHHHH', req.file.path);
     const filePath = req.file.path.slice(6);
     console.log('======>', req.file);
     try {

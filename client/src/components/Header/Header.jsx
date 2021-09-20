@@ -17,7 +17,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 function Header() {
-  const id = 1;
+  const id = 3;
 
   return (
     <>
@@ -29,7 +29,7 @@ function Header() {
 
           <nav className={style.header__navPart}>
             <ul className={style.header__navBar}>
-              <Link to="/Start" className={style.header__nav}>
+              <Link to="/Events" className={style.header__nav}>
                 <EventIcon fontSize="large" className={style.header__nav_icon}/>
                 <p className={style.header__nav_text}>Мои события</p>
                 {/* Мои события  */}

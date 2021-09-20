@@ -13,7 +13,7 @@ export const oneUserReducer = (state = {}, action) => {
       }
       case SET_ONE_USER: {
         const { oneUser } = payload
-        return {...state, list: oneUser }
+        return {...state, list: oneUser, isLoading: false }
     }
       default: {
           return state;
