@@ -12,8 +12,8 @@ function Profile() {
 
 
   useEffect(() => {
-    const curr = dispatch(setCurrentUser(id))
-    console.log(curr)
+    dispatch(setCurrentUser(id))
+    
   }, [id, currentUserFromState.avatar])
 
   return (
