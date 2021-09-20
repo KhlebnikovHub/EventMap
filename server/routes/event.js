@@ -21,11 +21,12 @@ router.route('/newEvent')
   .post(async (req, res) => {
     console.log('REQBO', req.body);
     console.log('PATHHHH', req?.file?.path);
-    const { name, description, event_date, user_id, newCoords } = req.body;
+    const { name, description, event_date, user_id, newCoords, place_name, private } = req.body;
+    console.log("REQQQBODYYYY", req.body);  
     const [latitude, longitude] = newCoords;
     try {
-      const newPlace = await Place.create({ latitude, longitude, user_id });
-      const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id })
+      const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id });
+      const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id, private: (private ? Boolean(private) : false) })
       return res.json(newEvent);
     } catch (error) {
       console.log(error);
