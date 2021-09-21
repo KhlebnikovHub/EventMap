@@ -6,7 +6,9 @@ import { useState } from "react";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+
 function AddEvent({ newCoords, imgName, setImgName }) {
+
 
 
   const user_id = 2;

@@ -3,12 +3,15 @@ import { editAvaToBack } from "../../redux/actions/currentUser.action";
 import exifr from 'exifr'
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
+  console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
 
   const editAvaHandler = async (event) => {
     event.preventDefault();
+
     const file = event.target.img.files[0];
+
     // let {latitude, longitude} = await exifr.gps(file);
     // console.log(latitude, longitude)
  
@@ -28,8 +31,10 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   const dropHandler = async (event) => {
     event.preventDefault()
     let fileDrag = event.dataTransfer.files[0];
+
     //et {latitude, longitude} = await exifr.gps(fileDrag);
     //console.log('GPS', latitude, longitude)
+
     const formDragData = new FormData();
     formDragData.append('img', fileDrag)
     dispatch(editAvaToBack(id, formDragData))

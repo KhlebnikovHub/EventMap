@@ -7,6 +7,9 @@ import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
 
 function App() {
+
+
+
   return (
     <>
       <Router>

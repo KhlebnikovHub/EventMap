@@ -6,7 +6,7 @@ export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch(setLoading())
     
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/allUsers`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/allUsers`, {withCredentials: true})
     const allUsers = response.data
     
     dispatch(setAllUsers(allUsers))
@@ -23,7 +23,7 @@ export const deleteFriendsFromAllUsers = (id, stateId) => async (dispatch) => {
       method: "DELETE",
       url: `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
       data: { id }
-    })
+    }, {withCredentials: true})
 
     dispatch(setDeleteFriendFromAllUsers(id, stateId))
   } catch(error) {
