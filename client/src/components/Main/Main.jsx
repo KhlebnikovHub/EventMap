@@ -23,6 +23,20 @@ import { getCurrentUser, setCurrentUser } from "../../redux/actions/currentUser.
 import { useEffect } from "react";
 import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import Button from "@mui/material/Button";
+
+import { red } from "@mui/material/colors";
+
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: red[300],
+//     },
+//   },
+// });
+
 function Main() {
 
 
@@ -40,10 +54,15 @@ function Main() {
   // }, [])
 
   return (
-       <>
-
-      <main className={style.main}>
+    <>
+      <main id="mainid" className={style.main}>
         <Switch>
+          <Route exact path="/">
+            <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
+              Создайте свою карту впечатлений!
+            </Link>
+          </Route>
+
           <Route exact path="/Events">
             <Events />
           </Route>
@@ -76,9 +95,8 @@ function Main() {
             <OneUserInfo />
           </PrivateRoute>
         </Switch>
-
-        </main>
-       </>
+      </main>
+    </>
   );
 }
 

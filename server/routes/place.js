@@ -8,6 +8,10 @@ router.route('/allPlaces/:user_id/')
     try {
       const { user_id } = req.params;
       const allPlaces = await Place.findAll({ where: { user_id }, include: { model: Event } });
+      console.log(user_id);
+      
+      console.log(allPlaces);
+      
       return res.json(allPlaces);
     } catch (error) {
       console.log(error);

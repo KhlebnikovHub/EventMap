@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -10,33 +11,39 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 function AddEvent({ newCoords, imgName, setImgName }) {
 
 
-
-  const user_id = 2;
+  const currentUserFromState = useSelector((state) => state.currentuser);
+  const user_id = currentUserFromState?.id
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.target))
+    const data = new FormData(event.target)
 
 
     const file = event.target?.event_image?.files[0];
     console.log('FILEE', file);
     const formData = new FormData()
-    formData.append('avatar', file)
+    formData.append('img', file)
     console.log('FORMDATAAA', formData);
+    data.append('user_id', user_id)
+    data.append('newCoords', newCoords);
+    console.log("COOOOOOORDISHE", newCoords);
 
     const responseData = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify({ ...data, user_id, newCoords })
+      // headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      // body: JSON.stringify({ ...data, user_id, newCoords }),
+      body: data,
+      credentials: "include"
     })
 
     const answerData = await responseData.json();
     console.log(answerData);
-    const responseDataId = answerData.id;
-    const responseImage = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent/${responseDataId}`, {
-      method: 'POST',
-      body: formData
-    })
+    // const responseDataId = answerData.id;
+    // const responseImage = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent/${responseDataId}`, {
+    //   method: 'POST',
+    //   body: formData,
+    //   credentials: "include"
+    // })
 
 
 
@@ -109,7 +116,7 @@ function AddEvent({ newCoords, imgName, setImgName }) {
             />
           </div>
 
-          Добавить фотографию <input type="file"  name="event_image" encType="multipart/form-data" />
+          Добавить фотографию <input type="file"  name="img" encType="multipart/form-data" />
           <div>
             <div
               encType="multipart/form-data"

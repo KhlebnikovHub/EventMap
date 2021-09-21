@@ -1,3 +1,60 @@
 .main {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+
+  align-content: center;
+  justify-items: center;
+
+  row-gap: 120px;
+
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.main__title {
+  height: 40px;
+
+  font-size: 4rem;
+  font-weight: 600;
+  margin: 0px;
+  padding: 0px;
+  color: #fffdf7;
+
+  -webkit-transform:scale(1);
+  -moz-transform:scale(1);
+  -ms-transform:scale(1);
+  -o-transform:scale(1);
+  transform:scale(1);
+}
+
+.main__title_zoom {
+  animation: scale 30s linear infinite;
+}
+
+.main__button {
+  width: 20rem;
+  height: 3rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: stretch;
+}
+  
+@keyframes scale {
+  50% {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+  }
+}
+
+canvas {
   width: 100%;
 }
+

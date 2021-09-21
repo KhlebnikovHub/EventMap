@@ -1,91 +1,107 @@
-import React, { useEffect } from 'react'
-import { YMaps, Map, Clusterer, FullscreenControl, SearchControl, Placemark, ObjectManager } from 'react-yandex-maps';
-import { createRef, useState } from 'react';
+import React, { useEffect } from "react";
+import {
+  YMaps,
+  Map,
+  Clusterer,
+  FullscreenControl,
+  SearchControl,
+  Placemark,
+  ObjectManager,
+} from "react-yandex-maps";
+import { createRef, useState } from "react";
 import style from "./Events.module.css";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllPlaces } from '../../redux/actions/places.action';
-import AddEvent from '../AddEvent/AddEvent';
-import exifr from 'exifr'
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPlaces } from "../../redux/actions/places.action";
+import AddEvent from "../AddEvent/AddEvent";
+import exifr from "exifr";
 
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { red } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: red[300],
+    },
+  },
+});
 
 function createBalloonLayout(ymaps) {
   const BalloonLayout = ymaps?.templateLayoutFactory?.createClass(
     `
     
-     <div style="width:50px;height:100px;background-color:black;"></div>
+    <div style="width:50px;height:100px;background-color:black;"></div>
     
-  `, {
-
-  },
-
+  `,
+    {}
   );
-  return BalloonLayout
+  return BalloonLayout;
 }
 
-
 const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-
-
 function Events() {
+  const currentUserFromState = useSelector((state) => state.currentuser);
+  const user_id = currentUserFromState?.id;
 
-  const user_id = 2;
-
-  const { list: allPlaces, isLoading, error } = useSelector((state) => state.allPlaces)
+  const { list: allPlaces, isLoading, error } = useSelector(
+    (state) => state.allPlaces
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllPlaces(user_id))
-  }, [])
-
+    dispatch(getAllPlaces(user_id));
+  }, []);
 
   const createHandler = (event) => {
     event.preventDefault();
+  };
 
-
-
-  }
-
-  const [eventAdder, setEventAdder] = useState(false)
-  const [selectedOrganization, setSelectedOrganization] = useState('')
-  const [placeEvents, setPlaceEvents] = useState([])
-  const [search, setSearch] = useState('');
-  const [state, setState] = useState({ coords: [] })
+  const [eventAdder, setEventAdder] = useState(false);
+  const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [placeEvents, setPlaceEvents] = useState([]);
+  const [search, setSearch] = useState("");
+  const [state, setState] = useState({ coords: [] });
   const [newCoords, setNewCoords] = useState([]);
-  const [ballonstate, setBallonstate] = useState({ balloonContent: '<h1>Hello! =))</h1>' })
+  const [ballonstate, setBallonstate] = useState({
+    balloonContent: "<h1>Hello! =))</h1>",
+  });
   const [ref, setRef] = useState(null);
-  const [imgDrag, setImgDrag] = useState(null)
+  const [imgDrag, setImgDrag] = useState(null);
   const [imgSrc, setImgSrc] = useState();
   const [exifrGps, setExifrGps] = useState([]);
   const [imgName, setImgName] = useState();
 
-  const [customState, setCustomState] = useState([])
-  const [clusterState, setClusterState] = useState([])
+  const [customState, setCustomState] = useState([]);
+  const [clusterState, setClusterState] = useState([]);
 
   const [supercustom, setSupercustom] = useState({
-    template: null
-  })
-  let [map, setMap] = useState('')
+    template: null,
+  });
+  let [map, setMap] = useState("");
   let yymap;
   const [switcher, setSwitcher] = useState(false);
   const [open, setOpen] = useState(false);
@@ -93,51 +109,63 @@ function Events() {
   //   setEventAdder(`${newCoords}`)
   // }, [newCoords])
 
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   const onSwitcher = () => {
-    setSwitcher(prev => !prev);
-  }
+    setSwitcher((prev) => !prev);
+  };
 
   const setClusterIcon = (ymaps) => {
     console.log(map);
     map?.geoObjects?.each((geoObject) => {
       if (geoObject._clusters) {
-        console.log('geoOBJECT', geoObject)
+        console.log("geoOBJECT", geoObject);
         let clusters = geoObject._clusters;
         for (let key in clusters) {
-          console.log('CLUSTERYAGA', key, clusters[key])
+          console.log("CLUSTERYAGA", key, clusters[key]);
           if (clusters[key]?.clusterObject?.options) {
-
             const features = clusters[key].hash.features;
             let latestFeature;
             for (let i = 0; i < features.length; i++) {
               const [latitude, longitude] = features[i].geometry.coordinates;
-              features[i].date = new Date(allPlaces?.find(el => +el.latitude === latitude && +el.longitude === longitude)?.Events[0]?.createdAt);
+              features[i].date = new Date(
+                allPlaces?.find(
+                  (el) =>
+                    +el.latitude === latitude && +el.longitude === longitude
+                )?.Events[0]?.createdAt
+              );
             }
             latestFeature = features[0];
             for (let i = 1; i < features.length; i++) {
-              latestFeature = features[i].date.getTime() > latestFeature.date.getTime() ? features[i] : latestFeature;
+              latestFeature =
+                features[i].date.getTime() > latestFeature.date.getTime()
+                  ? features[i]
+                  : latestFeature;
             }
 
             console.log("LATEEEEESSSST FEAAATUUUUURE", latestFeature);
 
-            let randomFeature = features[Math.round((features.length - 1) * Math.random())].geometry.coordinates;
+            let randomFeature =
+              features[Math.round((features.length - 1) * Math.random())]
+                .geometry.coordinates;
             let latestFeatureCoordinates = latestFeature.geometry.coordinates;
-            const latestIndexTemplate = customState.findIndex(el => {
-
+            const latestIndexTemplate = customState.findIndex((el) => {
               const [randomLatitude, randomLongitude] = randomFeature;
-              const [latestLatitude, latestLongitude] = latestFeatureCoordinates;
+              const [
+                latestLatitude,
+                latestLongitude,
+              ] = latestFeatureCoordinates;
               const [elLatitude, elLongitude] = el.coordinates;
-              return (latestLatitude === elLatitude && latestLongitude === elLongitude)
-            })
+              return (
+                latestLatitude === elLatitude && latestLongitude === elLongitude
+              );
+            });
 
-
-
-            clusters[key]?.clusterObject?.options.set('clusterIconContentLayout', clusterState[latestIndexTemplate]?.template);
+            clusters[key]?.clusterObject?.options.set(
+              "clusterIconContentLayout",
+              clusterState[latestIndexTemplate]?.template
+            );
           }
         }
       }
@@ -150,16 +178,16 @@ function Events() {
   const handleApiAvaliable = (ymaps) => {
     let balloonContent = createBalloonLayout(ymaps);
     setBallonstate({ balloonContent: balloonContent });
-  }
+  };
 
   const handlerInitMap = () => {
     if (map) {
-      map?.events.add('wheel', setClusterIcon)
-      map?.events.add('boundschange', setClusterIcon)
-      map?.events.add('actionend', setClusterIcon)
-      console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter())
-      map.panTo(map.getCenter())
-      map.events.add('balloonopen', function (e) {
+      map?.events.add("wheel", setClusterIcon);
+      map?.events.add("boundschange", setClusterIcon);
+      map?.events.add("actionend", setClusterIcon);
+      console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter());
+      map.panTo(map.getCenter());
+      map.events.add("balloonopen", function (e) {
         console.log("LOOOOOOOOOOLLLLLL", e);
         console.log("SUPERLOOOOOOL", e.get('target'))
         const target = e.get('target');
@@ -169,7 +197,6 @@ function Events() {
           if (data?.point) {
             let coords = [data?.point[1], data?.point[0]];
             setNewCoords(coords);
-
           }
         }
       });
@@ -179,19 +206,19 @@ function Events() {
     }
   };
 
-
-  const createTemplateLayoutFactory = ymaps => {
-
+  const createTemplateLayoutFactory = (ymaps) => {
     console.log("YMAMAMAP", ymaps);
     // && !customState?.template || ymaps && !supercustom?.template
     if (ymaps) {
-      for (let i = 0; i < allPlaces.length; i++) {
+      for (let i = 0; i < allPlaces?.length; i++) {
         console.log(allPlaces[i]?.Events[0]?.image);
 
-        setCustomState(prev => [...prev, {
-          coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-          template: ymaps?.templateLayoutFactory?.createClass(
-            `
+        setCustomState((prev) => [
+          ...prev,
+          {
+            coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
+            template: ymaps?.templateLayoutFactory?.createClass(
+              `
                   <div class="card">
                     <div class="card-image">
                       <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
@@ -199,13 +226,16 @@ function Events() {
                   </div>
                 
               `
-          ),
-        }]);
+            ),
+          },
+        ]);
 
-        setClusterState(prev => [...prev, {
-          coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-          template: ymaps?.templateLayoutFactory?.createClass(
-            `
+        setClusterState((prev) => [
+          ...prev,
+          {
+            coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
+            template: ymaps?.templateLayoutFactory?.createClass(
+              `
                 <div class="card">
                   <div class="card-image">
                     <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
@@ -213,37 +243,32 @@ function Events() {
                 </div>
               
             `
-          ),
-        }]);
-
-
-
+            ),
+          },
+        ]);
       }
 
       console.log("CUSTOM STATE", customState);
-      setSupercustom(
-        {
-          template: ymaps?.templateLayoutFactory?.createClass(
-            `
+      setSupercustom({
+        template: ymaps?.templateLayoutFactory?.createClass(
+          `
                 
           <h2>Hello!))</h2>
     
               `
-          ),
-        }
-      )
+        ),
+      });
     }
   };
 
   const polyline = createRef(null);
 
   const onMapClick = (event) => {
-
     if (switcher) {
       try {
-        setState(state => {
+        setState((state) => {
           return {
-            coords: [...state?.coords, event?.get("coords")]
+            coords: [...state?.coords, event?.get("coords")],
           };
         });
         setNewCoords(event?.get("coords"));
@@ -252,72 +277,85 @@ function Events() {
         console.log("ERRRRRRRRORRRRR", error);
       }
     }
+  };
 
-
-  }
-
-  let imgCoord = []
-
-
+  let imgCoord = [];
 
   const dragStartHandler = (event) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
   const dragLeaveHandler = (event) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
   const dropHandler = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-
       let fileDrag = event.dataTransfer.files[0];
-      setImgName(event.dataTransfer.files[0].name)
+      setImgName(event.dataTransfer.files[0].name);
       imgCoord = await exifr.gps(fileDrag);
 
       setExifrGps([imgCoord?.latitude, imgCoord?.longitude]);
-      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], {
+        duration: 2000,
+        flying: true,
+      });
       const formDragData = new FormData();
-      formDragData.append('img', fileDrag)
+      formDragData.append("img", fileDrag);
 
       setTimeout(() => {
-        handleOpen()
-
+        handleOpen();
       }, 2000);
 
       await fetch(`${process.env.REACT_APP_API_URL}/event/NewEvent`, {
-        method: 'POST',
+        method: "POST",
         body: formDragData,
-      })
-
-
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   // useEffect(() => {
   // console.log('GPS', exifrGps)
 
   // }, [exifrGps]);
 
-
-
   return (
-
-    <div className="App" onClick={(event) => {
-      console.log("SEARCH RESULT", search?.getResult(0))
-      var geoObjectsArray = search?.getResultsArray();
-      const selectedIndex = search?.getSelectedIndex();
-      let selectedPlace = geoObjectsArray[selectedIndex];
-      console.log("SELECTED PLACE", selectedPlace);
-      if (selectedPlace) {
-        setSelectedOrganization(selectedPlace?.properties?._data)
-        setNewCoords(selectedPlace?.geometry?._coordinates)
-      }
-
-    }}>
+    <div
+      className="App"
+      onClick={(event) => {
+        console.log("SEARCH RESULT", search?.getResult(0));
+        var geoObjectsArray = search?.getResultsArray();
+        const selectedIndex = search?.getSelectedIndex();
+        let selectedPlace = geoObjectsArray[selectedIndex];
+        console.log("SELECTED PLACE", selectedPlace);
+        if (selectedPlace) {
+          setSelectedOrganization(selectedPlace?.properties?._data);
+          setNewCoords(selectedPlace?.geometry?._coordinates);
+        }
+      }}
+    >
       <div>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <div>
+          <FormGroup>
+            <FormControlLabel
+              className={style.events__modalButton}
+              // control={<Switch defaultChecked />}
+              control={<Switch />}
+              label="Режим создания"
+              onClick={onSwitcher}
+            />
+            {/* <FormControlLabel 
+                          className={style.events__modalButton}
+                          label="Режим создания"
+              onClick={onSwitcher}
+              disabled control={<Switch />}
+              label="Disabled" /> */}
+          </FormGroup>
+
+        </div>
+        {/* <Button onClick={handleOpen} className={style.events__modalButton}>Open modal</Button> */}
         <Modal
+          className={style.events__modalWrapper}
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
           open={open}
@@ -330,72 +368,64 @@ function Events() {
         >
           <Fade in={open}>
             <Box sx={modalStyle}>
-              <AddEvent imgName={imgName} newCoords={newCoords} setImgName={setImgName} />
-
+              <AddEvent
+                imgName={imgName}
+                newCoords={newCoords}
+                setImgName={setImgName}
+              />
             </Box>
           </Fade>
         </Modal>
       </div>
-      <div>
-        <button onClick={onSwitcher}>Включить</button>
-      </div>
+
       <YMaps
-        onClick={event => console.log("YYYYYYMAAAAAAP", event.target)}
+        onClick={(event) => console.log("YYYYYYMAAAAAAP", event.target)}
         query={{
-          apikey: 'ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU',
+          apikey: "ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU",
         }}
         version={"2.1"}
       >
         <div>
           My awesome application with maps!
-
           <div
             encType="multipart/form-data"
             name="img"
-            onDragStart={e => dragStartHandler(e)}
-            onDragLeave={e => dragLeaveHandler(e)}
-            onDragOver={e => dragStartHandler(e)}
+            onDragStart={(e) => dragStartHandler(e)}
+            onDragLeave={(e) => dragLeaveHandler(e)}
+            onDragOver={(e) => dragStartHandler(e)}
             onDrop={dropHandler}
           >
-
-            <div className={style.mapcontainer}>
-
-
+            <div className={style.events__mapWrapper}>
               <Map
-
-                className={style.map}
-                instanceRef={ref => { setMap(ref); handlerInitMap(); }}
+                className={style.events__map}
+                instanceRef={(ref) => {
+                  setMap(ref);
+                  handlerInitMap();
+                }}
                 onLoad={(ymaps) => {
                   yymap = ymaps;
-                  console.log("CENTEEEEEEEEEEEEER", ymaps?.map?.getCenter())
+                  console.log("CENTEEEEEEEEEEEEER", ymaps?.map?.getCenter());
                   createTemplateLayoutFactory(ymaps);
                   handleApiAvaliable(ymaps);
 
-                  setClusterIcon(ymaps.map)
-
-
-                }
-                }
-                modules={['templateLayoutFactory', "layout.ImageWithContent"]}
+                  setClusterIcon(ymaps.map);
+                }}
+                modules={["templateLayoutFactory", "layout.ImageWithContent"]}
                 defaultState={{ center: [55.75, 37.57], zoom: 9 }}
                 onClick={(event) => {
                   try {
                     if (event?.get("coords")) {
-                      console.log("IFIFIFIFIFIF", event?.get("coords"))
-                      map?.Balloon?.events?.add('open', () => {
-                        alert("HmMmM")
-                      })
-                      onMapClick(event)
+                      console.log("IFIFIFIFIFIF", event?.get("coords"));
+                      map?.Balloon?.events?.add("open", () => {
+                        alert("HmMmM");
+                      });
+                      onMapClick(event);
                     }
                   } catch (error) {
                     console.log("ERRORRRRR", error);
                   }
-                }
-                }>
-
-
-
-
+                }}
+              >
                 <Clusterer
                   // instanceRef={ref => {
                   //       if(ref) {
@@ -420,7 +450,7 @@ function Events() {
                   options={{
                     // preset: 'islands#invertedVioletClusterIcons',
                     iconImageSize: [0, 0], // размер нашей картинки
-                    clusterIconLayout: 'default#imageWithContent',
+                    clusterIconLayout: "default#imageWithContent",
 
                     // clusterIconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
                     // clusterIconContentLayout: customState[0].template,
@@ -441,24 +471,20 @@ function Events() {
                     //   }],
 
                     iconShape: {
-                      type: 'Rectangle',
+                      type: "Rectangle",
                       // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
                       coordinates: [
-                        [-50, -50], [100, 100]
-                      ]
+                        [-50, -50],
+                        [100, 100],
+                      ],
                     },
 
                     // clusterDisableClickZoom: true,
                     // clusterHideIconOnBalloonOpen: false,
                     // geoObjectHideIconOnBalloonOpen: false
                   }}
-
                 >
-
                   {allPlaces?.map((place, index) => (
-
-
-
                     <Placemark
                       onClick={() => setPlaceEvents(place?.Events)}
                       className="round"
@@ -467,29 +493,33 @@ function Events() {
                       options={{
                         // iconLayout: 'default#image',
                         iconImageSize: [40, 40], // размер нашей картинки
-                        iconLayout: 'default#imageWithContent',
+                        iconLayout: "default#imageWithContent",
 
                         iconShape: {
-                          type: 'Rectangle',
+                          type: "Rectangle",
                           // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
                           coordinates: [
-                            [-50, -50], [100, 100]
-                          ]
+                            [-50, -50],
+                            [100, 100],
+                          ],
                         },
 
                         iconContentLayout: customState[index]?.template,
                         iconContentSize: [70, 70],
                         iconContentOffset: [-30, -90],
 
-                        iconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
+                        iconImageHref:
+                          "http://s49novouralsk.edusite.ru/images/knopka.png",
                         hideIconOnBalloonOpen: false, //запрет на скрытие метки по клику на балун
 
                         balloonContentLayout: ballonstate.balloonContent,
                         balloonPanelMaxMapArea: 1,
-                        openEmptyBalloon: true
-
+                        openEmptyBalloon: true,
                       }}
-                      modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
+                      modules={[
+                        "geoObject.addon.balloon",
+                        "geoObject.addon.hint",
+                      ]}
                       // instanceRef={ref => {
                       //   if (ref) {
 
@@ -508,7 +538,7 @@ function Events() {
                       //           }
                       //         ])
 
-                      //         clusters[cluster].clusterObject?.options.set('clusterIconContentLayout', supercustom.template) 
+                      //         clusters[cluster].clusterObject?.options.set('clusterIconContentLayout', supercustom.template)
                       //         setClusterIcon();
 
                       //         clusters[cluster].clusterObject.options._cache.clusterIcons[1].href="https://img2.freepng.ru/20190131/ilj/kisspng-black-cat-whiskers-kitten-clicker-training-kittens-clipart-catl-for-free-download-and-use-in-5c5304b658bc54.8871701115489445663635.jpg"
@@ -516,25 +546,26 @@ function Events() {
                       //     }
                       //   }
                       // }}
-                      properties={{
-                        // iconCaption : 'asd'
-                      }}
-
+                      properties={
+                        {
+                          // iconCaption : 'asd'
+                        }
+                      }
                     />
-
                   ))}
                 </Clusterer>
                 <Placemark
                   geometry={[55.661574, 37.573856]}
                   options={{
                     draggable: true,
-                    iconLayout: 'default#image',
-                    iconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
+                    iconLayout: "default#image",
+                    iconImageHref:
+                      "http://s49novouralsk.edusite.ru/images/knopka.png",
                   }}
-                  // Событие change связано с св-вом geometry инстанса метки, 
+                  // Событие change связано с св-вом geometry инстанса метки,
                   // поэтому onChange работать не будет, придется использовать instanceRef
 
-                  instanceRef={ref => {
+                  instanceRef={(ref) => {
                     if (ref) {
                       // По аналогии добавляем обработчик
                       ref.geometry.events.add("change", function (e) {
@@ -548,19 +579,28 @@ function Events() {
 
                 <FullscreenControl />
                 <SearchControl
-                  instanceRef={ref => {
+                  instanceRef={(ref) => {
                     if (ref) {
-                      console.log("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEFik", ref.getSelectedIndex())
-                      console.log(ref.showResult(0))
-                      setSearch(ref)
+                      console.log(
+                        "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEFik",
+                        ref.getSelectedIndex()
+                      );
+                      console.log(ref.showResult(0));
+                      setSearch(ref);
                     }
                   }}
-                  options={{ provider: 'yandex#search' }}
-
+                  options={{ provider: "yandex#search" }}
                 />
-              </ Map>
+              </Map>
 
-              <div>{placeEvents.map(event => <><p>{event?.name}</p><p>{event?.description}</p></>)}</div>
+              <div>
+                {placeEvents.map((event) => (
+                  <>
+                    <p>{event?.name}</p>
+                    <p>{event?.description}</p>
+                  </>
+                ))}
+              </div>
               <div>
                 Вы выбрали место:
                 <p>{selectedOrganization?.name}</p>
@@ -568,15 +608,12 @@ function Events() {
                 <p>{selectedOrganization?.workingTime}</p>
                 <p>Координаты: {newCoords}</p>
               </div>
-
             </div>
           </div>
         </div>
       </YMaps>
-
     </div>
-
   );
 }
 
-export default Events
+export default Events;

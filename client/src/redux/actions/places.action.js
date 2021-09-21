@@ -6,7 +6,7 @@ export const getAllPlaces = (user_id) => async (dispatch) => {
   try {
     dispatch(setLoading())
     
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/place/allPlaces/${user_id}/`, { withCredentials: true })
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/place/allPlaces/${user_id}/`, { credentials: 'include' })
     const allPlaces = await response.json();
     console.log("ALLPLACES", allPlaces);
     
