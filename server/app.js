@@ -92,15 +92,16 @@ const storageConfig = multer.diskStorage({
 
 app.use(multer({ storage: storageConfig }).single('avatar'));
 
+
+
 app.use('/user', userRouter);
-app.use('/place', placeRouter);
 app.use('/allUsers', allUsersRouter);
+app.use('/place', placeRouter);
+app.use('/event', eventRouter);
 app.use(checkUser);
 
 app.use('/profile', currentUser);
-
 app.use('/oneUser', oneUserRouter);
-app.use('/event', eventRouter);
 app.use('/friends', friendsRouter);
 
 

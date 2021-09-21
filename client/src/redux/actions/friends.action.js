@@ -25,7 +25,6 @@ export const addToFriend = ({id, stateId}) => async (dispatch) => {
       withCredentials: true
     })
     const newRequest = response.data
-      console.log("DRUZYASHKI", newRequest);
     dispatch(setAllUsers(newRequest))
   } catch(error) {
     dispatch(setError(error))

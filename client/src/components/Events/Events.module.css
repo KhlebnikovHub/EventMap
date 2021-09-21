@@ -31,3 +31,9 @@
 .dateinput {
   width: 300px;
 }
+
+.mapcontainer {
+  display: flex;
+  
+
+}

@@ -42,6 +42,6 @@ export const editAvaToBack = (id, newAva) => async(dispatch) => {
     body: newAva,
     credentials: 'include'
   })
-  console.log('=======', response.json())
+
   dispatch(editAva(response))
 }

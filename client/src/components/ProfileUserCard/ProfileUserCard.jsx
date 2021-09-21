@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { editAvaToBack } from "../../redux/actions/currentUser.action";
+import exifr from 'exifr'
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
 
-  const editAvaHandler = (event) => {
+  const editAvaHandler = async (event) => {
     event.preventDefault();
-    console.log(event.target.avatar.files[0])
     const file = event.target.avatar.files[0];
+    
+    // let {latitude, longitude} = await exifr.gps(file);
+    // console.log(latitude, longitude)
+ 
     const formData = new FormData()
     formData.append('avatar', file)
+    //console.log('FILEFILEFILE', formData)
     dispatch(editAvaToBack(id, formData))
     event.target.reset()
   }
-
-  const [drag, seDrag] = useState(false)
 
   const dragStartHandler = (event) => {
     event.preventDefault()
@@ -26,18 +29,27 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
     event.preventDefault()
   }
 
-  const dropHandler = (event) => {
+  const dropHandler = async (event) => {
     event.preventDefault()
     let fileDrag = event.dataTransfer.files[0];
+    // if(exifr?.gps) {
+    //   let {latitude, longitude} = await exifr.gps(fileDrag);
+    //   console.log(latitude, longitude)
+    // }
     const formDragData = new FormData();
     formDragData.append('avatar', fileDrag)
-    console.log(formDragData)
     dispatch(editAvaToBack(id, formDragData))
   }
+
   if(!avatar?.includes('http')) {
-    console.log('AVAVAVAVAVA', avatar)
     avatar = `${process.env.REACT_APP_API_URL}${avatar}`
   }
+  
+  // const img = document.getElementById('img');
+  // console.log(EXIF.getData(img, 'exifdata'))
+  
+
+  
 
   return (
     <>
@@ -53,7 +65,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
       onDragOver={e => dragStartHandler(e)}
       onDrop={dropHandler}
       >
-      <img  src={`${avatar}`} style={{ width: '300px' }} />
+      <img id="img" src={`${avatar}`} style={{ width: '300px' }} />
       </div>
       <form onSubmit={editAvaHandler} encType="multipart/form-data">
         <input type="file" name="avatar" />
