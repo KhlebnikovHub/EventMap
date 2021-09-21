@@ -45,8 +45,6 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   // console.log(EXIF.getData(img, 'exifdata'))
   
 
-  
-
   return (
     <>
       

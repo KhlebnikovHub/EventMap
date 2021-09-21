@@ -1,0 +1,40 @@
+.friends {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.friends__buttons {
+  padding-top: 10%;
+  width: 70%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.friends__button {
+  width: 20rem;
+  height: 3rem;
+}
+
+.friends__wrapper {
+  padding-top: 10%;
+  width: 70%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  column-gap: auto;
+  row-gap: 140px;
+
+  align-content: center;
+  justify-items: center;
+
+}

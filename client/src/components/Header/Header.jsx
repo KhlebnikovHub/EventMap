@@ -23,41 +23,60 @@ function Header() {
     <>
       <header className={style.header}>
         <section className={style.header__inner}>
-          <div className={style.header__logoPart}>
+          <Link to="/" className={style.header__logoPart}>
             <img src={logo} className={style.header__logo} alt="logo" />
-          </div>
+          </Link>
 
           <nav className={style.header__navPart}>
             <ul className={style.header__navBar}>
               <Link to="/Events" className={style.header__nav}>
-                <EventIcon fontSize="large" className={style.header__nav_icon}/>
-                <p className={style.header__nav_text}>Мои события</p>
-                {/* Мои события  */}
+                <EventIcon
+                  fontSize="large"
+                  className={style.header__nav_icon}
+                />
               </Link>
+              <p className={style.header__nav_text}>Мои события</p>
+              {/* Мои события  */}
 
               <Link to={`/Profile/${id}`} className={style.header__nav}>
-                <AccountBoxIcon fontSize="large" className={style.header__nav_icon} />
-                <p className={style.header__nav_text}>Профиль</p>
-                {/* Профиль */}
+                <AccountBoxIcon
+                  fontSize="large"
+                  className={style.header__nav_icon}
+                />
               </Link>
+
+              <p className={style.header__nav_text}>Профиль</p>
+              {/* Профиль */}
 
               <Link to="/AllUsers" className={style.header__nav}>
-                <RecentActorsIcon fontSize="large" className={style.header__nav_icon} />
-                <p className={style.header__nav_text}>Пользователи</p>
-                {/* Пользователи */}
+                <RecentActorsIcon
+                  fontSize="large"
+                  className={style.header__nav_icon}
+                />
               </Link>
+
+              <p className={style.header__nav_text}>Пользователи</p>
+              {/* Пользователи */}
 
               <Link to={`/Friends/${id}`} className={style.header__nav}>
-                <PeopleIcon fontSize="large" className={style.header__nav_icon} />
-                <p className={style.header__nav_text}>Друзья</p>
-                {/* Друзья */}
+                <PeopleIcon
+                  fontSize="large"
+                  className={style.header__nav_icon}
+                />
               </Link>
 
+              <p className={style.header__nav_text}>Друзья</p>
+              {/* Друзья */}
+
               <Link to="/Auth" className={style.header__nav}>
-                <ExitToAppIcon fontSize="large" className={style.header__nav_icon} />
-                <p className={style.header__nav_text}>Выйти</p>
-                {/* Выйти */}
+                <ExitToAppIcon
+                  fontSize="large"
+                  className={style.header__nav_icon}
+                />
               </Link>
+
+              <p className={style.header__nav_text}>Выйти</p>
+              {/* Выйти */}
             </ul>
           </nav>
         </section>

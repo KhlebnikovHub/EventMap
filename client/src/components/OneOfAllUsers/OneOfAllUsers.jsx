@@ -1,55 +1,104 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { deleteFriendsFromAllUsers } from '../../redux/actions/allUsers.action.js';
-import { addToRequest } from '../../redux/actions/requests.action.js';
-import Header from "../Header/Header.jsx";
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { deleteFriendsFromAllUsers } from "../../redux/actions/allUsers.action.js";
+import { addToRequest } from "../../redux/actions/requests.action.js";
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import Button from "@mui/material/Button";
+
+import style from "./OneOfAllUsers.module.css";
+
+import { red } from '@mui/material/colors';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: red[300],
+    },
+  },
+});
 
 
-
-export default function OneOfAllUsers({ id, email, firstname, lastname, avatar, Requests, Friends }) {
- if(!avatar?.includes('http')) {
-    avatar = `${process.env.REACT_APP_API_URL}${avatar}`
+export default function OneOfAllUsers({
+  id,
+  email,
+  firstname,
+  lastname,
+  avatar,
+  Requests,
+  Friends,
+}) {
+  if (!avatar?.includes("http")) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
   }
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
 
-  const { list, isLoading, error } = useSelector((state) => state.userFriends)
+  const { list, isLoading, error } = useSelector((state) => state.userFriends);
 
-  const stateId = 3
+  const stateId = 3;
 
   const addToRequestHandler = async (id) => {
-    dispatch(addToRequest(id, stateId))
-  }
+    dispatch(addToRequest(id, stateId));
+  };
 
   const deleteFromFriendsHandler = (id) => {
-    dispatch(deleteFriendsFromAllUsers(id, stateId))
-
-  }
-
+    dispatch(deleteFriendsFromAllUsers(id, stateId));
+  };
 
   return (
-    <div>
-      <br/>
-      <img src={`${avatar}`} style={{width: '300px'}}/>
-      <p>{email}</p>
-      <p>{firstname}</p>
-      <p>{lastname}</p>
-      <br/>
-      <Link to={`/User/${id}`} >Podrobnee</Link>
-      <br/>
-      
-      {(id !== stateId) ?
-      (Friends?.find(el => el.user_id === stateId && el.friend_id === id) ?
-      <button onClick={() => deleteFromFriendsHandler(id)}>UDALIT'</button> :
-      (Requests?.find(el => el.applicant_id === stateId && el.respondent_id === id ) ? 
-      <p >zayzvka Otpravlena</p> :
-      <button onClick={() => addToRequestHandler(id)}>Dobavit' v druz'ya</button>))
-      : ''
-       } 
-      <hr/>
-    </div>
-  )
-}
+    <div className={style.userCard}>
+      <div className={style.userCard__pic_wrapper}>
+        <img src={`${avatar}`} className={style.userCard__pic} />
+      </div>
+      <div className={style.userCard__info}>
+        <p className={style.userCard__text}>{email}</p>
+        <p className={style.userCard__text}>{firstname}</p>
+        <p className={style.userCard__text}>{lastname}</p>
 
+        <div className={style.userCard__buttons}>
+          <Button
+            to={`/User/${id}`}
+            className={style.userCard__btn_m}
+            variant="contained"
+            color="primary"
+          >
+            Подробнее
+          </Button>
+
+          {id !== stateId ? (
+            Friends?.find(
+              (el) => el.user_id === stateId && el.friend_id === id
+            ) ? (
+              <Button
+                className={style.userCard__btn_m}
+                variant="contained"
+                onClick={() => deleteFromFriendsHandler(id)}
+              >
+                Удалить
+              </Button>
+            ) : Requests?.find(
+                (el) => el.applicant_id === stateId && el.respondent_id === id
+              ) ? (
+              <Button className={style.userCard__btn_m} variant="contained">
+                Отправлено
+              </Button>
+            ) : (
+              <Button
+                className={style.userCard__btn_m}
+                variant="contained"
+                onClick={() => addToRequestHandler(id)}
+              >
+                Добавить
+              </Button>
+            )
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
