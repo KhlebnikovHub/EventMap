@@ -74,8 +74,9 @@ function Events() {
   const [ref, setRef] = useState(null);
   const [ imgDrag, setImgDrag ] = useState(null)
   const [ imgSrc, setImgSrc] = useState();
-  const [exifrGps, setExifrGps] = useState([]);
+  //const [exifrGps, setExifrGps] = useState([]);
   const [imgName, setImgName] = useState();
+  const [files, setFiles] = useState();
 
   const [customState, setCustomState] = useState([])
   const [clusterState, setClusterState] = useState([])
@@ -231,44 +232,42 @@ function Events() {
 
   }
 
-  let imgCoord = []
-  
-  
-  
+
   const dragStartHandler = (event) => {
     event.preventDefault()
   }
+
   const dragLeaveHandler = (event) => {
     event.preventDefault()
   }
+
+  let imgCoord = [];
+
   const dropHandler = async (event) => {
     event.preventDefault()
-    try {
-      
+    try { 
       let fileDrag = event.dataTransfer.files[0];
+      setFiles(event.dataTransfer.files)
+
       setImgName(event.dataTransfer.files[0].name)
+
       imgCoord = await exifr.gps(fileDrag);
 
-      setExifrGps([imgCoord?.latitude, imgCoord?.longitude]);
+      setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
       map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
-      const formDragData = new FormData();
-      formDragData.append('img', fileDrag)
-      
+      // const formDragData = new FormData();
+      // formDragData.append('img', fileDrag)
+
       setTimeout(() => {
         handleOpen()
 
       }, 2000);
       
-      await fetch(`${process.env.REACT_APP_API_URL}/event/NewEvent`, {
-        method: 'POST',
-        body: formDragData,
-      })
-
-      
     } catch (error) {
       console.log(error)
     }
   }
+  
 // useEffect(() => {
 // console.log('GPS', exifrGps)
 
@@ -296,7 +295,7 @@ function Events() {
         >
           <Fade in={open}>
             <Box sx={modalStyle}>
-              <AddEvent imgName={imgName} newCoords={newCoords} setImgName={setImgName}/>
+              <AddEvent imgName={imgName} newCoords={newCoords} setImgName={setImgName} files={files}/>
 
             </Box>
           </Fade>
