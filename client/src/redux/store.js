@@ -10,6 +10,6 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 )
 store.subscribe(() => {
-  window.localStorage.setItem('redux', JSON.stringify(store))
+  window.localStorage.setItem('redux', JSON.stringify(store.getState()))
 })
 export default store

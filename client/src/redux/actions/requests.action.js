@@ -4,7 +4,7 @@ import { ADD_TO_REQUEST, APPROVE_REQUEST, DELETE_REQUEST, SET_REQUEST_LIST } fro
 
 export const getRequestList = (id) => async (dispatch) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/friends/requests/${id}`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/friends/requests/${id}`, { withCredentials: true })
     const requestList = response.data
     dispatch(setRequestList(requestList))
   } catch (error) {
@@ -17,7 +17,8 @@ export const addToRequest = (id, stateId) => async (dispatch) => {
   const response = await axios({
     method: 'POST',
     url:  `${process.env.REACT_APP_API_URL}/friends/${stateId}`,
-    data: { id }
+    data: { id },
+    withCredentials: true
   })
   const newRequest = response.data
 
@@ -31,7 +32,8 @@ export const deleteRequest = (id, stateId) => async(dispatch) => {
   const response = await axios({
     method: "DELETE",
     url: `${process.env.REACT_APP_API_URL}/friends/requests/${stateId}`,
-    data: { id }
+    data: { id },
+    withCredentials: true
   })
   if (response) {
   dispatch(setDeleteRequest(id, stateId))
@@ -42,7 +44,8 @@ export const approveRequest = (id, stateId) => async(dispatch) => {
   const response = await axios({
     method: 'POST',
     url: `${process.env.REACT_APP_API_URL}/friends/requests/${stateId}`,
-    data: { id }
+    data: { id },
+    withCredentials: true
   })
   const newFriend = response.data
   console.log('ADSADSDDSADSAD', newFriend);
