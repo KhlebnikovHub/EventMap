@@ -15,11 +15,12 @@ const redisClient = redis.createClient();
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth')
-  .OAuth2Strategy;
+.OAuth2Strategy;
 
-  passport.serializeUser((user, done) => done(null, user))
-  passport.deserializeUser((user, done) => done(null, user))
+passport.serializeUser((user, done) => done(null, user))
+passport.deserializeUser((user, done) => done(null, user))
 
+const { checkUser } = require('./middlewares/checkUser.js')
 
 const app = express();
 const PORT = process.env.PORT ?? 3002;
@@ -91,13 +92,17 @@ const storageConfig = multer.diskStorage({
 
 app.use(multer({ storage: storageConfig }).single('img'));
 
-app.use('/profile', currentUser);
+
+
+app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
+app.use('/place', placeRouter);
+app.use('/event', eventRouter);
+app.use(checkUser);
+
+app.use('/profile', currentUser);
 app.use('/oneUser', oneUserRouter);
 app.use('/friends', friendsRouter);
-app.use('/event', eventRouter);
-app.use('/place', placeRouter);
-app.use('/user', userRouter);
 
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));

@@ -241,8 +241,7 @@ function Events() {
     event.preventDefault()
   }
 
-  let imgCoord = [];
-
+  let imgCoord = []
   const dropHandler = async (event) => {
     event.preventDefault()
     try { 
@@ -267,7 +266,6 @@ function Events() {
       console.log(error)
     }
   }
-  
 // useEffect(() => {
 // console.log('GPS', exifrGps)
 

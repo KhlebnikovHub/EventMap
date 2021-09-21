@@ -1,0 +1,25 @@
+.allusers {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.allusers__wrapper {
+  padding-top: 10%;
+  width: 70%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-rows: auto;
+  column-gap: auto;
+  row-gap: 140px;
+
+  align-content: center;
+  justify-items: center;
+
+}
