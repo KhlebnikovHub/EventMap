@@ -57,11 +57,7 @@ router.route('/newEvent/:id')
 
   })
 
-router.route('/setimage')
-  .post((req, res) => {
-    console.log('gihrighrigh')
-    console.log('IMAGEFROMSETIMAGE', req.file)
-  })
+
 
 
 module.exports = router;
