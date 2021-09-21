@@ -2,14 +2,26 @@ import style from "./AddEvent.module.css";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+function AddEvent({ newCoords, files }) {
+  const [image, setImage] = useState(null)
 
-function AddEvent({ newCoords, imgName, setImgName }) {
+  const inputFile = useRef(null);
 
+  let reader = new FileReader()
+
+  reader.addEventListener('load', function () {
+    setImage(reader.result);
+  });
+
+  useEffect(() => {
+    inputFile.current.files = files
+    reader.readAsDataURL(files[0]);
+  }, [])
 
   const currentUserFromState = useSelector((state) => state.currentuser);
   const user_id = currentUserFromState?.id
@@ -65,15 +77,22 @@ function AddEvent({ newCoords, imgName, setImgName }) {
   }
   const dropHandler = async (event) => {
     event.preventDefault()
-    const fileDrag = event.dataTransfer.files[0];
-    setImgName(event.dataTransfer.files[0].name);
-    const formDragData = new FormData();
-    formDragData.append('img', fileDrag);
-    await fetch(`${process.env.REACT_APP_API_URL}/event/setimage`, {
-      method: 'POST',
-      body: formDragData,
-    })
+    inputFile.current.files = event.dataTransfer.files
+    reader.readAsDataURL(event.dataTransfer.files[0]);
+
+    // setImgName(event.dataTransfer.files[0].name);
+    // const formDragData = new FormData();
+    // formDragData.append('img', fileDrag);
+    // await fetch(`${process.env.REACT_APP_API_URL}/event/setimage`, {
+    //   method: 'POST',
+    //   body: formDragData,
+    // })
   }
+
+  const imgHandler = (event) => {
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  
 
 
   return (
@@ -116,7 +135,7 @@ function AddEvent({ newCoords, imgName, setImgName }) {
             />
           </div>
 
-          Добавить фотографию <input type="file"  name="img" encType="multipart/form-data" />
+          Добавить фотографию <input onChange={imgHandler} type="file" ref={inputFile}  name="event_image" encType="multipart/form-data" />
           <div>
             <div
               encType="multipart/form-data"
@@ -127,7 +146,7 @@ function AddEvent({ newCoords, imgName, setImgName }) {
               onDrop={dropHandler}
             >
             
-              <img src={`${process.env.REACT_APP_API_URL}/uploads/${imgName}`} style={{ width: '100px' }} />
+              <img src={image} name='eventImg' style={{ width: '100px' }} alt=""/>
 
             </div>
          Приватное событие <Checkbox
