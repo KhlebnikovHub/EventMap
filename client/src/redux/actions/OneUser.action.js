@@ -6,7 +6,7 @@ export const getOneUser = (id) => async (dispatch) => {
   try {
     dispatch(setLoading())
     
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/oneUser/${id}`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/oneUser/${id}`, { withCredentials: true })
     const oneUser = response.data
     
     dispatch(setOneUser(oneUser))

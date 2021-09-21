@@ -1,15 +1,27 @@
-import { Switch, Route, Redirect, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link,
+} from "react-router-dom";
+import { useHistory, useLocation } from "react-router"
 
-import Friends from "../Friends/Friends.jsx";
-import Auth from "../Auth/Auth.jsx";
-import Profile from "../Profile/Profile.jsx";
-import AllUsers from "../AllUsers/AllUsers.jsx";
-import Event from "../Event/Event.jsx";
-import Map from "../Map/Map.jsx";
+
+import Friends from '../Friends/Friends.jsx'
+import Auth from '../Auth/Auth.jsx'
+import Profile from '../Profile/Profile.jsx'
+import AllUsers from '../AllUsers/AllUsers.jsx'
+import Event from '../Event/Event.jsx'
+import Map from '../Map/Map.jsx'
 import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
 
 import style from "./Main.module.css";
 import Events from "../Events/Events.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser, setCurrentUser } from "../../redux/actions/currentUser.action.js";
+import { useEffect } from "react";
+import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -26,6 +38,21 @@ import { red } from "@mui/material/colors";
 // });
 
 function Main() {
+
+
+  // let history = useHistory();
+  // let location = useLocation();
+
+  // let { from } = location.state || { from: { pathname: "/" } };
+
+  // const dispatch = useDispatch();
+  // const currentUserFromState = useSelector((state) => state.currentuser);
+
+
+  // useEffect(() => {
+  //   dispatch(setCurrentUser(history, from))
+  // }, [])
+
   return (
     <>
       <main id="mainid" className={style.main}>
@@ -40,33 +67,33 @@ function Main() {
             <Events />
           </Route>
 
-          <Route exact path="/Friends/:id">
+          <PrivateRoute exact path="/Friends/:id">
             <Friends />
-          </Route>
+          </PrivateRoute>
 
           <Route exact path="/Auth">
             <Auth />
           </Route>
 
-          <Route exact path="/Profile/:id">
+          <PrivateRoute exact path="/Profile">
             <Profile />
-          </Route>
+          </PrivateRoute>
 
           <Route exact path="/AllUsers">
             <AllUsers />
           </Route>
 
-          <Route exact path="/Event/:id">
+          <PrivateRoute exact path="/Event/:id">
             <Event />
-          </Route>
+          </PrivateRoute>
 
-          <Route exact path="/Map/:id">
+          <PrivateRoute exact path="/Map/:id">
             <Map />
-          </Route>
+          </PrivateRoute>
 
-          <Route exact path="/User/:id">
+          <PrivateRoute exact path="/User/:id">
             <OneUserInfo />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </main>
     </>

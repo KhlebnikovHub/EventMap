@@ -18,10 +18,10 @@ function OneUserInfo() {
   return (
     <div>
       <br/>
-      <img src={list.avatar} style={{ width: '200px'}}/>
-      <p>{list.lastname}</p>
-      <p>{list.email}</p>
-      <p>{list.firstname}</p>
+      <img src={list?.avatar} style={{ width: '200px'}}/>
+      <p>{list?.lastname}</p>
+      <p>{list?.email}</p>
+      <p>{list?.firstname}</p>
       <div>
         {list?.Events?.map((el) => <OneUserEventList key={el.id} {...el} />
         )}

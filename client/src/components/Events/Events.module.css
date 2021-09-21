@@ -7,11 +7,19 @@
 }
 
 .events__modalButton {
-  top: 400px;
-  left: 200px;
-  width: 400px;
+
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  top: 200px;
+  left: 16%;
+  width: 20rem;
   position: relative;
   z-index: 1;
+
+  -webkit-box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
+  -moz-box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
+  box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
 }
 
 .events__mapWrapper {
@@ -52,4 +60,10 @@
 
 .dateinput {
   width: 300px;
+}
+
+.mapcontainer {
+  display: flex;
+  
+
 }

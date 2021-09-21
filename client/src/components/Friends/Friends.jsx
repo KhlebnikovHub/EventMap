@@ -25,6 +25,7 @@ function Friends() {
 
   const { id } = useParams();
 
+  
   const friendHandler = () => {
     setFriendsPage(<FriendList />);
   };
@@ -50,7 +51,7 @@ function Friends() {
             onClick={friendHandler}
           >
             {" "}
-            Friends List
+            Мои друзья
           </Button>
 
           <Button
@@ -58,7 +59,7 @@ function Friends() {
             color="primary"
             className={style.friends__button} onClick={requestHandler}>
             {" "}
-            Request List
+            Запросы в друзья
           </Button>
         </div>
         <div className={style.friends__wrapper}>{friendsPage}</div>
