@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { YMaps, Map, Clusterer, FullscreenControl, SearchControl, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, Clusterer, FullscreenControl, SearchControl, Placemark, ObjectManager } from 'react-yandex-maps';
 import { createRef, useState } from 'react';
 import style from "./Events.module.css";
 import Backdrop from '@mui/material/Backdrop';
@@ -65,6 +65,7 @@ function Events() {
 
   }
 
+  const [eventAdder, setEventAdder] = useState(false)
   const [selectedOrganization, setSelectedOrganization] = useState('')
   const [placeEvents, setPlaceEvents] = useState([])
   const [search, setSearch] = useState('');
@@ -83,6 +84,11 @@ function Events() {
   let yymap;
   const [switcher, setSwitcher] = useState(false);
   const [open, setOpen] = useState(false);
+  // useEffect(() => {
+  //   setEventAdder(`${newCoords}`)
+  // }, [newCoords])
+
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -92,7 +98,6 @@ function Events() {
   }
 
   const setClusterIcon = (ymaps) => {
-
     console.log(map);
     map?.geoObjects?.each((geoObject) => {
       if (geoObject._clusters) {
@@ -132,6 +137,9 @@ function Events() {
         }
       }
     })
+
+   
+
   }
 
   const handleApiAvaliable = (ymaps) => {
@@ -146,7 +154,23 @@ function Events() {
       map?.events.add('actionend', setClusterIcon)
       console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter())
       map.panTo(map.getCenter())
+      map.events.add('balloonopen', function (e) {
+        console.log("LOOOOOOOOOOLLLLLL", e);
+        console.log("SUPERLOOOOOOL", e.get('target'))
+        const target = e.get('target');
+        if(target) {
+          const data = target?.balloon?._captor?._data?.properties?._data;
+          setSelectedOrganization(data);
+          if(data?.point) {
+            let coords = [data?.point[1], data?.point[0]];
+            setNewCoords(coords);
 
+          }
+        }
+    });
+
+   
+      
     }
   };
 
@@ -229,7 +253,7 @@ function Events() {
 
 
   return (
-    <div className="App"  onClick = {() => {
+    <div className="App"  onClick = {(event) => {
       console.log("SEARCH RESULT", search?.getResult(0))
       var geoObjectsArray = search?.getResultsArray();
     const selectedIndex = search?.getSelectedIndex();
@@ -237,7 +261,9 @@ function Events() {
       console.log("SELECTED PLACE", selectedPlace);
       if(selectedPlace) {
         setSelectedOrganization(selectedPlace?.properties?._data)
+        setNewCoords(selectedPlace?.geometry?._coordinates)
       }
+      
 
     }}>
       <div>
@@ -265,7 +291,7 @@ function Events() {
         <button onClick={onSwitcher}>Включить</button>
       </div>
       <YMaps
-       
+        onClick={event => console.log("YYYYYYMAAAAAAP", event.target)}
         query={{
           apikey: 'ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU',
         }}
@@ -276,7 +302,7 @@ function Events() {
           <div className={style.mapcontainer}>
        
           <Map
-          
+           
             className={style.map}
             instanceRef={ref => { setMap(ref); handlerInitMap(); }}
             onLoad={(ymaps) => {
@@ -286,7 +312,8 @@ function Events() {
               handleApiAvaliable(ymaps);
 
               setClusterIcon(ymaps.map)
-
+              
+             
             }
             }
             modules={['templateLayoutFactory', "layout.ImageWithContent"]}
@@ -295,6 +322,9 @@ function Events() {
               try {
                 if (event?.get("coords")) {
                   console.log("IFIFIFIFIFIF", event?.get("coords"))
+                  map?.Balloon?.events?.add('open', () => {
+                    alert("HmMmM")
+                  })
                   onMapClick(event)
                 }
               } catch (error) {
@@ -302,6 +332,9 @@ function Events() {
               }
             }
             }>
+
+ 
+
 
             <Clusterer
               // instanceRef={ref => {
@@ -468,9 +501,11 @@ function Events() {
           </ Map>
           <div>{placeEvents.map(event => <><p>{event?.name}</p><p>{event?.description}</p></>)}</div>
           <div>
+            Вы выбрали место:
             <p>{selectedOrganization?.name}</p>
              <p>{selectedOrganization?.description}</p>
              <p>{selectedOrganization?.workingTime}</p>
+             <p>Координаты: {newCoords}</p>
              </div>
           </div>
         </div>

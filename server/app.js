@@ -89,15 +89,15 @@ const storageConfig = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: storageConfig }).single('avatar'));
-
-app.use('/profile', currentUser);
+app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
-app.use('/oneUser', oneUserRouter);
-app.use('/friends', friendsRouter);
 app.use('/event', eventRouter);
 app.use('/place', placeRouter);
-app.use('/user', userRouter);
+
+app.use(multer({ storage: storageConfig }).single('avatar'));
+app.use('/profile', currentUser);
+app.use('/oneUser', oneUserRouter);
+app.use('/friends', friendsRouter);
 
 
 app.listen(PORT, () => console.log(`Server has been started on port: ${PORT}`));

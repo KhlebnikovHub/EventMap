@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+
 function AddEvent({ newCoords }) {
 
   const user_id = 2;
