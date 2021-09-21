@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { editAvaToBack } from "../../redux/actions/currentUser.action";
 import exifr from 'exifr'
@@ -10,14 +9,14 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
 
   const editAvaHandler = async (event) => {
     event.preventDefault();
-    const file = event.target.avatar.files[0];
-    
+
+    const file = event.target.img.files[0];
+
     // let {latitude, longitude} = await exifr.gps(file);
     // console.log(latitude, longitude)
  
     const formData = new FormData()
-    formData.append('avatar', file)
-    //console.log('FILEFILEFILE', formData)
+    formData.append('img', file)
     dispatch(editAvaToBack(id, formData))
     event.target.reset()
   }
@@ -32,12 +31,12 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
   const dropHandler = async (event) => {
     event.preventDefault()
     let fileDrag = event.dataTransfer.files[0];
-    // if(exifr?.gps) {
-    //   let {latitude, longitude} = await exifr.gps(fileDrag);
-    //   console.log(latitude, longitude)
-    // }
+
+    //et {latitude, longitude} = await exifr.gps(fileDrag);
+    //console.log('GPS', latitude, longitude)
+
     const formDragData = new FormData();
-    formDragData.append('avatar', fileDrag)
+    formDragData.append('img', fileDrag)
     dispatch(editAvaToBack(id, formDragData))
   }
 
@@ -45,10 +44,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
     avatar = `${process.env.REACT_APP_API_URL}${avatar}`
   }
   
-  // const img = document.getElementById('img');
-  // console.log(EXIF.getData(img, 'exifdata'))
-  
-
+ 
   
 
   return (
@@ -59,7 +55,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
       <p>{email}</p>
       <div 
       encType="multipart/form-data"
-      name="avatar"
+      name="img"
       onDragStart={e => dragStartHandler(e)}
       onDragLeave={e => dragLeaveHandler(e)}
       onDragOver={e => dragStartHandler(e)}
@@ -68,7 +64,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
       <img id="img" src={`${avatar}`} style={{ width: '300px' }} />
       </div>
       <form onSubmit={editAvaHandler} encType="multipart/form-data">
-        <input type="file" name="avatar" />
+        <input type="file" name="img" />
         <button>send</button>
       </form>
     </>

@@ -9,6 +9,16 @@ function Profile() {
   console.log("CURENTUSER", currentUserFromState);
   const dispatch = useDispatch();
 
+
+  const id = 1 
+
+
+  useEffect(() => {
+    dispatch(setCurrentUser(id))
+    
+  }, [id, currentUserFromState.avatar])
+
+
   return (
     <>
       <ProfileUserCard {...currentUserFromState}/>

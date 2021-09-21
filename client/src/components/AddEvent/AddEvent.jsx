@@ -2,11 +2,14 @@ import style from "./AddEvent.module.css";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
+import { useState } from "react";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
-function AddEvent({ newCoords }) {
+function AddEvent({ newCoords, imgName, setImgName }) {
+
+
 
   const user_id = 2;
 
@@ -36,11 +39,38 @@ function AddEvent({ newCoords }) {
     })
 
 
+
+    // const formDragData = new FormData();
+    // formDragData.append('img', imgFile)
+    // await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
+    //   method: 'POST',
+    //   body: formDragData
+    // })
+
+
   };
+
+  const dragStartHandler = (event) => {
+    event.preventDefault()
+  }
+  const dragLeaveHandler = (event) => {
+    event.preventDefault()
+  }
+  const dropHandler = async (event) => {
+    event.preventDefault()
+    const fileDrag = event.dataTransfer.files[0];
+    setImgName(event.dataTransfer.files[0].name);
+    const formDragData = new FormData();
+    formDragData.append('img', fileDrag);
+    await fetch(`${process.env.REACT_APP_API_URL}/event/setimage`, {
+      method: 'POST',
+      body: formDragData,
+    })
+  }
 
 
   return (
-    <div>
+    
       <form onSubmit={submitHandler} name="newEvent">
         <Typography id="transition-modal-title" variant="h6" component="h2">
           Введите название места
@@ -79,8 +109,20 @@ function AddEvent({ newCoords }) {
             />
           </div>
 
-          Добавить фотографию <input type="file" name="event_image" encType="multipart/form-data" />
+          Добавить фотографию <input type="file"  name="event_image" encType="multipart/form-data" />
           <div>
+            <div
+              encType="multipart/form-data"
+              name="img"
+              onDragStart={e => dragStartHandler(e)}
+              onDragLeave={e => dragLeaveHandler(e)}
+              onDragOver={e => dragStartHandler(e)}
+              onDrop={dropHandler}
+            >
+            
+              <img src={`${process.env.REACT_APP_API_URL}/uploads/${imgName}`} style={{ width: '100px' }} />
+
+            </div>
          Приватное событие <Checkbox
         {...label}
         name="private"
@@ -91,7 +133,6 @@ function AddEvent({ newCoords }) {
           <button>Создать событие</button>
         </div>
       </form>
-    </div>
   )
 }
 

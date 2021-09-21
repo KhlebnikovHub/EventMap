@@ -90,7 +90,7 @@ const storageConfig = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: storageConfig }).single('avatar'));
+app.use(multer({ storage: storageConfig }).single('img'));
 
 
 

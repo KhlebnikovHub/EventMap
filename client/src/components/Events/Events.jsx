@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPlaces } from '../../redux/actions/places.action';
 import AddEvent from '../AddEvent/AddEvent';
+import exifr from 'exifr'
 
 
 
@@ -73,6 +74,10 @@ function Events() {
   const [newCoords, setNewCoords] = useState([]);
   const [ballonstate, setBallonstate] = useState({ balloonContent: '<h1>Hello! =))</h1>' })
   const [ref, setRef] = useState(null);
+  const [ imgDrag, setImgDrag ] = useState(null)
+  const [ imgSrc, setImgSrc] = useState();
+  const [exifrGps, setExifrGps] = useState([]);
+  const [imgName, setImgName] = useState();
 
   const [customState, setCustomState] = useState([])
   const [clusterState, setClusterState] = useState([])
@@ -251,8 +256,53 @@ function Events() {
 
   }
 
+  let imgCoord = []
+  
+  
+  
+  const dragStartHandler = (event) => {
+    event.preventDefault()
+  }
+  const dragLeaveHandler = (event) => {
+    event.preventDefault()
+  }
+  const dropHandler = async (event) => {
+    event.preventDefault()
+    try {
+      
+      let fileDrag = event.dataTransfer.files[0];
+      setImgName(event.dataTransfer.files[0].name)
+      imgCoord = await exifr.gps(fileDrag);
+
+      setExifrGps([imgCoord?.latitude, imgCoord?.longitude]);
+      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+      const formDragData = new FormData();
+      formDragData.append('img', fileDrag)
+      
+      setTimeout(() => {
+        handleOpen()
+
+      }, 2000);
+      
+      await fetch(`${process.env.REACT_APP_API_URL}/event/NewEvent`, {
+        method: 'POST',
+        body: formDragData,
+      })
+
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+// useEffect(() => {
+// console.log('GPS', exifrGps)
+
+// }, [exifrGps]);
+  
+
 
   return (
+
     <div className="App"  onClick = {(event) => {
       console.log("SEARCH RESULT", search?.getResult(0))
       var geoObjectsArray = search?.getResultsArray();
@@ -262,8 +312,7 @@ function Events() {
       if(selectedPlace) {
         setSelectedOrganization(selectedPlace?.properties?._data)
         setNewCoords(selectedPlace?.geometry?._coordinates)
-      }
-      
+      }     
 
     }}>
       <div>
@@ -281,7 +330,7 @@ function Events() {
         >
           <Fade in={open}>
             <Box sx={modalStyle}>
-              <AddEvent newCoords={newCoords} />
+              <AddEvent imgName={imgName} newCoords={newCoords} setImgName={setImgName}/>
 
             </Box>
           </Fade>
@@ -299,8 +348,19 @@ function Events() {
       >
         <div>
           My awesome application with maps!
+
+          <div 
+          encType="multipart/form-data"
+          name="img"
+          onDragStart={e => dragStartHandler(e)}
+          onDragLeave={e => dragLeaveHandler(e)}
+          onDragOver={e => dragStartHandler(e)}
+          onDrop={dropHandler}
+          >
+
           <div className={style.mapcontainer}>
        
+
           <Map
            
             className={style.map}
@@ -499,6 +559,7 @@ function Events() {
 
             />
           </ Map>
+
           <div>{placeEvents.map(event => <><p>{event?.name}</p><p>{event?.description}</p></>)}</div>
           <div>
             Вы выбрали место:
@@ -507,6 +568,7 @@ function Events() {
              <p>{selectedOrganization?.workingTime}</p>
              <p>Координаты: {newCoords}</p>
              </div>
+
           </div>
         </div>
       </YMaps>
