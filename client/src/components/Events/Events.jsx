@@ -204,7 +204,7 @@ function Events() {
     console.log("YMAMAMAP", ymaps);
     // && !customState?.template || ymaps && !supercustom?.template
     if (ymaps) {
-      for (let i = 0; i < allPlaces.length; i++) {
+      for (let i = 0; i < allPlaces?.length; i++) {
         console.log(allPlaces[i]?.Events[0]?.image);
 
         setCustomState((prev) => [
