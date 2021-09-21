@@ -9,7 +9,7 @@ export const initialState = {
     isLoading: false,
     error: false
   },
-  currentuser: {},
+  currentuser: null,
   userFriends: {  
     list: [],
     isLoading: false,
@@ -24,3 +24,10 @@ export const initialState = {
 
 }
 
+const getInitState = () => {
+  const stateFromLS = JSON.parse(window.localStorage.getItem('redux'))
+  return stateFromLS ? stateFromLS : initialState
+
+}
+
+export default getInitState

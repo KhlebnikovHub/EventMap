@@ -4,6 +4,7 @@ import { editAvaToBack } from "../../redux/actions/currentUser.action";
 import exifr from 'exifr'
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar  }) {
+  console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
 
