@@ -24,8 +24,8 @@ const options = {
   useDevicePixelRatio: true,
 };
 
-const cssSelector = document.querySelector("#canvasId");
-initMetaballs(cssSelector, options);
+// const cssSelector = document.querySelector("#canvasId");
+// initMetaballs(cssSelector, options);
 
 ReactDOM.render(
   <React.StrictMode>

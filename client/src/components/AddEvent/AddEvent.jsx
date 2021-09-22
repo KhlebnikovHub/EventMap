@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
-function AddEvent({ newCoords, imgName, setImgName }) {
+function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization }) {
 
 
   const currentUserFromState = useSelector((state) => state.currentuser);
@@ -82,14 +82,29 @@ function AddEvent({ newCoords, imgName, setImgName }) {
         <Typography id="transition-modal-title" variant="h6" component="h2">
           Введите название места
         </Typography>
+        
         <TextField
           id="outlined-multiline-flexible"
           label="Название места"
           multiline
           maxRows={4}
-
+          defaultValue={address ? address : ''}
           name="place_name"
         />
+        <Typography id="transition-modal-title" variant="h6" component="h2">
+          { address && (<span>Адрес: {address}</span>)}
+        </Typography>
+        <Typography id="transition-modal-title" variant="h6" component="h2">
+         Данные об организации: 
+        </Typography>
+        { selectedOrganization && (
+            <>
+          <p>{selectedOrganization?.name}</p>
+                <p>{selectedOrganization?.description}</p>
+                <p>{selectedOrganization?.workingTime}</p>
+                <p>{selectedOrganization?.site}</p>
+                </>
+          )}
         <Typography id="transition-modal-title" variant="h6" component="h2">
           Введите данные о событии
         </Typography>
