@@ -90,11 +90,9 @@ function Events() {
     balloonContent: "<h1>Hello! =))</h1>",
   });
   const [ref, setRef] = useState(null);
-  const [imgDrag, setImgDrag] = useState(null);
-  const [imgSrc, setImgSrc] = useState();
-  const [exifrGps, setExifrGps] = useState([]);
+  
   const [imgName, setImgName] = useState();
-
+  const [files, setFiles] = useState();
   const [customState, setCustomState] = useState([]);
   const [clusterState, setClusterState] = useState([]);
 
@@ -169,8 +167,11 @@ function Events() {
           }
         }
       }
-    });
-  };
+    })
+
+
+
+  }
 
   const handleApiAvaliable = (ymaps) => {
     let balloonContent = createBalloonLayout(ymaps);
@@ -186,8 +187,8 @@ function Events() {
       map.panTo(map.getCenter());
       map.events.add("balloonopen", function (e) {
         console.log("LOOOOOOOOOOLLLLLL", e);
-        console.log("SUPERLOOOOOOL", e.get("target"));
-        const target = e.get("target");
+        console.log("SUPERLOOOOOOL", e.get('target'))
+        const target = e.get('target');
         if (target) {
           const data = target?.balloon?._captor?._data?.properties?._data;
           setSelectedOrganization(data);
@@ -197,6 +198,9 @@ function Events() {
           }
         }
       });
+
+
+
     }
   };
 
@@ -204,7 +208,7 @@ function Events() {
     console.log("YMAMAMAP", ymaps);
     // && !customState?.template || ymaps && !supercustom?.template
     if (ymaps) {
-      for (let i = 0; i < allPlaces.length; i++) {
+      for (let i = 0; i < allPlaces?.length; i++) {
         console.log(allPlaces[i]?.Events[0]?.image);
 
         setCustomState((prev) => [
@@ -273,7 +277,7 @@ function Events() {
     }
   };
 
-  let imgCoord = [];
+  
 
   const dragStartHandler = (event) => {
     event.preventDefault();
@@ -281,37 +285,37 @@ function Events() {
   const dragLeaveHandler = (event) => {
     event.preventDefault();
   };
-  const dropHandler = async (event) => {
-    event.preventDefault();
-    try {
-      let fileDrag = event.dataTransfer.files[0];
-      setImgName(event.dataTransfer.files[0].name);
-      imgCoord = await exifr.gps(fileDrag);
 
-      setExifrGps([imgCoord?.latitude, imgCoord?.longitude]);
-      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], {
-        duration: 2000,
-        flying: true,
-      });
-      const formDragData = new FormData();
-      formDragData.append("img", fileDrag);
+  let imgCoord = [];
+  const dropHandler = async (event) => {
+    event.preventDefault()
+    try { 
+      let fileDrag = event.dataTransfer.files[0];
+      setFiles(event.dataTransfer.files);
+
+      setImgName(event.dataTransfer.files[0].name);
+
+      imgCoord = await exifr.gps(fileDrag);
+      if(!imgCoord) {
+        console.log('привет')
+      }
+ 
+      setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
+      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
 
       setTimeout(() => {
-        handleOpen();
-      }, 2000);
+        handleOpen()
 
-      await fetch(`${process.env.REACT_APP_API_URL}/event/NewEvent`, {
-        method: "POST",
-        body: formDragData,
-      });
+      }, 2000);
+      
     } catch (error) {
       console.log(error);
     }
   };
   // useEffect(() => {
-  // console.log('GPS', exifrGps)
+  // console.log('GPS', newCoords)
 
-  // }, [exifrGps]);
+  // }, [newCoords]);
 
   return (
     <div
@@ -366,6 +370,7 @@ function Events() {
                 imgName={imgName}
                 newCoords={newCoords}
                 setImgName={setImgName}
+                files={files}
               />
             </Box>
           </Fade>
@@ -382,7 +387,7 @@ function Events() {
         <div>
           My awesome application with maps!
           <div
-            encType="multipart/form-data"
+            
             name="img"
             onDragStart={(e) => dragStartHandler(e)}
             onDragLeave={(e) => dragLeaveHandler(e)}

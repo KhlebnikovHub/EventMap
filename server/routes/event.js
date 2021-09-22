@@ -19,7 +19,7 @@ router.route('/allEvents')
 router.route('/newEvent')
 
   .post(async (req, res) => {
-    console.log('REQBO', req.body);
+    console.log('REQBOOOOOOOOOOOOOOOOOOOOOOOOOOO', req.body);
 
     console.log('PATHHHH', req.file);
     const filePath = req?.file?.path.slice(6)
@@ -29,7 +29,7 @@ router.route('/newEvent')
     try {
 
       if(newCoords) {
-        const [latitude, longitude] = newCoords;
+        const [latitude, longitude] = newCoords.split(',');
         const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id, });
         const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null})
         return res.json(newEvent);
@@ -46,7 +46,7 @@ router.route('/newEvent/:id')
   .post(async (req, res) => {
     const { id } = req.params;
     const filePath = req?.file?.path.slice(6);
-    console.log(filePath);
+    console.log('KARTINKA', filePath);
     try {
       const updatedEvent = await Event.update({ image: filePath }, { where: { id } })
       return res.json(updatedEvent)
@@ -57,11 +57,7 @@ router.route('/newEvent/:id')
 
   })
 
-router.route('/setimage')
-  .post((req, res) => {
-    console.log('gihrighrigh')
-    console.log('IMAGEFROMSETIMAGE', req.file)
-  })
+
 
 router.route('/:id')
   .get(async (req, res) => {
