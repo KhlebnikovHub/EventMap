@@ -20,7 +20,7 @@ router.route('/newEvent')
 
   .post(async (req, res) => {
     console.log('REQBOOOOOOOOOOOOOOOOOOOOOOOOOOO', req.body);
-
+    
     console.log('PATHHHH', req.file);
     const filePath = req?.file?.path.slice(6)
     const { name, description, event_date, user_id, newCoords, place_name, private } = req.body;

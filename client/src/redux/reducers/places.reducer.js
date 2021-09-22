@@ -1,4 +1,4 @@
-import { SET_ALL_PLACES, SET_ERROR, SET_LOADING } from "../types/places"
+import { SET_ALL_PLACES, ADD_PLACE, SET_ERROR, SET_LOADING } from "../types/places"
 
 
 export const allPlacesReducer = (state = {}, action) => {
@@ -17,6 +17,11 @@ export const allPlacesReducer = (state = {}, action) => {
         const { allPlaces } = payload
         return {...state, list: allPlaces, isLoading: false }
     }
+    case ADD_PLACE: {
+      const { coords } = payload
+      const [latitude, longitude] = coords;
+      return {...state, list: [...state.list, { latitude, longitude }], isLoading: false }
+  }
       default: {
           return state;
       }

@@ -21,7 +21,6 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
   })
   useEffect(() => {
     if (files) {
-
       inputFile.current.files = files;
       reader.readAsDataURL(files[0]);
     }
@@ -37,15 +36,15 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
     const data = new FormData(event.target)
 
 
-    const file = event.target?.event_image?.files[0];
-    console.log('FILEE', file);
+    const file = event.target?.img?.files[0];
+    
     const formData = new FormData()
     formData.append('img', file)
     console.log('FORMDATAAA', formData);
     data.append('user_id', user_id)
     data.append('newCoords', newCoords);
     console.log("COOOOOOORDISHE", newCoords);
-
+    console.log('FILEE', file);
     const responseData = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
       method: 'POST',
       // headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -77,84 +76,82 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
 
 
   return (
-    
-      <form onSubmit={submitHandler} name="newEvent">
-        <Typography id="transition-modal-title" variant="h6" component="h2">
-          Введите название места
-        </Typography>
-        
+
+    <form onSubmit={submitHandler} name="newEvent">
+      <Typography id="transition-modal-title" variant="h6" component="h2">
+        Введите название места
+      </Typography>
+      
+      <TextField
+        id="outlined-multiline-flexible"
+        label="Название места"
+        multiline
+        maxRows={4}
+
+        name="place_name"
+      />
+      {address ? <Typography id="transition-modal-title" variant="h6" component="h2">
+        Адрес: <p>{address}</p>
+      </Typography> : ''}
+      {selectedOrganization ? (
+        <>
+        <p>Данные об организации</p>
+        <p>{selectedOrganization?.name}</p>
+        <p>{selectedOrganization?.description}</p>
+        <p>{selectedOrganization?.workingTime}</p>workingTime
+        </>
+      ) : ''}
+      <Typography id="transition-modal-title" variant="h6" component="h2">
+        Введите данные о событии
+      </Typography>
+      <div>
+
         <TextField
           id="outlined-multiline-flexible"
-          label="Название места"
+          label="Название события"
           multiline
           maxRows={4}
-          defaultValue={address ? address : ''}
-          name="place_name"
+
+          name="name"
         />
-        <Typography id="transition-modal-title" variant="h6" component="h2">
-          { address && (<span>Адрес: {address}</span>)}
-        </Typography>
-        <Typography id="transition-modal-title" variant="h6" component="h2">
-         Данные об организации: 
-        </Typography>
-        { selectedOrganization && (
-            <>
-          <p>{selectedOrganization?.name}</p>
-                <p>{selectedOrganization?.description}</p>
-                <p>{selectedOrganization?.workingTime}</p>
-                <p>{selectedOrganization?.site}</p>
-                </>
-          )}
-        <Typography id="transition-modal-title" variant="h6" component="h2">
-          Введите данные о событии
-        </Typography>
+
+        <TextField
+          id="outlined-multiline-static"
+          label="Описание"
+          multiline
+          rows={4}
+          name="description"
+        />
         <div>
-          <TextField
-            id="outlined-multiline-flexible"
-            label="Название события"
-            multiline
-            maxRows={4}
+          <input className={style.dateinput} type="datetime-local" name="event_date"
 
-            name="name"
           />
-
-          <TextField
-            id="outlined-multiline-static"
-            label="Описание"
-            multiline
-            rows={4}
-            name="description"
-          />
-          <div>
-            <input className={style.dateinput} type="datetime-local" name="event_date"
-
-            />
-          </div>
-
-          Добавить фотографию <input type="file"  name="img" encType="multipart/form-data" onChange={imgHandler} ref={inputFile}/>
-          <div>
-            <div
-              
-              name="img"
-              onDragStart={e => dragStartHandler(e)}
-              onDragLeave={e => dragLeaveHandler(e)}
-              onDragOver={e => dragStartHandler(e)}
-              onDrop={dropHandler}
-            >
-            
-              <img src={image} name='eventImg' style={{ width: '100px' }} alt=''/>
-
-            </div>
-         Приватное событие <Checkbox
-        {...label}
-        name="private"
-        value="true"
-        sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-      />
-          </div>
-          <button>Создать событие</button>
         </div>
-      </form>
+
+        Добавить фотографию <input type="file" name="img" encType="multipart/form-data" onChange={imgHandler} ref={inputFile} />
+        <div>
+          <div
+
+            name="img"
+            onDragStart={e => dragStartHandler(e)}
+            onDragLeave={e => dragLeaveHandler(e)}
+            onDragOver={e => dragStartHandler(e)}
+            onDrop={dropHandler}
+          >
+
+            <img src={image} name='eventImg' style={{ width: '100px' }} alt='' />
+
+          </div>
+          Приватное событие <Checkbox
+            {...label}
+            name="private"
+            value="true"
+            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+          />
+        </div>
+        <button>Создать событие</button>
+      </div>
+    </form>
   )
 }
 
