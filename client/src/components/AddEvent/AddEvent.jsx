@@ -20,9 +20,8 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
     setImage(reader.result);
   })
   useEffect(() => {
-  
-  
-    if(files) {
+    if (files) {
+
       inputFile.current.files = files;
       reader.readAsDataURL(files[0]);
     }
@@ -57,22 +56,6 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
 
     const answerData = await responseData.json();
     console.log(answerData);
-    // const responseDataId = answerData.id;
-    // const responseImage = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent/${responseDataId}`, {
-    //   method: 'POST',
-    //   body: formData,
-    //   credentials: "include"
-    // })
-
-
-
-    // const formDragData = new FormData();
-    // formDragData.append('img', imgFile)
-    // await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
-    //   method: 'POST',
-    //   body: formDragData
-    // })
-
 
   };
 

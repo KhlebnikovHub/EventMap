@@ -17,6 +17,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Snackbar from '@mui/material/Snackbar';
+import Slide from '@mui/material/Slide';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPlaces } from "../../redux/actions/places.action";
 import AddEvent from "../AddEvent/AddEvent";
@@ -286,8 +288,23 @@ function Events() {
     }
   };
 
-  
 
+  const [openSnack, setOpenSnack] = useState(false);
+  const [transition, setTransition] = useState(undefined);
+
+  function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  const handleOpenSnack = (Transition) => {
+    setTransition(() => Transition);
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = () => {
+    setOpenSnack(false);
+  };
+  
   const dragStartHandler = (event) => {
     event.preventDefault();
   };
@@ -305,21 +322,27 @@ function Events() {
       setImgName(event.dataTransfer.files[0].name);
 
       imgCoord = await exifr.gps(fileDrag);
-      if(!imgCoord) {
-        console.log('привет')
+      if(imgCoord) {
+        setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
+        map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+        setTimeout(() => {
+          handleOpen()
+          
+        }, 2000);
+      } else {
+        handleOpenSnack(TransitionLeft)
+        
+
       }
  
-      setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
-      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
 
       myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
         setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
       })
-
       setTimeout(() => {
         handleOpen()
-
       }, 2000);
+
       
 
     } catch (error) {
@@ -382,7 +405,6 @@ function Events() {
           <Fade in={open}>
             <Box sx={modalStyle}>
               <AddEvent
-                imgName={imgName}
                 newCoords={newCoords}
                 address={address}
                 selectedOrganization={selectedOrganization}
@@ -636,6 +658,13 @@ function Events() {
           </div>
         </div>
       </YMaps>
+                <Snackbar
+                  open={openSnack}
+                  onClose={handleCloseSnack}
+                  TransitionComponent={transition}
+                  message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
+                  key={transition ? transition.name : ''}
+                />
     </div>
   );
 }
