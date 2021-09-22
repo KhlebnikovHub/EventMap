@@ -5,7 +5,7 @@ const { User } = require('../db/models');
 const checkUser = async (req, res, next) => {
 
 
-  console.log("KAWKA");
+  console.log("KAWKA zbs");
   if (req.session?.passport?.user) {
     // console.log(req.session?.passport?.user);
     const email = req.session?.passport?.user?.emails[0]?.value;

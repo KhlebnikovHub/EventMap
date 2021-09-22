@@ -66,6 +66,7 @@
 }
 
 .event__text {
+  color: black;
   height: 40px;
   font-size: 1.2rem;
   margin: 0px;

@@ -360,37 +360,25 @@ function Events() {
   let imgCoord = [];
   const dropHandler = async (event) => {
     event.preventDefault()
-
-    try { 
+    try {
       let fileDrag = event.dataTransfer.files[0];
       setFiles(event.dataTransfer.files);
-
       setImgName(event.dataTransfer.files[0].name);
-
       imgCoord = await exifr.gps(fileDrag);
-
       if(imgCoord) {
         setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
         map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
         myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
           setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
         })
-
         setTimeout(() => {
           handleOpen()
-          
         }, 2000);
       } else {
         handleOpenSnack(TransitionLeft)
-        
-
       }
- 
-
         }
-      }
-
-    } catch (error) {
+     catch (error) {
       console.log(error);
     }
   };
