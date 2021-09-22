@@ -13,7 +13,6 @@ import image2 from "../src/img/background2.jpeg";
 import image3 from "../src/img/background3.jpeg";
 import image4 from "../src/img/background4.jpeg";
 
-import BackgroundSlider from "react-background-slider";
 
 const options = {
   numMetaballs: 100,
@@ -35,7 +34,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
-      <Background />
+      {/* <Background /> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -32,7 +32,8 @@ router.route('/newEvent')
         const [latitude, longitude] = newCoords.split(',');
         const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id, });
         const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null})
-        return res.json(newEvent);
+        const newEventPlace = await Place.findOne({where: { id: newPlace?.id}, include: { model: Event}})
+        return res.json(newEventPlace);
       }
 
     } catch (error) {

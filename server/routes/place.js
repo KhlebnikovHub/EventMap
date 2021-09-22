@@ -7,12 +7,12 @@ router.route('/allPlaces/:user_id/')
   .get(async (req, res) => {
     try {
       const { user_id } = req.params;
-      const allPlaces = await Place.findAll({ where: { user_id }, include: { model: Event } });
-      console.log(user_id);
+      if(user_id) {
+        const allPlaces = await Place.findAll({ where: { user_id }, include: { model: Event } });
+        return res.json(allPlaces);
+      } else return res.json([{}])
       
-      console.log(allPlaces);
       
-      return res.json(allPlaces);
     } catch (error) {
       console.log(error);
       return res.sendStatus(500).end();

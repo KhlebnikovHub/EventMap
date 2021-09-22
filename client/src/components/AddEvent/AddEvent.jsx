@@ -3,13 +3,17 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addPlace } from "../../redux/actions/places.action";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 
 function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files }) {
+
+
+  const dispatch = useDispatch();
 
   const [image, setImage] = useState(null);
 
@@ -45,16 +49,18 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
     data.append('newCoords', newCoords);
     console.log("COOOOOOORDISHE", newCoords);
     console.log('FILEE', file);
-    const responseData = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
-      method: 'POST',
-      // headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      // body: JSON.stringify({ ...data, user_id, newCoords }),
-      body: data,
-      credentials: "include"
-    })
 
-    const answerData = await responseData.json();
-    console.log(answerData);
+    dispatch(addPlace(data));
+
+    // const responseData = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
+    //   method: 'POST',
+    //   // headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    //   // body: JSON.stringify({ ...data, user_id, newCoords }),
+    //   body: data,
+    //   credentials: "include"
+    // })
+
+   
 
   };
 
