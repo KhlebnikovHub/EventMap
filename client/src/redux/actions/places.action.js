@@ -1,4 +1,4 @@
-import { GET_ALL_PLACES, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
+import { GET_ALL_PLACES, ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
 
 
 //middleware
@@ -20,6 +20,11 @@ export const getAllPlaces = (user_id) => async (dispatch) => {
 export const setAllPlaces = (allPlaces) => ({
   type: SET_ALL_PLACES,
   payload: {allPlaces}
+})
+
+export const addPlace = (coords) => ({
+  type: ADD_PLACE,
+  payload: { coords }
 })
 
 export const setLoading = () => ({
