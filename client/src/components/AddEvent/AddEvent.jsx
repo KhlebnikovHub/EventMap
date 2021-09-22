@@ -19,7 +19,9 @@ function AddEvent({ newCoords, files }) {
   })
   useEffect(() => {
     inputFile.current.files = files;
-    reader.readAsDataURL(files[0]);
+    if(reader.onload) {
+      reader.readAsDataURL(files[0]);
+    }
   }, []);
 
 
