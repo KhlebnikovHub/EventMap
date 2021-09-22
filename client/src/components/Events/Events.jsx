@@ -188,7 +188,7 @@ function Events() {
       map?.events.add("boundschange", setClusterIcon);
       map?.events.add("actionend", setClusterIcon);
       console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter());
-      map.panTo(map.getCenter());
+      //map.panTo(map.getCenter());
       map.events.add("balloonopen", function (e) {
         console.log("LOOOOOOOOOOLLLLLL", e);
         console.log("SUPERLOOOOOOL", e.get('target'))
@@ -322,9 +322,14 @@ function Events() {
       setImgName(event.dataTransfer.files[0].name);
 
       imgCoord = await exifr.gps(fileDrag);
+
       if(imgCoord) {
         setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
         map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+        myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
+          setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
+        })
+
         setTimeout(() => {
           handleOpen()
           
@@ -335,13 +340,7 @@ function Events() {
 
       }
  
-
-      myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
-        setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
-      })
-      setTimeout(() => {
-        handleOpen()
-      }, 2000);
+      
 
       
 

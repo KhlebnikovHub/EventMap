@@ -14,6 +14,7 @@ import image3 from "../src/img/background3.jpeg";
 import image4 from "../src/img/background4.jpeg";
 
 import BackgroundSlider from "react-background-slider";
+import Background from './components/Background/Background.jsx';
 
 const options = {
   numMetaballs: 100,
@@ -28,7 +29,6 @@ const options = {
 // const cssSelector = document.querySelector("#canvasId");
 // initMetaballs(cssSelector, options);
 
-import Background from './components/Background/Background.jsx';
 
 
 ReactDOM.render(
