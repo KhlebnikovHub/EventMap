@@ -17,6 +17,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Snackbar from '@mui/material/Snackbar';
+import Slide from '@mui/material/Slide';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPlaces } from "../../redux/actions/places.action";
 import AddEvent from "../AddEvent/AddEvent";
@@ -85,10 +87,12 @@ function Events() {
   const [placeEvents, setPlaceEvents] = useState([]);
   const [search, setSearch] = useState("");
   const [state, setState] = useState({ coords: [] });
+  const [myYmaps, setMyYmaps] = useState('');
   const [newCoords, setNewCoords] = useState([]);
   const [ballonstate, setBallonstate] = useState({
     balloonContent: "<h1>Hello! =))</h1>",
   });
+  const [address, setAddress] = useState('')
   const [ref, setRef] = useState(null);
   
   const [imgName, setImgName] = useState();
@@ -195,6 +199,7 @@ function Events() {
           if (data?.point) {
             let coords = [data?.point[1], data?.point[0]];
             setNewCoords(coords);
+            handleOpen();
           }
         }
       });
@@ -206,6 +211,9 @@ function Events() {
 
   const createTemplateLayoutFactory = (ymaps) => {
     console.log("YMAMAMAP", ymaps);
+    ymaps?.geocode([55.7522, 37.6156]).then(res => {
+      console.log("GEOCOOOOOOOOODE", res.geoObjects.get(0))
+    })
     // && !customState?.template || ymaps && !supercustom?.template
     if (ymaps) {
       for (let i = 0; i < allPlaces?.length; i++) {
@@ -271,14 +279,32 @@ function Events() {
         });
         setNewCoords(event?.get("coords"));
         handleOpen();
+        myYmaps?.geocode(newCoords).then(res => {
+          setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
+        })
       } catch (error) {
         console.log("ERRRRRRRRORRRRR", error);
       }
     }
   };
 
-  
 
+  const [openSnack, setOpenSnack] = useState(false);
+  const [transition, setTransition] = useState(undefined);
+
+  function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
+  const handleOpenSnack = (Transition) => {
+    setTransition(() => Transition);
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = () => {
+    setOpenSnack(false);
+  };
+  
   const dragStartHandler = (event) => {
     event.preventDefault();
   };
@@ -296,18 +322,29 @@ function Events() {
       setImgName(event.dataTransfer.files[0].name);
 
       imgCoord = await exifr.gps(fileDrag);
-      if(!imgCoord) {
-        console.log('привет')
+      if(imgCoord) {
+        setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
+        map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+        setTimeout(() => {
+          handleOpen()
+          
+        }, 2000);
+      } else {
+        handleOpenSnack(TransitionLeft)
+        
+
       }
  
-      setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
-      map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
 
+      myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
+        setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
+      })
       setTimeout(() => {
         handleOpen()
-
       }, 2000);
+
       
+
     } catch (error) {
       console.log(error);
     }
@@ -329,6 +366,7 @@ function Events() {
         if (selectedPlace) {
           setSelectedOrganization(selectedPlace?.properties?._data);
           setNewCoords(selectedPlace?.geometry?._coordinates);
+          handleOpen();
         }
       }}
     >
@@ -367,8 +405,9 @@ function Events() {
           <Fade in={open}>
             <Box sx={modalStyle}>
               <AddEvent
-                imgName={imgName}
                 newCoords={newCoords}
+                address={address}
+                selectedOrganization={selectedOrganization}
                 setImgName={setImgName}
                 files={files}
               />
@@ -378,6 +417,12 @@ function Events() {
       </div>
 
       <YMaps
+        onLoad={ymaps => {
+          // ref.geocode([55, 37]).then(res => console.log("POPPPPER MOPPPER", res.geoObjects.get(0)))
+        
+    
+        }
+      }
         onClick={(event) => console.log("YYYYYYMAAAAAAP", event.target)}
         query={{
           apikey: "ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU",
@@ -400,24 +445,25 @@ function Events() {
                 instanceRef={(ref) => {
                   setMap(ref);
                   handlerInitMap();
+                  
                 }}
                 onLoad={(ymaps) => {
                   yymap = ymaps;
                   console.log("CENTEEEEEEEEEEEEER", ymaps?.map?.getCenter());
+                  setMyYmaps(ymaps);
                   createTemplateLayoutFactory(ymaps);
                   handleApiAvaliable(ymaps);
 
                   setClusterIcon(ymaps.map);
+                  
                 }}
-                modules={["templateLayoutFactory", "layout.ImageWithContent"]}
+                modules={["templateLayoutFactory", "layout.ImageWithContent", "geolocation", "geocode"]}
                 defaultState={{ center: [55.75, 37.57], zoom: 9 }}
                 onClick={(event) => {
                   try {
                     if (event?.get("coords")) {
                       console.log("IFIFIFIFIFIF", event?.get("coords"));
-                      map?.Balloon?.events?.add("open", () => {
-                        alert("HmMmM");
-                      });
+                     
                       onMapClick(event);
                     }
                   } catch (error) {
@@ -601,6 +647,7 @@ function Events() {
                 ))}
               </div>
               <div>
+                <p>Адрес: {address}</p>
                 Вы выбрали место:
                 <p>{selectedOrganization?.name}</p>
                 <p>{selectedOrganization?.description}</p>
@@ -611,6 +658,13 @@ function Events() {
           </div>
         </div>
       </YMaps>
+                <Snackbar
+                  open={openSnack}
+                  onClose={handleCloseSnack}
+                  TransitionComponent={transition}
+                  message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
+                  key={transition ? transition.name : ''}
+                />
     </div>
   );
 }
