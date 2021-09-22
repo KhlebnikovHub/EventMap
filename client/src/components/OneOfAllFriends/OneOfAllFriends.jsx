@@ -29,6 +29,10 @@ function OneOfAllFriends({ id, email, firstname, lastname, avatar }) {
     dispatch(deleteFromFriends(id, stateId));
   };
 
+  if (!avatar?.includes("http")) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
+  }
+
   return (
     <div className={style.userCard}>
       <div className={style.userCard__pic_wrapper}>
