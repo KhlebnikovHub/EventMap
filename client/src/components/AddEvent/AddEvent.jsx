@@ -18,10 +18,10 @@ function AddEvent({ newCoords, files }) {
     setImage(reader.result);
   })
   useEffect(() => {
+
     if (files) {
       inputFile.current.files = files;
       reader.readAsDataURL(files[0]);
-
     }
   }, []);
 

@@ -21,27 +21,6 @@ code {
   color: #003e4231;
 }
 
-.canvas__wrapper {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-
-  height: 120vh;
-  width: 100vw;
-  z-index: -1;
-
-  /* background-image: url('./img/background2.jpeg'); */
-
-}
-
-.background__image {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  background-size: cover;
-  background-position: right;
-}
-
 
 .app {
   width: 100%;

@@ -169,8 +169,11 @@ function Events() {
           }
         }
       }
-    });
-  };
+    })
+
+
+
+  }
 
   const handleApiAvaliable = (ymaps) => {
     let balloonContent = createBalloonLayout(ymaps);
@@ -186,8 +189,8 @@ function Events() {
       map.panTo(map.getCenter());
       map.events.add("balloonopen", function (e) {
         console.log("LOOOOOOOOOOLLLLLL", e);
-        console.log("SUPERLOOOOOOL", e.get("target"));
-        const target = e.get("target");
+        console.log("SUPERLOOOOOOL", e.get('target'))
+        const target = e.get('target');
         if (target) {
           const data = target?.balloon?._captor?._data?.properties?._data;
           setSelectedOrganization(data);
@@ -197,6 +200,9 @@ function Events() {
           }
         }
       });
+
+
+
     }
   };
 
