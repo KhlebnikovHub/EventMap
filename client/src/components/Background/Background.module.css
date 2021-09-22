@@ -1,0 +1,21 @@
+.canvas__wrapper {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+
+  /* background-image: url('./img/background2.jpeg'); */
+
+}
+
+.background__image {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: -1;
+  background-size: cover;
+  background-position: right;
+  pointer-events: none;
+}
