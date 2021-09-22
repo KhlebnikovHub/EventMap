@@ -42,22 +42,39 @@ router.route('/newEvent')
 
   })
 
-router.route('/newEvent/:id')
-  .post(async (req, res) => {
+// router.route('/newEvent/:id')
+//   .post(async (req, res) => {
+//     const { id } = req.params;
+//     const filePath = req?.file?.path.slice(6);
+//     console.log('KARTINKA', filePath);
+//     try {
+//       const updatedEvent = await Event.update({ image: filePath }, { where: { id } })
+//       return res.json(updatedEvent)
+//     } catch (error) {
+//       console.log(error);
+//       return res.sendStatus(500).end();
+//     }
+
+//   })
+
+
+
+router.route('/:id')
+  .get(async (req, res) => {
     const { id } = req.params;
-    const filePath = req?.file?.path.slice(6);
-    console.log('KARTINKA', filePath);
-    try {
-      const updatedEvent = await Event.update({ image: filePath }, { where: { id } })
-      return res.json(updatedEvent)
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500).end();
-    }
+    const event = await Event.findOne({ where: { id }, include: [{ model: Place}, { model: User }  ]});
+    // console.log('>>>>>>><<<<<<<<<<<<<<<<<<<<', user_id);
+    
+    res.json(event);
+  });
 
+router.route('/edit/:id')
+  .patch(async (req, res) => {
+    const { id } = req.params;
+    const { newFormData } = req.body;
+    const event = await Event.update({ name: newFormData.name,  description: newFormData.description, image: newFormData.image,}, { where: { id } });
+
+    res.json(event);
   })
-
-
-
 
 module.exports = router;

@@ -8,7 +8,9 @@ import { useSelector } from "react-redux";
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
+
 function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files }) {
+
   const [image, setImage] = useState(null);
 
   const inputFile = useRef(null);
@@ -23,6 +25,7 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
       reader.readAsDataURL(files[0]);
     }
   }, []);
+
 
 
   const currentUserFromState = useSelector((state) => state.currentuser);
@@ -52,22 +55,6 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
 
     const answerData = await responseData.json();
     console.log(answerData);
-    // const responseDataId = answerData.id;
-    // const responseImage = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent/${responseDataId}`, {
-    //   method: 'POST',
-    //   body: formData,
-    //   credentials: "include"
-    // })
-
-
-
-    // const formDragData = new FormData();
-    // formDragData.append('img', imgFile)
-    // await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
-    //   method: 'POST',
-    //   body: formDragData
-    // })
-
 
   };
 
@@ -118,6 +105,7 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
         Введите данные о событии
       </Typography>
       <div>
+
         <TextField
           id="outlined-multiline-flexible"
           label="Название события"
