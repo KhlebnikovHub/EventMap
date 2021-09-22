@@ -5,8 +5,9 @@ import { editAvaToBack } from "../../redux/actions/currentUser.action";
 import { getProfileEvents } from "../../redux/actions/getProfileEvents.action";
 import exifr from "exifr";
 
+import Event from '../Event/Event.jsx';
+
 import style from "./ProfileUserCard.module.css";
-import eventStyle from '../Event/Event.module.css';
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
   console.log("IDIDIDIDI", id);
@@ -96,21 +97,9 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
         </div>
 
         <div className={style.profile__profileEvents}>
-        <div className={eventStyle.event}>
-          <div className={eventStyle.event__pic_wrapper}>
-            <img className={eventStyle.event__pic} src={list[0].image} alt=""/>
-          </div>
-
-          <div className={eventStyle.event__info}>
-            <p className={eventStyle.event__text}>{list[0].name}</p>
-
-            <p className={eventStyle.event__text}>{list[0].description}</p>
-
-            <p className={eventStyle.event__text}>{list[0].Place?.name}</p>
-
-            <p className={eventStyle.event__text}>{list[0].User?.firstname} {list[0].User?.lastname}</p>
-          </div>
-        </div>
+        {list?.map((el) => {
+            return <Event key={el.id} {...el} />;
+          })}
         </div>
       </section>
     </>

@@ -29,6 +29,8 @@ import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
 
+import Pin from '../Pin/Pin.jsx';
+
 // const theme = createTheme({
 //   palette: {
 //     primary: {
@@ -61,6 +63,8 @@ function Main() {
             <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
               Создайте свою карту впечатлений!
             </Link>
+
+            <Pin />
           </Route>
 
           <Route exact path="/Events">

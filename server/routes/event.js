@@ -81,7 +81,7 @@ router.route('/profileEvents/:id')
   .get(async (req, res) => {
     try {
       const { id } = req.params;
-      const profileEvents = await Event.findAll({ where: { user_id: id }, include: [{ model: Place}] });
+      const profileEvents = await Event.findAll({ where: { user_id: id }, include: [{ model: Place}, {model: User}] });
       // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', profileEvents);
       res.json(profileEvents);
     } catch (error) {
