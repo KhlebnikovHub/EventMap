@@ -4,6 +4,7 @@ import style from "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import Background from './components/Background/Background.jsx';
 
 import initMetaballs from "metaballs-js";
 
@@ -13,6 +14,7 @@ import image3 from "../src/img/background3.jpeg";
 import image4 from "../src/img/background4.jpeg";
 
 import BackgroundSlider from "react-background-slider";
+import Background from './components/Background/Background.jsx';
 
 const options = {
   numMetaballs: 100,
@@ -24,20 +26,16 @@ const options = {
   useDevicePixelRatio: true,
 };
 
-const cssSelector = document.querySelector("#canvasId");
-initMetaballs(cssSelector, options);
+// const cssSelector = document.querySelector("#canvasId");
+// initMetaballs(cssSelector, options);
+
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
-      <div className={style.background__image}>
-        <BackgroundSlider
-          images={[image1, image2, image3, image4]}
-          duration={7}
-          transition={2}
-        />
-      </div>
+      {/* <Background /> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

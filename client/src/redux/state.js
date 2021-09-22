@@ -20,8 +20,17 @@ export const initialState = {
     list: [],
     isLoading: false,
     error: false
+  },
+  event: {
+    list: [],
+    isLoading: false,
+    error: false
+  },
+  profileEvents: {
+    list: [],
+    isLoading: false,
+    error: false
   }
-
 }
 
 const getInitState = () => {

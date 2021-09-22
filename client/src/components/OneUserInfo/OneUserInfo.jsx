@@ -19,7 +19,7 @@ function OneUserInfo() {
   }
 
   const dispatch = useDispatch()
-  const {id} = useParams()
+  const { id } = useParams();
 
 
   useEffect(() => {

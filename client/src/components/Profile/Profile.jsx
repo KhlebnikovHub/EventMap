@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser, setCurrentUser } from '../../redux/actions/currentUser.action';
 import ProfileUserCard from '../ProfileUserCard/ProfileUserCard';
 
+import './Profile.module.css';
+
 function Profile() {
 
   const currentUserFromState = useSelector((state) => state.currentuser);

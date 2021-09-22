@@ -5,6 +5,8 @@ import { userFriendsReducer } from "./friends.reducer";
 import { oneUserReducer } from "./oneUser.reducer";
 import { requestListReducer } from "./request.reducer";
 import { allPlacesReducer } from "./places.reducer";
+import { getEventReducer } from './getEvent.reducer';
+import { profileEventsReducer } from './profileEvents.reducer';
 
 
 
@@ -15,4 +17,6 @@ export const rootReducer = combineReducers({
   userFriends: userFriendsReducer,
   requestList: requestListReducer,
   allPlaces: allPlacesReducer,
+  event: getEventReducer,
+  profileEvents: profileEventsReducer
 })
