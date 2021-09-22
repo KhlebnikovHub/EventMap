@@ -7,7 +7,7 @@ import OneUserEventList from '../OneUserEventList/OneUserEventList'
 function OneUserInfo() {
 
   const dispatch = useDispatch()
-  const {id} = useParams()
+  const { id } = useParams();
 
   const { list, isLoading, error } = useSelector((state) => state.oneUser)
 

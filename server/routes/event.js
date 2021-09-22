@@ -63,5 +63,22 @@ router.route('/setimage')
     console.log('IMAGEFROMSETIMAGE', req.file)
   })
 
+router.route('/:id')
+  .get(async (req, res) => {
+    const { id } = req.params;
+    const event = await Event.findOne({ where: { id }, include: [{ model: Place}, { model: User }  ]});
+    // console.log('>>>>>>><<<<<<<<<<<<<<<<<<<<', user_id);
+    
+    res.json(event);
+  });
+
+router.route('/edit/:id')
+  .patch(async (req, res) => {
+    const { id } = req.params;
+    const { newFormData } = req.body;
+    const event = await Event.update({ name: newFormData.name,  description: newFormData.description, image: newFormData.image,}, { where: { id } });
+
+    res.json(event);
+  })
 
 module.exports = router;
