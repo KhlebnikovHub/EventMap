@@ -1,13 +1,24 @@
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from "react-redux";
 import { editAvaToBack } from "../../redux/actions/currentUser.action";
+import { getProfileEvents } from "../../redux/actions/getProfileEvents.action";
 import exifr from "exifr";
 
 import style from "./ProfileUserCard.module.css";
+import eventStyle from '../Event/Event.module.css';
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
   console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
+  const { list, isLoading, error } = useSelector(
+    (state) => state.profileEvents
+  );
+
+  useEffect(() => {
+    dispatch(getProfileEvents(id));
+  }, []);
 
   const editAvaHandler = async (event) => {
     event.preventDefault();
@@ -48,20 +59,21 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
 
   return (
     <>
-      <section className={style.profile}>
-        <div className={style.profile__}>
-          <div className={style.profile__}>
-            <img className={style.profile__} id="img" src={`${avatar}`} />
+      <section className={style.profile_wrapper}>
+        <div className={style.profile}>
+          <div className={style.profile__inner_pic}>
+            <img className={style.profile__pic} id="img" src={`${avatar}`} />
           </div>
 
-          <div className={style.profile__}>
-            <p className={style.profile__}>{firstname}</p>
-            <p className={style.profile__}>{lastname}</p>
-            <p className={style.profile__}>{email}</p>
+          <div className={style.profile__inner_info}>
+            <p className={style.profile__text}>{firstname}</p>
+            <p className={style.profile__text}>{lastname}</p>
+            <p className={style.profile__text}>{email}</p>
           </div>
 
-          <div className={style.profile__}>
+          <div className={style.profile__inner_dragger}>
             <div
+              className={style.profile__dragger}
               encType="multipart/form-data"
               name="img"
               onDragStart={(e) => dragStartHandler(e)}
@@ -70,13 +82,35 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
               onDrop={dropHandler}
             ></div>
           </div>
+
+          <div className={style.profile__inner_form}>
+            <form
+              className={style.profile__form}
+              onSubmit={editAvaHandler}
+              encType="multipart/form-data"
+            >
+              <input className={style.profile__input} type="file" name="img" />
+              <button className={style.profile__button}>send</button>
+            </form>
+          </div>
         </div>
 
-        <div className={style.profile__}>
-          <form className={style.profile__} onSubmit={editAvaHandler} encType="multipart/form-data">
-            <input className={style.profile__} type="file" name="img" />
-            <button className={style.profile__}>send</button>
-          </form>
+        <div className={style.profile__profileEvents}>
+        <div className={eventStyle.event}>
+          <div className={eventStyle.event__pic_wrapper}>
+            <img className={eventStyle.event__pic} src={list[0].image} alt=""/>
+          </div>
+
+          <div className={eventStyle.event__info}>
+            <p className={eventStyle.event__text}>{list[0].name}</p>
+
+            <p className={eventStyle.event__text}>{list[0].description}</p>
+
+            <p className={eventStyle.event__text}>{list[0].Place?.name}</p>
+
+            <p className={eventStyle.event__text}>{list[0].User?.firstname} {list[0].User?.lastname}</p>
+          </div>
+        </div>
         </div>
       </section>
     </>

@@ -77,4 +77,16 @@ router.route('/edit/:id')
     res.json(event);
   })
 
+router.route('/profileEvents/:id')
+  .get(async (req, res) => {
+    try {
+      const { id } = req.params;
+      const profileEvents = await Event.findAll({ where: { user_id: id }, include: [{ model: Place}] });
+      // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', profileEvents);
+      res.json(profileEvents);
+    } catch (error) {
+      return res.sendStatus(500).end();
+    }
+  });
+
 module.exports = router;
