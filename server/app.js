@@ -74,6 +74,7 @@ const friendsRouter = require('./routes/friends');
 const eventRouter = require('./routes/event');
 const placeRouter = require('./routes/place');
 const userRouter = require('./routes/user');
+const randomPlaces = require('./routes/randomPlaces');
 
 
 app.use(morgan('dev'));
@@ -98,6 +99,7 @@ app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
 app.use('/place', placeRouter);
 app.use('/event', eventRouter);
+app.use('/random', randomPlaces);
 app.use(checkUser);
 
 app.use('/profile', currentUser);

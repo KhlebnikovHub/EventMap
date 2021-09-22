@@ -183,6 +183,7 @@ function Events() {
       // map?.events.add("boundschange", setClusterIcon);
       map?.events.add("actionend", setClusterIcon);
       console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter());
+
       if (!firstCounter) {
         map.panTo(map.getCenter());
         setFirstCounter(1)
@@ -359,27 +360,32 @@ function Events() {
   let imgCoord = [];
   const dropHandler = async (event) => {
     event.preventDefault()
-    try {
-      if (switcher) {
-        let fileDrag = event.dataTransfer.files[0];
-        setFiles(event.dataTransfer.files);
 
-        setImgName(event.dataTransfer.files[0].name);
+    try { 
+      let fileDrag = event.dataTransfer.files[0];
+      setFiles(event.dataTransfer.files);
 
-        imgCoord = await exifr.gps(fileDrag);
-        if (imgCoord) {
-          setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
-          myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
-            setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
-          })
-          map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 3000, flying: true });
-          setTimeout(() => {
-            handleOpen()
+      setImgName(event.dataTransfer.files[0].name);
 
-          }, 2000);
-        } else {
-          handleOpenSnack(TransitionLeft)
+      imgCoord = await exifr.gps(fileDrag);
 
+      if(imgCoord) {
+        setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
+        map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+        myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
+          setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
+        })
+
+        setTimeout(() => {
+          handleOpen()
+          
+        }, 2000);
+      } else {
+        handleOpenSnack(TransitionLeft)
+        
+
+      }
+ 
 
         }
       }
