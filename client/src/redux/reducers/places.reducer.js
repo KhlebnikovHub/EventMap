@@ -23,11 +23,8 @@ export const allPlacesReducer = (state = {}, action) => {
     }
     case SET_EVENT: {
       const { place } = payload
-      state?.list?.map(onePlace => onePlace?.langitude === place?.langitude && onePlace?.latitude === place?.latitude
-        ? place
-        : onePlace
-        )
-      return { ...state, isLoading: false }
+      state?.list?.map(onePlace => onePlace?.langitude === place?.langitude && onePlace?.latitude === place?.latitude? place : onePlace)
+      return { ...state, list: state?.list?.map(onePlace => onePlace?.langitude === place?.langitude && onePlace?.latitude === place?.latitude? place : onePlace), isLoading: false }
     }
     case SET_LAST_PLACE: {
       const { place } = payload;

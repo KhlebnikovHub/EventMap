@@ -807,7 +807,7 @@ useEffect(() => {
                 />
 
                 {/* // метка при создании нового события  */}
-                {newCoords.length &&
+                {open &&
                   <><Placemark
                     geometry={newCoords}
                     options={{

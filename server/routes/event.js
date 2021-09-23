@@ -35,7 +35,7 @@ router.route('/newEvent')
         if (thisPlace?.longitude == longitude && thisPlace?.latitude == latitude) {
           const newEvent = await Event.create({ name, description, event_date, user_id, place_id: thisPlace?.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null })
           const newEventPlace = await Place.findOne({ where: { id: thisPlace?.id }, include: { model: Event } })
-          console.log("OLD")
+          console.log("OLD<><><><><><><><>>>><<><><><", newEventPlace)
           return res.json(newEventPlace);
         } else {
           const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id, });
