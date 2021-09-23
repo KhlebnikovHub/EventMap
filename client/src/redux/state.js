@@ -19,7 +19,8 @@ export const initialState = {
   allPlaces: {
     list: [],
     isLoading: false,
-    error: false
+    error: false,
+    lastPlace: null
   },
   randomPlaces: {
     list: [],

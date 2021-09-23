@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import style from "./Background.module.css";
 import initMetaballs from "metaballs-js";
@@ -20,25 +20,44 @@ const options = {
   useDevicePixelRatio: true,
 };
 
+const optionsOff = {
+  numMetaballs: 1,
+  minRadius: 0.0001,
+  maxRadius: 0.0001,
+  speed: 0,
+  color: "#f5f5dc00",
+  backgroundColor: "#003e4231",
+  useDevicePixelRatio: true,
+};
+
 
 function Background() {
   const canvasEl = useRef(null)
 
+  const [switchAnimation, setSwitchAnimation] = useState(false)
+
+
   useEffect(() => {
-    initMetaballs(canvasEl.current, options);
-  }, [])
+   initMetaballs(canvasEl.current, options);
+}, [])
 
 
   return (
-    <div className={style.background__image}>
-      <canvas ref={canvasEl} className={style.canvas__wrapper} id="canvasId"></canvas>
-      <BackgroundSlider
-        images={[image1, image2, image3, image4]}
-        duration={7}
-        transition={2}
-      />
-    </div>
-  );
+  <div className={style.background__image}>
+    { switchAnimation ? 
+     <canvas ref={canvasEl} className={style.canvas__wrapper} id="canvasId"></canvas>
+    :
+    <canvas ref={canvasEl} className={style.canvas__wrapper} id="canvasId" hidden></canvas>
+  }
+    
+    <BackgroundSlider
+      images={[image1, image2, image3, image4]}
+      duration={7}
+      transition={2}
+    />
+
+  </div>
+);
 }
 
 export default Background;

@@ -1,4 +1,4 @@
-import { SET_ALL_PLACES, SET_PLACE, SET_ERROR, SET_LOADING } from "../types/places"
+import { SET_ALL_PLACES, SET_PLACE, SET_LAST_PLACE, SET_ERROR, SET_LOADING } from "../types/places"
 
 
 export const allPlacesReducer = (state = {}, action) => {
@@ -21,6 +21,10 @@ export const allPlacesReducer = (state = {}, action) => {
       const { place } = payload
       return {...state, list: [...state.list, place], isLoading: false }
   }
+    case SET_LAST_PLACE: {
+      const { place } = payload;
+      return {...state, lastPlace: place, isLoading: false }
+    }
       default: {
           return state;
       }
