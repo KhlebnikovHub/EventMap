@@ -63,7 +63,7 @@ router.route('/newEvent')
 router.route('/:id')
   .get(async (req, res) => {
     const { id } = req.params;
-    const event = await Event.findOne({ where: { id }, include: [{ model: Place}, { model: User }  ]});
+    const event = await Event.findOne({ where: { id }, include: [{ model: Place}, { model: User }, { model: Image } ]});
     // console.log('>>>>>>><<<<<<<<<<<<<<<<<<<<', user_id);
     
     res.json(event);
@@ -94,30 +94,32 @@ router.route('/profileEvents/:id')
   .post(async (req, res) => {
     const { id } = req.params;
     const { googleDisc, otherPhoto } = req.body
-    console.log("GOOGLE", googleDisc, "\nOTHER", otherPhoto);
+    // console.log("GOOGLE", googleDisc, "\nOTHER", otherPhoto);
+    
     try {
       if(googleDisc) {
         if(googleDisc.folder !== '') {
           const regularFolder = googleDisc?.folder?.match(/rs\/([\w]{0,})/gmi);
           const folderId = regularFolder?.map(el => el.slice(3, el.length))
-          console.log(folderId);
+          // console.log(folderId);
           // const papa = '1UOeVdDkNWate6hhBfRMsXPcaACEebpzj';
-      
-          console.log("PISYA");
-          axios.get(`https://drive.google.com/embeddedfolderview?id=${folderId}#grid`).then(async (resp)=>{
-            console.log(resp.data);
+          
+       
+         const resp = await axios.get(`https://drive.google.com/embeddedfolderview?id=${folderId}#grid`)
+
+            var imagePath = []
             const site = resp.data;
             const regularId = site.match(/d\/([\w]{0,})/gmi);
             const imageId = regularId.map(el => el.slice(2, el.length))
-            const imagePath = imageId.map(el => `https://drive.google.com/uc?export=view&id=${el}`)
-            console.log("IMGIMG", imagePath);
-            for(let item of imagePath) {
+            const imageArrPath = imageId.map(el => `https://drive.google.com/uc?export=view&id=${el}`)
+            for(let item of imageArrPath) {
+              imagePath.push(item)
               await Image.create({path: item, event_id: id})
             }
-            return res.json(imagePath)
-            })
+         
+          console.log("IMGIMG", imagePath);
+          // return res.json(imagePath)
           } else {
-            
             const regularId = googleDisc?.photo?.match(/d\/([\w]{0,})/gmi);
                 const imageId = regularId.map(el => el.slice(2, el.length))
                 const imagePath = imageId.map(el => `https://drive.google.com/uc?export=view&id=${el}`)
@@ -125,12 +127,17 @@ router.route('/profileEvents/:id')
                 for(let item of imagePath) {
                   await Image.create({path: item, event_id: id})
                 }
-                return res.json(imagePath)
+                // return res.json(imagePath)
                 // await Image.create({path: googleDisc.photo, event_id: id})
           }
+          const allEventPhoto = await Image.findAll({ where: { event_id: id } })
+          console.log("NOVOE GAVNO", allEventPhoto);
+          return res.json(allEventPhoto)
         } 
        await Image.create({path: otherPhoto.otherPhoto, event_id: id})
-       return res.json(otherPhoto.otherPhoto)
+
+       const allEventPhoto = await Image.findAll({ where: { event_id: id } })
+       return res.json(allEventPhoto)
      
     } catch (error) {
       return res.sendStatus(500).end();

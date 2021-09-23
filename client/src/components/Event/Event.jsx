@@ -13,14 +13,17 @@ import DiscInput from "../DiscInput/DiscInput.jsx";
 
 function Event() {
   const currentUserFromState = useSelector((state) => state.currentuser);
+  // console.log("KYKYKYKYKYK", currentUserFromState);
   // if (currentUserFromState) {
   //   return <EventEditForm />
   // }
 
   const [inputChange, setInputChange] = useState(<OtherPhotoInput />);
   const dispatch = useDispatch();
-  const { list, isLoading, error } = useSelector((state) => state.event);
-  console.log(list);
+  const { list, isLoading, error } = useSelector((state) => {
+    console.log("PISYAPOPA", state.event.list);
+    
+    return state.event });
   const { id } = useParams();
   useEffect(() => {
     dispatch(getEvent(id));
@@ -40,10 +43,13 @@ function Event() {
   const requestHandler = () => {
     setInputChange(<OtherPhotoInput id={id} />);
   };
-
+  useEffect(() => {
+    console.log("NOVOE GAVNO", list)
+  }, [list])
 
   return (
     <>
+   {list?.User?.email === currentUserFromState?.email ? <div>
               <button onClick={DiscInputHandler}>
             Загрузить данные с GoogleDisc
           </button>
@@ -51,14 +57,22 @@ function Event() {
             Загрузить обычное фото
           </button>
           <div>{inputChange}</div>
+    </div> : ''} 
 
       <div className={style.event}>
         <div className={style.event__pic_wrapper}>
+
+       
+
+
           <img className={style.event__pic} src={list?.image} alt="" />
         </div>
-
+        {list?.Images.map(image => {
+         return (  <img className={style.event__pic} src={image?.path} alt="" />
+          )})}
         <div className={style.event__info}>
           <div className={style.event__text_box}>
+         
             <p className={style.event__text_title}>Название: </p>
             <p className={style.event__text}>{list?.name}</p>
           </div>

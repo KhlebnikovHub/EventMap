@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { setNewEventPhoto } from '../../redux/actions/editEvent.action';
+import { setNewEventPhoto } from '../../redux/actions/getEvent.action';
 
 function DiscInput({id}) {
 

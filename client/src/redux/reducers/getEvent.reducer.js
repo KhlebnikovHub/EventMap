@@ -1,4 +1,4 @@
-import { SET_EVENT, SET_LOADING, SET_ERROR } from '../types/event';
+import { SET_EVENT, SET_LOADING, SET_ERROR, ADD_NEW_PHOTO} from '../types/event';
 
 export const getEventReducer = (state = {}, action) => {
   const { type, payload, error } = action;
@@ -15,6 +15,12 @@ export const getEventReducer = (state = {}, action) => {
     case SET_EVENT: {
       const { event } = payload;
       return { ...state, list: event, isLoading: false };
+    }
+    case ADD_NEW_PHOTO: {
+      const { allEventPhoto } = payload
+      console.log('REDUCERGOVNA', allEventPhoto);
+      state.list.Images = allEventPhoto
+      return { ...state,  isLoading: false  }
     }
       
     default: {

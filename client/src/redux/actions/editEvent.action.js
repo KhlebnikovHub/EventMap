@@ -27,26 +27,12 @@ export const editEvent = (id, newFormData) => async (dispatch) => {
   }
 };
 
-export const setNewEventPhoto = ({id, googleDisc, otherPhoto}) => async (dispatch) => {
-  
-  try {
-    const response = await axios({
-      method: 'POST',
-      url:  `${process.env.REACT_APP_API_URL}/event/addPhotoEvent/${id}`,
-      data: { googleDisc, otherPhoto },
-      withCredentials: true
-    })
-    const newPhoto = response.data;
-  
-    dispatch(setEditEvent(newPhoto));
 
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const setEditEvent = (newRequest) => ({
   type: SET_EDIT_EVENT,
   payload: {newRequest}
 });
+
+
     

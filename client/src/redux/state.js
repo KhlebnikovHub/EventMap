@@ -22,7 +22,7 @@ export const initialState = {
     error: false
   },
   event: {
-    list: [],
+    list: {},
     isLoading: false,
     error: false
   },
