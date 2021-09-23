@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import Background from './components/Background/Background.jsx';
 
+
 import initMetaballs from "metaballs-js";
 
 import image1 from "../src/img/background.jpeg";

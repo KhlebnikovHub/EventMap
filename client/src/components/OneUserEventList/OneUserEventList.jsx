@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-function OneUserEventList({date, description, image, name}) {
+function OneUserEventList({date, description, image, name, id}) {
   return (
     <div>
       <hr/>
@@ -9,6 +10,9 @@ function OneUserEventList({date, description, image, name}) {
       <p>{description}</p>
       <p>{date}</p>
       <br/>
+      <Link to={`/Event/${id}`}>
+            аааа
+          </Link>
     </div>
   )
 }
