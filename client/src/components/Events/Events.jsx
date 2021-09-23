@@ -1,3 +1,5 @@
+import "./Events.css"
+
 import React, { useEffect } from "react";
 import {
   YMaps,
@@ -31,6 +33,8 @@ import Switch from "@mui/material/Switch";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { red } from "@mui/material/colors";
+
+import Drawer from 'react-motion-drawer';
 
 const theme = createTheme({
   palette: {
@@ -82,6 +86,7 @@ function Events() {
     event.preventDefault();
   };
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [eventAdder, setEventAdder] = useState(false);
   const [lastSelected, setLastSelected] = useState('')
   const [firstCounter, setFirstCounter] = useState(0);
@@ -729,6 +734,7 @@ function Events() {
                 <p>{selectedOrganization?.workingTime}</p>
                 <p>Координаты: {newCoords}</p>
               </div>
+              <button onClick={() => setDrawerOpen(prev => !prev)}>Открыть</button>
             </div>
           </div>
         </div>
@@ -740,6 +746,15 @@ function Events() {
         message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
         key={transition ? transition.name : ''}
       />
+       <Drawer open={drawerOpen} width={300} >
+    { val =>
+      <ul style={{ opacity: 300 / val }}>
+        <li>Home</li>
+        <li>About</li>
+        <li>Settings</li>
+      </ul>
+    }
+  </Drawer>
     </div>
   );
 }
