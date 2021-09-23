@@ -21,6 +21,11 @@ export const initialState = {
     isLoading: false,
     error: false
   },
+  randomPlaces: {
+    list: [],
+    isLoading: false,
+    error: false
+  },
   event: {
     list: [],
     isLoading: false,

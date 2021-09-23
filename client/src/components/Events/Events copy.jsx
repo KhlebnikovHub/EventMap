@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { slide as Menu } from 'react-burger-menu'
+
 import {
   YMaps,
   Map,
@@ -31,6 +33,9 @@ import Switch from "@mui/material/Switch";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { red } from "@mui/material/colors";
+
+
+
 
 const theme = createTheme({
   palette: {
@@ -82,6 +87,7 @@ function Events() {
     event.preventDefault();
   };
 
+  const [visible, setVisible] = useState(true)
   const [eventAdder, setEventAdder] = useState(false);
   const [lastSelected, setLastSelected] = useState('')
   const [firstCounter, setFirstCounter] = useState(0);
@@ -211,8 +217,8 @@ function Events() {
   // const createNewTemplate = (place) => {
   //   setCustomState((prev) => {
 
-     
-      
+
+
   //     prev[`id${place?.id}`] = 
   //     {
   //       coordinates: [+place.latitude, +place.longitude],
@@ -223,11 +229,11 @@ function Events() {
   //                 <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
   //               </div>
   //             </div>
-            
+
   //         `
   //       ),
   //     }
-    
+
   //   });
   // }
 
@@ -360,25 +366,36 @@ function Events() {
   let imgCoord = [];
   const dropHandler = async (event) => {
     event.preventDefault()
+
     try {
       let fileDrag = event.dataTransfer.files[0];
       setFiles(event.dataTransfer.files);
+
       setImgName(event.dataTransfer.files[0].name);
+
       imgCoord = await exifr.gps(fileDrag);
-      if(imgCoord) {
+
+      if (imgCoord) {
         setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
         map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
         myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
           setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
         })
+
         setTimeout(() => {
           handleOpen()
+
         }, 2000);
       } else {
         handleOpenSnack(TransitionLeft)
+
       }
-        }
-     catch (error) {
+
+
+    }
+
+
+    catch (error) {
       console.log(error);
     }
   };
@@ -388,7 +405,10 @@ function Events() {
   // }, [newCoords]);
 
   return (
+    
+      
     <div
+    
       className="App"
       onClick={(event) => {
         console.log("SEARCH RESULT", search?.getResult(0));
@@ -406,9 +426,18 @@ function Events() {
         }
       }}
     >
+
+
+
       <div>
         <div>
+
+
+
           <FormGroup>
+
+
+
             <FormControlLabel
               className={style.events__modalButton}
               // control={<Switch defaultChecked />}
@@ -719,10 +748,19 @@ function Events() {
                 <p>{selectedOrganization?.workingTime}</p>
                 <p>Координаты: {newCoords}</p>
               </div>
+
+
+
+
             </div>
+
           </div>
+
+
+
         </div>
       </YMaps>
+
       <Snackbar
         open={openSnack}
         onClose={handleCloseSnack}
@@ -730,7 +768,9 @@ function Events() {
         message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
         key={transition ? transition.name : ''}
       />
+
     </div>
+    
   );
 }
 

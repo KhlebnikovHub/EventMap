@@ -28,9 +28,10 @@ import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
-import Test from "../Test/Test.jsx";
+
 
 import Pin from '../Pin/Pin.jsx';
+import Random from "../Random/Random.jsx";
 
 // const theme = createTheme({
 //   palette: {
@@ -61,7 +62,7 @@ function Main() {
       <main id="mainid" className={style.main}>
         <Switch>
           <Route exact path="/">
-            <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
+            <Link to="/random" className={`${style.main__title} ${style.main__title_zoom}`}>
               Создайте свою карту впечатлений!
             </Link>
 
@@ -78,6 +79,10 @@ function Main() {
 
           <Route exact path="/Auth">
             <Auth />
+          </Route>
+
+          <Route exact path="/random">
+            <Random />
           </Route>
 
           <PrivateRoute exact path="/Profile">
