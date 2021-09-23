@@ -34,8 +34,13 @@ function Background() {
 
 
   useEffect(() => {
-   initMetaballs(canvasEl.current, options);
-}, [])
+    if(switchAnimation) {
+      initMetaballs(canvasEl.current, options);
+
+    } else {
+      initMetaballs(canvasEl.current, optionsOff);
+    }
+}, [switchAnimation])
 
   return (
   <div className={style.background__image}>
