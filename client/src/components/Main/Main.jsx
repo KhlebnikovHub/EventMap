@@ -6,10 +6,6 @@ import {
   Link,
 } from "react-router-dom";
 import { useHistory, useLocation } from "react-router"
-
-import Random from '../Random/Random.jsx'
-
-
 import Friends from '../Friends/Friends.jsx'
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
@@ -17,12 +13,13 @@ import AllUsers from '../AllUsers/AllUsers.jsx'
 import Event from '../Event/Event.jsx'
 import Map from '../Map/Map.jsx'
 import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
+import Random from '../Random/Random.jsx'
 
 import style from "./Main.module.css";
 import Events from "../Events/Events.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, setCurrentUser } from "../../redux/actions/currentUser.action.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -48,6 +45,8 @@ import { red } from "@mui/material/colors";
 function Main() {
 
 
+
+
   // let history = useHistory();
   // let location = useLocation();
 
@@ -64,6 +63,7 @@ function Main() {
   return (
     <>
       <main id="mainid" className={style.main}>
+
         <Switch>
           <Route exact path="/">
             <Link to="/random" className={`${style.main__title} ${style.main__title_zoom}`}>
@@ -86,8 +86,7 @@ function Main() {
           </Route>
 
           <Route exact path="/random">
-         
-            <Random />
+            <Random/>
           </Route>
 
           <PrivateRoute exact path="/Profile">

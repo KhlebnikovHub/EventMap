@@ -40,6 +40,16 @@ function Event() {
     setInputChange(<DiscInput id={id} />);
   };
 
+  // const editEventHandler = async (e) => {
+  //   e.preventDefault();
+
+  //   const newFormData = Object.fromEntries(new FormData(e.target));
+
+  //   dispatch(editEvent(id, newFormData));
+  // }
+  // if (!image?.includes("http")) {
+  //   image = `${process.env.REACT_APP_API_URL}${image}`;
+  // }
   const requestHandler = () => {
     setInputChange(<OtherPhotoInput id={id} />);
   };
@@ -61,6 +71,8 @@ function Event() {
 
       <div className={style.event}>
         <div className={style.event__pic_wrapper}>
+          {/* <img className={style.event__pic} src={`${image}`} alt="" />
+        </div> */}
 
        
 

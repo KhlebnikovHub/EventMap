@@ -8,6 +8,7 @@ import {
   Placemark,
   ObjectManager,
 } from "react-yandex-maps";
+
 import { createRef, useState } from "react";
 
 import Backdrop from "@mui/material/Backdrop";
@@ -22,6 +23,7 @@ import Slide from '@mui/material/Slide';
 import { useDispatch, useSelector } from "react-redux";
 import { addPlace, getAllPlaces } from "../../redux/actions/places.action";
 import AddEvent from "../AddEvent/AddEvent";
+import DragPannellum from '../DragPannellum/DragPannellum'
 import exifr from "exifr";
 
 import FormGroup from "@mui/material/FormGroup";
@@ -42,7 +44,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-
 import style from "./Events.module.css";
 
 import PlaceIcon from '@mui/icons-material/Place';
@@ -421,16 +422,14 @@ function Events() {
       } else {
         handleOpenSnack(TransitionLeft)
       }
-
- 
-
-        
-      }
-
-     catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
+
+
+
+
   // useEffect(() => {
   // console.log('GPS', newCoords)
 
@@ -447,12 +446,21 @@ function Events() {
         {placeEvents.map((event) => (
           <>
             <div className={style.drawer}>
+
+
+              <button>панорама блядь</button>
               <button onClick={handleOpen}>Создать событие</button>
+
             <p>{event?.name}</p>
             <Divider />
             <p>{event?.description}</p>
             <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
+            <div className={style.drag}>
+              <DragPannellum {...event}/>
+
+
+            </div>
             </div>
           </>
         ))}
@@ -825,13 +833,15 @@ function Events() {
           </div>
         </div>
       </YMaps>
-      <Snackbar
-        open={openSnack}
-        onClose={handleCloseSnack}
-        TransitionComponent={transition}
-        message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
-        key={transition ? transition.name : ''}
-      />
+                <Snackbar
+                  open={openSnack}
+                  onClose={handleCloseSnack}
+                  TransitionComponent={transition}
+                  message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
+                  key={transition ? transition.name : ''}
+                />
+
+                
     </div>
 
           <SwipeableDrawer

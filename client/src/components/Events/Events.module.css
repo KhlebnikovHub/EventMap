@@ -55,8 +55,8 @@
 
 .one-image {
   width: 200px;
-  height: 200px;}
-
+  height: 200px;
+}
   .events__modalWrapper {
     top: 200px;
     left: 200px;
@@ -177,7 +177,9 @@
       box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
       margin: 1rem 0;
       padding: 1em;
-      border-radius: .28571429rem;}
+      border-radius: .28571429rem;
+    }
+
 .events__modalWrapper {
   top: 200px;
   left: 200px;
@@ -290,4 +292,13 @@
   width: 150px;
   height: 150px;
   background-color: #fff;
+}
+
+.drag {
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -20,8 +20,11 @@ import { useHistory, useLocation } from "react-router"
 import { useEffect } from "react";
 import { setCurrentUser } from "../../redux/actions/currentUser.action";
 
+import { useAnimationContext } from "../../context/themeContext";
+
 function Header() {
   const currentUserFromState = useSelector((state) => state.currentuser);
+  const { switchAnimation, setSwitchAnimation } = useAnimationContext()
  
   let history = useHistory();
   let location = useLocation();
@@ -90,6 +93,9 @@ function Header() {
               {/* Выйти */}
             </ul>
           </nav>
+
+        <button onClick={() => setSwitchAnimation(!switchAnimation)}>{switchAnimation ? 'off lava' : 'on lava'}</button>
+
         </section>
       </header>
     </>
