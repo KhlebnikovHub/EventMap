@@ -387,10 +387,10 @@ function Events() {
       }
  
 
-        }
+        
       }
 
-    } catch (error) {
+     catch (error) {
       console.log(error);
     }
   };
@@ -711,7 +711,13 @@ function Events() {
                       setSearch(ref);
                     }
                   }}
-                  options={{ provider: "yandex#search" }}
+                  options={{
+                    provider: "yandex#search",
+                    position: {
+                      top: 50,
+                      left: 278
+                    },
+                  }}
                 />
               </Map>
 

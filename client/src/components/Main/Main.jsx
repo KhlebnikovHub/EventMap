@@ -28,9 +28,8 @@ import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
-import Test from "../Test/Test.jsx";
 
-import Pin from '../Pin/Pin.jsx';
+// import Pin from '../Pin/Pin.jsx';
 
 // const theme = createTheme({
 //   palette: {
@@ -65,7 +64,7 @@ function Main() {
               Создайте свою карту впечатлений!
             </Link>
 
-            <Pin />
+            {/* <Pin /> */}
           </Route>
 
           <Route exact path="/Events">
