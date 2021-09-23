@@ -1,0 +1,101 @@
+.header {
+  width: 100%;
+  height: 5rem;
+  z-index: 2;
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, #04465a 0%, #083543 100%);
+}
+
+.header__inner {
+  width: 70%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logoPart {
+  width: 20%;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__logoPart:hover {
+  background: linear-gradient(0deg, rgb(5, 102, 131) 0%, #083543 100%);
+  cursor: pointer;
+}
+
+.header__logo {
+  width: 11rem;
+  height: auto;
+}
+
+.header__navPart {
+  width: 45%;
+}
+
+.header__navBar {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 5rem;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.header__nav {
+  padding: 0px 1% 0px 1%;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  list-style: none;
+
+  /* transition: transform 1000ms; */
+}
+
+.header__nav:hover {
+  background: linear-gradient(0deg, rgb(5, 102, 131) 0%, #083543 100%);
+  cursor: pointer;
+}
+
+.header__nav_icon {
+  color: #fff;
+  margin: 0px;
+  padding: 0;
+}
+
+.header__nav_text {
+  top: 40px;
+  position: relative;
+  display: none;
+  margin: 0px;
+  padding: 0px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+
+  text-align: center;
+
+  transition: transform 1000ms;
+}
+
+.header__nav:hover .header__nav_text {
+  display: block;
+}

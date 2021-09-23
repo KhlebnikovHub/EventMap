@@ -7,8 +7,11 @@ import {
 } from "react-router-dom";
 import { useHistory, useLocation } from "react-router"
 
+import Random from '../Random/Random.jsx'
+
 
 import Friends from '../Friends/Friends.jsx'
+import Random from "../Random/Random.jsx"
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
 import AllUsers from '../AllUsers/AllUsers.jsx'
@@ -29,7 +32,7 @@ import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
 
-import Pin from '../Pin/Pin.jsx';
+// import Pin from '../Pin/Pin.jsx';
 
 // const theme = createTheme({
 //   palette: {
@@ -38,6 +41,10 @@ import Pin from '../Pin/Pin.jsx';
 //     },
 //   },
 // });
+
+
+
+
 
 function Main() {
 
@@ -60,16 +67,16 @@ function Main() {
       <main id="mainid" className={style.main}>
         <Switch>
           <Route exact path="/">
-            <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
+            <Link to="/random" className={`${style.main__title} ${style.main__title_zoom}`}>
               Создайте свою карту впечатлений!
             </Link>
 
-            <Pin />
+            {/* <Pin /> */}
           </Route>
 
-          <Route exact path="/Events">
+          <PrivateRoute exact path="/Events">
             <Events />
-          </Route>
+          </PrivateRoute>
 
           <PrivateRoute exact path="/Friends/:id">
             <Friends />
@@ -77,6 +84,11 @@ function Main() {
 
           <Route exact path="/Auth">
             <Auth />
+          </Route>
+
+          <Route exact path="/random">
+         
+            <Random />
           </Route>
 
           <PrivateRoute exact path="/Profile">

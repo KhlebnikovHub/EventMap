@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   YMaps,
   Map,
@@ -9,7 +9,7 @@ import {
   ObjectManager,
 } from "react-yandex-maps";
 import { createRef, useState } from "react";
-import style from "./Events.module.css";
+
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -31,6 +31,23 @@ import Switch from "@mui/material/Switch";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { red } from "@mui/material/colors";
+
+// import Drawer from '../Drawer/Drawer.jsx'
+import * as React from "react";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+
+import style from "./Events.module.css";
+
+import PlaceIcon from '@mui/icons-material/Place';
+
+import "./Events.module.css";
 
 const theme = createTheme({
   palette: {
@@ -65,6 +82,29 @@ const modalStyle = {
 };
 
 function Events() {
+
+  // const [state, setState] = React.useState({
+  //   top: false,
+  //   left: false,
+  //   bottom: false,
+  //   right: false,
+  // });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+
+
+  
   const currentUserFromState = useSelector((state) => state.currentuser);
   const user_id = currentUserFromState?.id;
 
@@ -82,14 +122,16 @@ function Events() {
     event.preventDefault();
   };
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [eventAdder, setEventAdder] = useState(false);
+  const [myAnchor, setMyAnchor] = useState(null)
   const [lastSelected, setLastSelected] = useState('')
   const [firstCounter, setFirstCounter] = useState(0);
   const [address, setAddress] = useState('')
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [placeEvents, setPlaceEvents] = useState([]);
   const [search, setSearch] = useState("");
-  const [state, setState] = useState({ coords: [] });
+  const [state, setState] = useState({ coords: [], right: false, });
   const [myYmaps, setMyYmaps] = useState('');
   const [newCoords, setNewCoords] = useState([]);
   const [ballonstate, setBallonstate] = useState({
@@ -239,20 +281,21 @@ function Events() {
       for (let i = 0; i < allPlaces?.length; i++) {
         // console.log(allPlaces[i]?.Events[0]?.image);
         console.log("I'm from SUPERYMAPS! =))");
+        // МЕТКА ЗДЕСЬ
         if (allPlaces.length) {
           setCustomState((prev) => [
             ...prev,
             {
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
               template: ymaps?.templateLayoutFactory?.createClass(
+                `<div class="place__card">`
+                +
                 `
-                    <div class="card">
-                      <div class="card-image">
                         <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
-                      </div>
-                    </div>
                   
                 `
+                +
+                `</div>`
               ),
             },
           ]);
@@ -263,11 +306,9 @@ function Events() {
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
               template: ymaps?.templateLayoutFactory?.createClass(
                 `
-                  <div class="card">
-                    <div class="card-image">
+
                       <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
-                    </div>
-                  </div>
+
                 
               `
               ),
@@ -377,7 +418,12 @@ function Events() {
       } else {
         handleOpenSnack(TransitionLeft)
       }
-        }
+
+ 
+
+        
+      }
+
      catch (error) {
       console.log(error);
     }
@@ -385,9 +431,37 @@ function Events() {
   // useEffect(() => {
   // console.log('GPS', newCoords)
 
-  // }, [newCoords]);
+  // }, [newCoords])
 
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : '25vw' }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {placeEvents.map((event) => (
+          <>
+            <div className={style.drawer}>
+            <p>{event?.name}</p>
+            <Divider />
+            <p>{event?.description}</p>
+            <img src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
+
+            </div>
+          </>
+        ))}
+
+      </List>
+
+    </Box>
+  );
   return (
+  <>
+    {["right"].map((anchor) => (
+<React.Fragment key={anchor}>
+    
     <div
       className="App"
       onClick={(event) => {
@@ -406,6 +480,7 @@ function Events() {
         }
       }}
     >
+                  {/* <Drawer /> */}
       <div>
         <div>
           <FormGroup>
@@ -414,8 +489,13 @@ function Events() {
               // control={<Switch defaultChecked />}
               control={<Switch />}
               label="Режим создания"
+              // onClick={onSwitcher, toggleDrawer(anchor, true)}
+              //   />
+              //             {anchor}
+
               onClick={onSwitcher}
-            />
+              />
+
             {/* <FormControlLabel 
                           className={style.events__modalButton}
                           label="Режим создания"
@@ -533,7 +613,7 @@ function Events() {
                   options={{
                     // preset: 'islands#invertedVioletClusterIcons',
                     iconImageSize: [0, 0], // размер нашей картинки
-                    clusterIconLayout: "default#imageWithContent",
+                        clusterIconLayout: "default#imageWithContent",
 
                     // clusterIconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
                     // clusterIconContentLayout: customState[0].template,
@@ -555,7 +635,6 @@ function Events() {
 
                     iconShape: {
                       type: "Rectangle",
-                      // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
                       coordinates: [
                         [-50, -50],
                         [100, 100],
@@ -566,10 +645,18 @@ function Events() {
                     // clusterHideIconOnBalloonOpen: false,
                     // geoObjectHideIconOnBalloonOpen: false
                   }}
-                >
+                  >
                   {allPlaces?.map((place, index) => (
                     <Placemark
-                      onClick={() => setPlaceEvents(place?.Events)}
+                      onClick={() => {
+                        
+                    
+                      
+                        setPlaceEvents(place?.Events)
+                        setTimeout(
+                          toggleDrawer(anchor, true), 100)
+                      }    
+                      }
                       className="round"
                       key={Math.round(Math.random() * 11532)}
                       geometry={[+place?.latitude, +place?.longitude]}
@@ -592,9 +679,9 @@ function Events() {
                         iconContentOffset: [-30, -90],
 
                         iconImageHref:
-                          "http://s49novouralsk.edusite.ru/images/knopka.png",
-                        hideIconOnBalloonOpen: false, //запрет на скрытие метки по клику на балун
-
+                          "https://i.ibb.co/zJwrByk/ssssss-01.png",
+                        hideIconOnBalloonOpen: false, 
+// POINTT
                         balloonContentLayout: ballonstate.balloonContent,
                         balloonPanelMaxMapArea: 1,
                         openEmptyBalloon: true,
@@ -634,7 +721,9 @@ function Events() {
                           // iconCaption : 'asd'
                         }
                       }
-                    />
+                    >
+                      {anchor}
+                    </Placemark>
                   ))}
                 </Clusterer>
 
@@ -645,7 +734,7 @@ function Events() {
                     draggable: true,
                     iconLayout: "default#image",
                     iconImageHref:
-                      "http://s49novouralsk.edusite.ru/images/knopka.png",
+                      "https://i.ibb.co/zJwrByk/ssssss-01.png",
                   }}
                   // Событие change связано с св-вом geometry инстанса метки,
                   // поэтому onChange работать не будет, придется использовать instanceRef
@@ -684,7 +773,7 @@ function Events() {
                       iconContentOffset: [-30, -90],
 
                       iconImageHref:
-                        "http://s49novouralsk.edusite.ru/images/knopka.png",
+                        "https://i.ibb.co/zJwrByk/ssssss-01.png",
                     }}
                   /></>}
                 <FullscreenControl />
@@ -699,17 +788,24 @@ function Events() {
                       setSearch(ref);
                     }
                   }}
-                  options={{ provider: "yandex#search" }}
+                  options={{
+                    provider: "yandex#search",
+                    position: {
+                      top: 50,
+                      left: 278
+                    },
+                  }}
                 />
               </Map>
-
+{/* ДРОВЕР */}
               <div>
-                {placeEvents.map((event) => (
+                {/* {placeEvents.map((event) => (
                   <>
                     <p>{event?.name}</p>
                     <p>{event?.description}</p>
                   </>
-                ))}
+                ))} */}
+                {/* <Drawer /> */}
               </div>
               <div>
                 <p>Адрес: {address}</p>
@@ -719,6 +815,7 @@ function Events() {
                 <p>{selectedOrganization?.workingTime}</p>
                 <p>Координаты: {newCoords}</p>
               </div>
+              <button onClick={() => setDrawerOpen(prev => !prev)}>Открыть</button>
             </div>
           </div>
         </div>
@@ -731,6 +828,18 @@ function Events() {
         key={transition ? transition.name : ''}
       />
     </div>
+
+          <SwipeableDrawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, true)}
+          >
+            {list(anchor)}
+          </SwipeableDrawer>
+        </React.Fragment>
+    ))}
+      </>
   );
 }
 

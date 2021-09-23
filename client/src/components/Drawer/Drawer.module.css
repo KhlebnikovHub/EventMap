@@ -1,0 +1,6 @@
+.drawer__wrapper {
+  position: absolute;
+
+  top: 400px;
+  z-index: 3;
+}
