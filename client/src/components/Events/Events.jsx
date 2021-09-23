@@ -122,6 +122,7 @@ function Events() {
     event.preventDefault();
   };
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [eventAdder, setEventAdder] = useState(false);
   const [myAnchor, setMyAnchor] = useState(null)
   const [lastSelected, setLastSelected] = useState('')
@@ -813,6 +814,7 @@ function Events() {
                 <p>{selectedOrganization?.workingTime}</p>
                 <p>Координаты: {newCoords}</p>
               </div>
+              <button onClick={() => setDrawerOpen(prev => !prev)}>Открыть</button>
             </div>
           </div>
         </div>
@@ -824,7 +826,6 @@ function Events() {
         message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
         key={transition ? transition.name : ''}
       />
-
     </div>
 
           <SwipeableDrawer

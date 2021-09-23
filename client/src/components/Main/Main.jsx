@@ -11,6 +11,7 @@ import Random from '../Random/Random.jsx'
 
 
 import Friends from '../Friends/Friends.jsx'
+import Random from "../Random/Random.jsx"
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
 import AllUsers from '../AllUsers/AllUsers.jsx'
@@ -73,9 +74,9 @@ function Main() {
             {/* <Pin /> */}
           </Route>
 
-          <Route exact path="/Events">
+          <PrivateRoute exact path="/Events">
             <Events />
-          </Route>
+          </PrivateRoute>
 
           <PrivateRoute exact path="/Friends/:id">
             <Friends />
@@ -86,6 +87,7 @@ function Main() {
           </Route>
 
           <Route exact path="/random">
+         
             <Random />
           </Route>
 
