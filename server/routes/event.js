@@ -30,10 +30,18 @@ router.route('/newEvent')
 
       if(newCoords) {
         const [latitude, longitude] = newCoords.split(',');
-        const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id, });
-        const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null})
-        const newEventPlace = await Place.findOne({where: { id: newPlace?.id}, include: { model: Event}})
+        const thisPlace = await Place.findOne({where: { latitude: latitude, longitude: longitude} })
+        console.log("><><><><><><><><><><><><><><><><THIS PLACE", thisPlace);
+        if(thisPlace?.longitude == longitude && thisPlace?.latitude == latitude) {
+          const newEvent = await Event.create({ name, description, event_date, user_id, place_id: thisPlace?.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null})
+        const newEventPlace = await Place.findOne({where: { id: thisPlace?.id}, include: { model: Event}})
         return res.json(newEventPlace);
+        } else {
+          const newPlace = await Place.create({ name: place_name, latitude, longitude, user_id, });
+          const newEvent = await Event.create({ name, description, event_date, user_id, place_id: newPlace.id, private: (private ? Boolean(private) : false), image: filePath ? filePath : null})
+          const newEventPlace = await Place.findOne({where: { id: newPlace?.id}, include: { model: Event}})
+          return res.json(newEventPlace);
+        }
       }
 
     } catch (error) {

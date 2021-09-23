@@ -343,7 +343,10 @@ function Events() {
             coords: [...state?.coords, event?.get("coords")],
           };
         });
-        setNewCoords(event?.get("coords"));
+
+        if(event?.get("coords")) {
+          setNewCoords(event?.get("coords"));
+        }
 
         let response = await myYmaps?.geocode(event?.get("coords"));
 
@@ -444,10 +447,11 @@ function Events() {
         {placeEvents.map((event) => (
           <>
             <div className={style.drawer}>
+              <button onClick={handleOpen}>Создать событие</button>
             <p>{event?.name}</p>
             <Divider />
             <p>{event?.description}</p>
-            <img src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
+            <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
             </div>
           </>
@@ -653,6 +657,7 @@ function Events() {
                     
                       
                         setPlaceEvents(place?.Events)
+                        setNewCoords([+place?.latitude, +place?.longitude])
                         setTimeout(
                           toggleDrawer(anchor, true), 100)
                       }    

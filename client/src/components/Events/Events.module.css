@@ -275,6 +275,15 @@
   justify-content: center;
 }
 
+.drawer__image {
+  width: 150px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .place__card {
   position: relative;
   top: 200px;
