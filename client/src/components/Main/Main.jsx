@@ -15,6 +15,7 @@ import AllUsers from '../AllUsers/AllUsers.jsx'
 import Event from '../Event/Event.jsx'
 import Map from '../Map/Map.jsx'
 import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
+import Random from '../Random/Random.jsx'
 
 import style from "./Main.module.css";
 import Events from "../Events/Events.jsx";
@@ -29,6 +30,8 @@ import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
 
+// import Pin from '../Pin/Pin.jsx';
+
 // const theme = createTheme({
 //   palette: {
 //     primary: {
@@ -36,6 +39,10 @@ import { red } from "@mui/material/colors";
 //     },
 //   },
 // });
+
+
+
+
 
 function Main() {
 
@@ -61,9 +68,11 @@ function Main() {
 
         <Switch>
           <Route exact path="/">
-            <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
+            <Link to="/random" className={`${style.main__title} ${style.main__title_zoom}`}>
               Создайте свою карту впечатлений!
             </Link>
+
+            {/* <Pin /> */}
           </Route>
 
           <Route exact path="/Events">
@@ -76,6 +85,10 @@ function Main() {
 
           <Route exact path="/Auth">
             <Auth />
+          </Route>
+
+          <Route exact path="/random">
+            <Random/>
           </Route>
 
           <PrivateRoute exact path="/Profile">

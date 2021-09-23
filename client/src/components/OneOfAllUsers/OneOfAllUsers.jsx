@@ -31,13 +31,13 @@ export default function OneOfAllUsers({
   Requests,
   Friends,
 }) {
-  if (!avatar?.includes("http")) {
-    avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
-  }
   const dispatch = useDispatch()
   
   const currentUserFromState = useSelector((state) => state.currentuser);
-    const { list, isLoading, error } = useSelector((state) => state.userFriends)
+  const { list, isLoading, error } = useSelector((state) => state.userFriends)
+  if (!avatar?.includes("http")) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
+  }
 
   const stateId = currentUserFromState?.id
 
@@ -60,14 +60,14 @@ export default function OneOfAllUsers({
         <p className={style.userCard__text}>{lastname}</p>
 
         <div className={style.userCard__buttons}>
-          <Button
+          <Link
             to={`/User/${id}`}
             className={style.userCard__btn_m}
             variant="contained"
             color="primary"
           >
             Подробнее
-          </Button>
+          </Link>
 
           {id !== stateId ? (
             Friends?.find(

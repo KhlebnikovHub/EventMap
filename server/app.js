@@ -74,6 +74,7 @@ const friendsRouter = require('./routes/friends');
 const eventRouter = require('./routes/event');
 const placeRouter = require('./routes/place');
 const userRouter = require('./routes/user');
+const driveRouter = require('./routes/googleDrive');
 const randomPlaces = require('./routes/randomPlaces');
 
 
@@ -99,6 +100,7 @@ app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
 app.use('/place', placeRouter);
 app.use('/event', eventRouter);
+app.use('/googleDrive', driveRouter);
 app.use('/random', randomPlaces);
 app.use(checkUser);
 

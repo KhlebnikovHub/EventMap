@@ -30,6 +30,10 @@ function OneRequest({ id, avatar, firstname, lastname, email }) {
   const currentUserFromState = useSelector((state) => state.currentuser);
   const stateId = currentUserFromState?.id;
 
+  if (!avatar?.includes("http")) {
+    avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
+  }
+
   const deleteRequestHandler = async (id) => {
     dispatch(deleteRequest(id, stateId));
   };

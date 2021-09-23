@@ -2,17 +2,29 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { getOneUser } from '../../redux/actions/OneUser.action'
+import { getAllPlaces } from '../../redux/actions/places.action'
 import OneUserEventList from '../OneUserEventList/OneUserEventList'
 
 function OneUserInfo() {
 
+  const { list, isLoading, error } = useSelector((state) => state.oneUser)
+  const { list: allPlaces} = useSelector(
+    (state) => state.allPlaces
+  );
+
+  console.log('JJJIIIJJJAAAAA', allPlaces);
+
+  if (!list?.avatar?.includes("http")) {
+    list.avatar = `${process.env.REACT_APP_API_URL}${list?.avatar}`;
+  }
+
   const dispatch = useDispatch()
   const { id } = useParams();
 
-  const { list, isLoading, error } = useSelector((state) => state.oneUser)
 
   useEffect(() => {
     dispatch(getOneUser(id))
+    dispatch(getAllPlaces(id));
   }, [])
   
   return (

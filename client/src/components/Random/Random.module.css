@@ -1,0 +1,70 @@
+
+.events__modalWrapper {
+  top: 200px;
+  left: 200px;
+  width: 400px;
+  position: relative;
+  z-index: 1;
+}
+
+.events__modalButton {
+
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  top: 200px;
+  left: 16%;
+  width: 20rem;
+  position: relative;
+  z-index: 1;
+
+  -webkit-box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
+  -moz-box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
+  box-shadow: 1px 10px 25px 8px rgba(0, 185, 225, 0.2);
+}
+
+.events__mapWrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.events__map {
+  z-index: 0;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.item {
+  border: solid 1px #ccc;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  margin: 1rem 0;
+  padding: 1em;
+  border-radius: .28571429rem;
+  text-align: center;
+  min-width: 40px;
+  min-height: 40px;
+  user-select: none;
+  cursor: move;
+}
+
+.round {
+  border-radius: 50%
+}
+
+.one-image {
+  width: 200px;
+  height: 200px;
+}
+
+.dateinput {
+  width: 300px;
+}
+
+.mapcontainer {
+  display: flex;
+  
+
+}
