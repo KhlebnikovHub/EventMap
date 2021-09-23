@@ -44,12 +44,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import style from "./Random.module.css";
+import style from "./UserMap.module.css";
 
 import PlaceIcon from '@mui/icons-material/Place';
 
-import "./Random.module.css";
-import { getRandomPlaces } from "../../redux/actions/randomPlaces";
+import "./UserMap.module.css";
 
 const theme = createTheme({
   palette: {
@@ -83,7 +82,7 @@ const modalStyle = {
   p: 4,
 };
 
-function Random({userMapId}) {
+function UserMap({userMapId}) {
  // const [state, setState] = React.useState({
   //   top: false,
   //   left: false,
@@ -111,11 +110,10 @@ function Random({userMapId}) {
   const user_id = currentUserFromState?.id;
 
 
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getRandomPlaces());
+    dispatch(getAllPlaces(userMapId));
   }, []);
 
   const createHandler = (event) => {
@@ -159,7 +157,7 @@ function Random({userMapId}) {
   const { list: allPlaces, isLoading, error, lastPlace } = useSelector(
     (state) =>  {
      countPlaces = state.allPlaces.list.length;
-     return state.randomPlaces
+     return state.allPlaces
     }
   );
 
@@ -257,7 +255,28 @@ function Random({userMapId}) {
     }
   };
 
+  // const createNewTemplate = (ymaps) => {
+  //   setCustomState((prev) => [
+  //     ...prev,
+  //     {
+  //       id: place?.id,
+  //       coordinates: [+place.latitude, +place.longitude],
+  //       template: ymaps?.templateLayoutFactory?.createClass(
+  //         `
+  //             <div class="card">
+  //               <div class="card-image">
+  //                 <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${place?.Events[0]?.image}">
+  //               </div>
+  //             </div>
+            
+  //         `
+  //       ),
+  //     }
+    
+  //   ]);
+  // }
 
+  
 
     const createTemplateLayoutFactory = (ymaps) => {
 
@@ -596,7 +615,7 @@ useEffect(() => {
   );
 }
 
-export default Random
+export default UserMap
 
 
 

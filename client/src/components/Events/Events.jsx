@@ -120,6 +120,10 @@ function Events() {
     event.preventDefault();
   };
 
+  const deleteEventHandler = (id) => {
+
+  }
+
   let countPlaces = 0;
   
 
@@ -163,10 +167,19 @@ function Events() {
 
 
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () =>  {
+
+    setOpen(true);
+    map.panTo(map.getCenter());
+
+  };
+  const handleClose = () => { 
+    map.panTo(map.getCenter());
+    setOpen(false);
+  };
 
   const onSwitcher = () => {
+    map.panTo(map.getCenter());
     setSwitcher((prev) => !prev);
   };
 
@@ -433,22 +446,25 @@ useEffect(() => {
   const dropHandler = async (event) => {
     event.preventDefault()
     try {
-      let fileDrag = event.dataTransfer.files[0];
-      setFiles(event.dataTransfer.files);
-      setImgName(event.dataTransfer.files[0].name);
-      imgCoord = await exifr.gps(fileDrag);
-      if(imgCoord) {
-        setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
-        map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
-        myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
-          setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
-        })
-        setTimeout(() => {
-          handleOpen()
-        }, 2000);
-      } else {
-        handleOpenSnack(TransitionLeft)
+      if(switcher) {
+        let fileDrag = event.dataTransfer.files[0];
+        setFiles(event.dataTransfer.files);
+        setImgName(event.dataTransfer.files[0].name);
+        imgCoord = await exifr.gps(fileDrag);
+        if(imgCoord) {
+          setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
+          map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
+          myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
+            setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
+          })
+          setTimeout(() => {
+            handleOpen()
+          }, 2000);
+        } else {
+          handleOpenSnack(TransitionLeft)
+        }
       }
+     
     } catch (error) {
       console.log(error);
     }
@@ -468,15 +484,16 @@ useEffect(() => {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
-    >
+      >
+      
+                    <button>панорама блядь</button>
+                    <button onClick={handleOpen}>Создать событие</button>
       <List>
         {placeEvents.map((event) => (
           <>
             <div className={style.drawer}>
 
-
-              <button>панорама блядь</button>
-              <button onClick={handleOpen}>Создать событие</button>
+          <DragPannellum {...event}/>
 
             <p>{event?.name}</p>
             <Divider />
@@ -484,8 +501,7 @@ useEffect(() => {
             <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
             <div className={style.drag}>
-              <DragPannellum {...event}/>
-
+            <button onClick={() => deleteEventHandler(event.id)}></button>
 
             </div>
             </div>
@@ -782,29 +798,7 @@ useEffect(() => {
                   ))}
                 </Clusterer>
 
-                {/* // Драггер */}
-                <Placemark
-                  geometry={[55.661574, 37.573856]}
-                  options={{
-                    draggable: true,
-                    iconLayout: "default#image",
-                    iconImageHref:
-                      "https://i.ibb.co/zJwrByk/ssssss-01.png",
-                  }}
-                  // Событие change связано с св-вом geometry инстанса метки,
-                  // поэтому onChange работать не будет, придется использовать instanceRef
-
-                  instanceRef={(ref) => {
-                    if (ref) {
-                      // По аналогии добавляем обработчик
-                      ref.geometry.events.add("change", function (e) {
-                        const newCoords = e.get("newCoordinates");
-                        // Используя ссылку на инстанс Линии меняем ее геометрию
-                        console.log(newCoords);
-                      });
-                    }
-                  }}
-                />
+           
 
                 {/* // метка при создании нового события  */}
                 {open &&

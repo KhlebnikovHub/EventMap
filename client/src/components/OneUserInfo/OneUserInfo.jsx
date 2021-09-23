@@ -4,15 +4,15 @@ import { useParams } from 'react-router'
 import { getOneUser } from '../../redux/actions/OneUser.action'
 import { getAllPlaces } from '../../redux/actions/places.action'
 import OneUserEventList from '../OneUserEventList/OneUserEventList'
+import UserMap from '../UserMap/UserMap'
+
+import style from './OneUserInfo.module.css';
 
 function OneUserInfo() {
 
-  const { list, isLoading, error } = useSelector((state) => state.oneUser)
-  const { list: allPlaces} = useSelector(
-    (state) => state.allPlaces
-  );
+  
 
-  console.log('JJJIIIJJJAAAAA', allPlaces);
+  const { list, isLoading, error } = useSelector((state) => state.oneUser)
 
   if (!list?.avatar?.includes("http")) {
     list.avatar = `${process.env.REACT_APP_API_URL}${list?.avatar}`;
@@ -24,11 +24,17 @@ function OneUserInfo() {
 
   useEffect(() => {
     dispatch(getOneUser(id))
-    dispatch(getAllPlaces(id));
   }, [])
   
   return (
-    <div>
+    <section className={style.oneUser__wrapper}>
+      <div className={style.oneUser}>
+      <br/>
+      <UserMap userMapId={id} />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <br/>
       <img src={list?.avatar} style={{ width: '200px'}}/>
       <p>{list?.lastname}</p>
@@ -38,7 +44,9 @@ function OneUserInfo() {
         {list?.Events?.map((el) => <OneUserEventList key={el.id} {...el} />
         )}
       </div>
-    </div>
+      </div>
+
+    </section>
   )
 }
 
