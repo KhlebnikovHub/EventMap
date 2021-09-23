@@ -273,7 +273,6 @@ function Events() {
   //   });
   // }
 
-
   const createTemplateLayoutFactory = (ymaps) => {
     console.log("YMAMAMAP", ymaps);
     // && !customState?.template || ymaps && !supercustom?.template
@@ -288,14 +287,7 @@ function Events() {
             {
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
               template: ymaps?.templateLayoutFactory?.createClass(
-                `<div class="place__card">`
-                +
-                `
-                        <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
-                  
-                `
-                +
-                `</div>`
+                `<img width="auto" height="100px" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">`
               ),
             },
           ]);
@@ -306,10 +298,7 @@ function Events() {
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
               template: ymaps?.templateLayoutFactory?.createClass(
                 `
-
                       <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
-
-                
               `
               ),
             },
@@ -446,7 +435,7 @@ function Events() {
             <p>{event?.name}</p>
             <Divider />
             <p>{event?.description}</p>
-            <img src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
+            <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
             </div>
           </>

@@ -11,7 +11,6 @@ import Random from '../Random/Random.jsx'
 
 
 import Friends from '../Friends/Friends.jsx'
-import Random from "../Random/Random.jsx"
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
 import AllUsers from '../AllUsers/AllUsers.jsx'
@@ -87,7 +86,7 @@ function Main() {
           </Route>
 
           <Route exact path="/random">
-         
+          
             <Random />
           </Route>
 

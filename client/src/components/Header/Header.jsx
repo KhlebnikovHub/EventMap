@@ -18,7 +18,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router"
 import { useEffect } from "react";
-import { setCurrentUser } from "../../../redux/actions/currentUser.action";
+import { setCurrentUser } from "../../redux/actions/currentUser.action";
 
 function Header() {
   const currentUserFromState = useSelector((state) => state.currentuser);
