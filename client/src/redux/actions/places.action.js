@@ -1,4 +1,4 @@
-import { GET_ALL_PLACES, SET_PLACE, ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
+import { GET_ALL_PLACES, SET_PLACE, SET_LAST_PLACE,  ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
 
 
 //middleware
@@ -32,6 +32,7 @@ export const addPlace = (data) => async (dispatch) => {
     console.log("PLACE FROM FROM ACTION", place);
 
     dispatch(setPlace(place))
+    dispatch(setLastPlace(place))
   } catch(error) {
     dispatch(setError(error))
   }
@@ -47,6 +48,12 @@ export const setPlace = (place) => ({
   type: SET_PLACE,
   payload: { place }
 })
+
+export const setLastPlace = (place) => ({
+  type: SET_LAST_PLACE,
+  payload: { place }
+})
+
 
 export const setLoading = () => ({
   type: SET_LOADING

@@ -109,9 +109,6 @@ function Events() {
   const currentUserFromState = useSelector((state) => state.currentuser);
   const user_id = currentUserFromState?.id;
 
-  const { list: allPlaces, isLoading, error } = useSelector(
-    (state) => state.allPlaces
-  );
 
   const dispatch = useDispatch();
 
@@ -123,6 +120,10 @@ function Events() {
     event.preventDefault();
   };
 
+  let countPlaces = 0;
+  
+
+  const [lastAllPlaces, setLastAllPlaces] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [eventAdder, setEventAdder] = useState(false);
   const [myAnchor, setMyAnchor] = useState(null)
@@ -139,22 +140,28 @@ function Events() {
     balloonContent: "<h1>Hello! =))</h1>",
   });
   const [ref, setRef] = useState(null);
-
+  let yymap;
   const [imgName, setImgName] = useState();
   const [files, setFiles] = useState();
   const [customState, setCustomState] = useState([]);
   const [clusterState, setClusterState] = useState([]);
-
+  const [newCustom, setNewCustom] = useState([])
   const [supercustom, setSupercustom] = useState({
     template: null,
   });
   let [map, setMap] = useState("");
-  let yymap;
   const [switcher, setSwitcher] = useState(false);
   const [open, setOpen] = useState(false);
-  // useEffect(() => {
-  //   setEventAdder(`${newCoords}`)
-  // }, [newCoords])
+ 
+
+  const { list: allPlaces, isLoading, error, lastPlace } = useSelector(
+    (state) =>  {
+     countPlaces = state.allPlaces.list.length;
+     return state.allPlaces
+    }
+  );
+
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -251,19 +258,17 @@ function Events() {
     }
   };
 
-  // const createNewTemplate = (place) => {
-  //   setCustomState((prev) => {
-
-     
-      
-  //     prev[`id${place?.id}`] = 
+  // const createNewTemplate = (ymaps) => {
+  //   setCustomState((prev) => [
+  //     ...prev,
   //     {
+  //       id: place?.id,
   //       coordinates: [+place.latitude, +place.longitude],
-  //       template: myYmaps?.templateLayoutFactory?.createClass(
+  //       template: ymaps?.templateLayoutFactory?.createClass(
   //         `
   //             <div class="card">
   //               <div class="card-image">
-  //                 <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
+  //                 <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${place?.Events[0]?.image}">
   //               </div>
   //             </div>
             
@@ -271,32 +276,39 @@ function Events() {
   //       ),
   //     }
     
-  //   });
+  //   ]);
   // }
 
+  
 
-  const createTemplateLayoutFactory = (ymaps) => {
-    console.log("YMAMAMAP", ymaps);
+    const createTemplateLayoutFactory = (ymaps) => {
+
+    
+
+    if(!yymap) {
+      yymap = myYmaps;
+    }
+    console.log("YMAPSIKKKKKK", yymap)
+    console.log("MYYMAPSIKKKKKK", myYmaps)
     // && !customState?.template || ymaps && !supercustom?.template
-    if (ymaps && allPlaces.length) {
+    if (allPlaces.length) {
       for (let i = 0; i < allPlaces?.length; i++) {
         // console.log(allPlaces[i]?.Events[0]?.image);
-        console.log("I'm from SUPERYMAPS! =))");
-        // МЕТКА ЗДЕСЬ
-        if (allPlaces.length) {
+        console.log("OLOLOSHENKKKKII")
+        
+          
           setCustomState((prev) => [
             ...prev,
             {
+              id: allPlaces[i]?.id,
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-              template: ymaps?.templateLayoutFactory?.createClass(
-                `<div class="place__card">`
-                +
-                `
+              template: yymap?.templateLayoutFactory?.createClass(
+                `<div class="place__card">
+                
                         <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
                   
-                `
-                +
-                `</div>`
+                
+                </div>`
               ),
             },
           ]);
@@ -305,7 +317,7 @@ function Events() {
             ...prev,
             {
               coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-              template: ymaps?.templateLayoutFactory?.createClass(
+              template: yymap?.templateLayoutFactory?.createClass(
                 `
 
                       <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
@@ -315,24 +327,46 @@ function Events() {
               ),
             },
           ]);
-        }
-
-
+        
 
       }
 
-      console.log("CUSTOM STATE", customState);
-      setSupercustom({
-        template: ymaps?.templateLayoutFactory?.createClass(
-          `
-                
-          <h2>Здесь будет ваше новое событие!))</h2>
-    
-              `
-        ),
-      });
+     
+    } else {
+
     }
+
+
+    console.log("CUSTOM STATE", customState);
+    setSupercustom({
+      template: yymap?.templateLayoutFactory?.createClass(
+        `
+              
+        <h2>Здесь будет ваше новое событие!))</h2>
+  
+            `
+      ),
+    });
+
+
   };
+
+
+useEffect(() => {
+  
+  if(lastPlace) {
+    console.log("IGOOOOOOR");
+    createTemplateLayoutFactory();
+    setTimeout(() => {
+      console.log("CUSTOMSTATE", customState);
+    }, 100)
+  }
+  
+  
+ 
+ 
+}, [lastPlace])
+  
 
   const polyline = createRef(null);
 
@@ -371,13 +405,6 @@ function Events() {
     }
   };
 
-  // useEffect(() => {
-  //   if(newCoords.length == 2) {
-  //     setTimeout(() => {
-  //       handleOpen();
-  //     }, 1000)
-  //   }
-  // }, [newCoords])
 
   const [openSnack, setOpenSnack] = useState(false);
   const [transition, setTransition] = useState(undefined);
@@ -533,6 +560,8 @@ function Events() {
           <Fade in={open}>
             <Box sx={modalStyle}>
               <AddEvent
+              handleClose={handleClose}
+                setNewCoords={setNewCoords}
                 newCoords={newCoords}
                 address={address}
                 selectedOrganization={selectedOrganization}
@@ -578,10 +607,17 @@ function Events() {
 
                 }}
                 onLoad={(ymaps) => {
-                  yymap = ymaps;
-                  console.log("CENTEEEEEEEEEEEEER", ymaps?.map?.getCenter());
+                  if(!yymap) {
+                    yymap = ymaps;
+                  }
+                
+                  
                   setMyYmaps(ymaps);
-                  createTemplateLayoutFactory(ymaps);
+                 setTimeout(() => {
+                   createTemplateLayoutFactory(yymap);
+                   console.log("YMAPSIK", ymaps);
+                 }, 100)
+                  
                   handleApiAvaliable(ymaps);
 
                   setClusterIcon(ymaps.map);
@@ -686,8 +722,14 @@ function Events() {
                             [100, 100],
                           ],
                         },
-
-                        iconContentLayout: customState[index]?.template ? customState[index]?.template : supercustom?.template,
+                        //  customState[index]?.template
+                        iconContentLayout: customState?.find(oneCustom => {
+                          if(oneCustom.id == place.id) {
+                            console.log("ONECUSTOM", oneCustom?.id, "PLACEID", place?.id)
+                            console.log("TEMPLATE", oneCustom?.template)
+                            return true;
+                          }
+                           })?.template,
                         iconContentSize: [70, 70],
                         iconContentOffset: [-30, -90],
 
@@ -833,6 +875,7 @@ function Events() {
           </div>
         </div>
       </YMaps>
+
                 <Snackbar
                   open={openSnack}
                   onClose={handleCloseSnack}
@@ -840,7 +883,6 @@ function Events() {
                   message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
                   key={transition ? transition.name : ''}
                 />
-
                 
     </div>
 
