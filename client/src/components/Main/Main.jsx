@@ -61,6 +61,8 @@ function Main() {
   //   dispatch(setCurrentUser(history, from))
   // }, [])
 
+  
+
   return (
     <>
       <main id="mainid" className={style.main}>
