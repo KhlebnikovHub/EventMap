@@ -39,6 +39,10 @@ import { red } from "@mui/material/colors";
 //   },
 // });
 
+
+
+
+
 function Main() {
 
 
@@ -60,7 +64,7 @@ function Main() {
       <main id="mainid" className={style.main}>
         <Switch>
           <Route exact path="/">
-            <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
+            <Link to="/random" className={`${style.main__title} ${style.main__title_zoom}`}>
               Создайте свою карту впечатлений!
             </Link>
 
@@ -77,6 +81,10 @@ function Main() {
 
           <Route exact path="/Auth">
             <Auth />
+          </Route>
+
+          <Route exact path="/random">
+            <Random />
           </Route>
 
           <PrivateRoute exact path="/Profile">
