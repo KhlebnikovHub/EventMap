@@ -55,7 +55,8 @@
 
 .one-image {
   width: 200px;
-  height: 200px;
+  height: 200px;}
+
   .events__modalWrapper {
     top: 200px;
     left: 200px;
@@ -116,6 +117,7 @@
     margin: 1rem 0;
     padding: 1em;
     border-radius: .28571429rem;
+  }
     .events__modalWrapper {
       top: 200px;
       left: 200px;
@@ -175,7 +177,7 @@
       box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
       margin: 1rem 0;
       padding: 1em;
-      border-radius: .28571429rem;
+      border-radius: .28571429rem;}
 .events__modalWrapper {
   top: 200px;
   left: 200px;
@@ -264,4 +266,19 @@
 
 .searchController {
   top: 400px
+}
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.place__card {
+  position: relative;
+  top: 200px;
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
 }
