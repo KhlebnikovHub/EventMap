@@ -8,6 +8,7 @@ import {
   Placemark,
   ObjectManager,
 } from "react-yandex-maps";
+
 import { createRef, useState } from "react";
 import style from "./Events.module.css";
 import Backdrop from "@mui/material/Backdrop";
@@ -336,18 +337,15 @@ function Events() {
         }, 2000);
       } else {
         handleOpenSnack(TransitionLeft)
-        
-
       }
- 
-      
-
-      
-
     } catch (error) {
       console.log(error);
     }
   };
+
+
+
+
   // useEffect(() => {
   // console.log('GPS', newCoords)
 
@@ -664,6 +662,8 @@ function Events() {
                   message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
                   key={transition ? transition.name : ''}
                 />
+
+                
     </div>
   );
 }

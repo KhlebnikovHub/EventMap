@@ -20,7 +20,7 @@ import style from "./Main.module.css";
 import Events from "../Events/Events.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser, setCurrentUser } from "../../redux/actions/currentUser.action.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -40,6 +40,8 @@ import { red } from "@mui/material/colors";
 function Main() {
 
 
+
+
   // let history = useHistory();
   // let location = useLocation();
 
@@ -56,6 +58,7 @@ function Main() {
   return (
     <>
       <main id="mainid" className={style.main}>
+
         <Switch>
           <Route exact path="/">
             <Link to="/Events" className={`${style.main__title} ${style.main__title_zoom}`}>
