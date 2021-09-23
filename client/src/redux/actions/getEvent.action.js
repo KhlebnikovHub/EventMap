@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_EVENT, SET_EVENT, SET_LOADING, SET_ERROR } from '../types/event';
+import { GET_EVENT, SET_EVENT, SET_LOADING, SET_ERROR, ADD_NEW_PHOTO } from '../types/event';
 
 export const setLoading = () => ({
   type: SET_LOADING
@@ -15,6 +15,13 @@ export const setEvent = (event) => ({
   payload: {event}
 });
 
+export const setNewPhoto = (allEventPhoto) => ({
+  type: ADD_NEW_PHOTO,
+  payload: { allEventPhoto }
+});
+
+
+
 export const getEvent = (id) => async (dispatch) => {
   try {
     dispatch(setLoading())
@@ -28,3 +35,22 @@ export const getEvent = (id) => async (dispatch) => {
     dispatch(setError(error));
   }
 }
+
+export const setNewEventPhoto = ({id, googleDisc, otherPhoto}) => async (dispatch) => {
+  
+  try {
+    const response = await axios({
+      method: 'POST',
+      url:  `${process.env.REACT_APP_API_URL}/event/addPhotoEvent/${id}`,
+      data: { googleDisc, otherPhoto },
+      withCredentials: true
+    })
+    const allEventPhoto = response.data;
+    console.log('RESPONSE FROM ADDPHOTO', allEventPhoto );
+  
+    dispatch(setNewPhoto(allEventPhoto));
+
+  } catch (error) {
+    console.log(error);
+  }
+};
