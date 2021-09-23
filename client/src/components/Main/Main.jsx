@@ -6,8 +6,6 @@ import {
   Link,
 } from "react-router-dom";
 import { useHistory, useLocation } from "react-router"
-
-
 import Friends from '../Friends/Friends.jsx'
 import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
@@ -75,9 +73,9 @@ function Main() {
             {/* <Pin /> */}
           </Route>
 
-          <Route exact path="/Events">
+          <PrivateRoute exact path="/Events">
             <Events />
-          </Route>
+          </PrivateRoute>
 
           <PrivateRoute exact path="/Friends/:id">
             <Friends />

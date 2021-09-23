@@ -26,6 +26,9 @@ module.exports = {
       site: {
         type: Sequelize.TEXT
       },
+      panorama: {
+        type: Sequelize.TEXT
+      },
       user_id: {
         type: Sequelize.INTEGER,
         references: {

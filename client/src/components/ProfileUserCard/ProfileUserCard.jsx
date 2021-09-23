@@ -8,6 +8,7 @@ import exifr from "exifr";
 import Event from '../Event/Event.jsx';
 
 import style from "./ProfileUserCard.module.css";
+import OneUserEventList from "../OneUserEventList/OneUserEventList";
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
   console.log("IDIDIDIDI", id);
@@ -98,7 +99,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
 
         <div className={style.profile__profileEvents}>
         {list?.map((el) => {
-            return <Event key={el.id} {...el} />;
+            return <OneUserEventList key={el.id} {...el} />;
           })}
         </div>
       </section>

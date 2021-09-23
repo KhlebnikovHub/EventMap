@@ -27,8 +27,12 @@ export const editEvent = (id, newFormData) => async (dispatch) => {
   }
 };
 
+
+
 export const setEditEvent = (newRequest) => ({
   type: SET_EDIT_EVENT,
   payload: {newRequest}
 });
+
+
     
