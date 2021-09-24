@@ -272,12 +272,12 @@ function Events() {
             id: allPlaces[i]?.id,
             coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
             template: yymap?.templateLayoutFactory?.createClass(
-              `<div class="place__card">
+              `
                 
-                        <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
+                        <img width="auto" height="100px" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
                   
                 
-                </div>`
+               `
             ),
           },
         ]);
@@ -288,10 +288,7 @@ function Events() {
             coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
             template: yymap?.templateLayoutFactory?.createClass(
               `
-
                       <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
-
-                
               `
             ),
           },
@@ -436,6 +433,12 @@ function Events() {
         {placeEvents.map((event) => (
           <>
             <div className={style.drawer}>
+
+            <p>{event?.name}</p>
+            <Divider />
+            <p>{event?.description}</p>
+            <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
+
 
               <DragPannellum {...event} />
 
