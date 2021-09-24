@@ -436,8 +436,9 @@ useEffect(() => {
               <DragPannellum id={placeEvents[0]?.place_id}/>
             </div>
             
-            <Link to={`/panorama/${placeEvents[0]?.place_id}`}>Открыть панораму</Link>
-      
+
+            <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>Открыть панораму</Link></button>   
+
                     <button onClick={handleOpen}>Создать событие</button>
       <List>
         {placeEvents.map((event) => (
@@ -452,6 +453,7 @@ useEffect(() => {
             <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
             <button onClick={() => deleteEventHandler(event.id)}>Удалить ивент</button>
+            <button><Link to={`/Event/${event.id}`} >посмотреть событие</Link></button>
             <div className={style.drag}>
 
             </div>
