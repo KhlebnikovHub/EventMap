@@ -1,4 +1,4 @@
-import { SET_ALL_PLACES, SET_PLACE, SET_EVENT, SET_LAST_PLACE, SET_ERROR, SET_LOADING } from "../types/places"
+import { SET_ALL_PLACES, SET_PLACE, SET_EVENT, SET_LAST_PLACE, SET_ERROR, SET_LOADING, DELETE_EVENT } from "../types/places"
 
 
 export const allPlacesReducer = (state = {}, action) => {
@@ -29,6 +29,16 @@ export const allPlacesReducer = (state = {}, action) => {
     case SET_LAST_PLACE: {
       const { place } = payload;
       return { ...state, lastPlace: place, isLoading: false }
+    }
+    case DELETE_EVENT: {
+      const { deletedEvent } = payload;
+      const placeId = deletedEvent?.place_id;
+      const placeIndex = state?.list?.findIndex(el => el.id === placeId)
+      if(state?.list[placeIndex]?.Events.length === 1) {
+        return  { ...state, list: state?.list.filter((el, i) => i !== placeIndex) , isLoading: false }
+      }
+      state.list[placeIndex].Events = state.list[placeIndex]?.Events?.filter(el => el.id !== deletedEvent?.id)
+      return { ...state, list: state?.list , isLoading: false }
     }
     default: {
       return state;

@@ -21,7 +21,7 @@ import TextField from "@mui/material/TextField";
 import Snackbar from '@mui/material/Snackbar';
 import Slide from '@mui/material/Slide';
 import { useDispatch, useSelector } from "react-redux";
-import { addPlace, getAllPlaces } from "../../redux/actions/places.action";
+import { addPlace, deleteEvent, getAllPlaces } from "../../redux/actions/places.action";
 import AddEvent from "../AddEvent/AddEvent";
 import DragPannellum from '../DragPannellum/DragPannellum'
 import exifr from "exifr";
@@ -85,13 +85,6 @@ const modalStyle = {
 
 function Events() {
 
-  // const [state, setState] = React.useState({
-  //   top: false,
-  //   left: false,
-  //   bottom: false,
-  //   right: false,
-  // });
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -104,12 +97,8 @@ function Events() {
     setState({ ...state, [anchor]: open });
   };
 
-
-
-  
   const currentUserFromState = useSelector((state) => state.currentuser);
   const user_id = currentUserFromState?.id;
-
 
   const dispatch = useDispatch();
 
@@ -122,7 +111,7 @@ function Events() {
   };
 
   const deleteEventHandler = (id) => {
-
+    dispatch(deleteEvent(id))
   }
 
   let countPlaces = 0;
@@ -130,8 +119,6 @@ function Events() {
 
   const [lastAllPlaces, setLastAllPlaces] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [eventAdder, setEventAdder] = useState(false);
-  const [myAnchor, setMyAnchor] = useState(null)
   const [lastSelected, setLastSelected] = useState('')
   const [firstCounter, setFirstCounter] = useState(0);
   const [address, setAddress] = useState('')
@@ -162,8 +149,8 @@ function Events() {
 
   const { list: allPlaces, isLoading, error, lastPlace } = useSelector(
     (state) =>  {
-     countPlaces = state.allPlaces.list.length;
-     return state.allPlaces
+     countPlaces = state?.allPlaces?.list?.length;
+     return state?.allPlaces
     }
   );
 
@@ -491,10 +478,9 @@ useEffect(() => {
               <DragPannellum id={placeEvents[0]?.place_id}/>
             </div>
             
-            <Link  to={`/panorama/${placeEvents[0]?.place_id}`}>панорама блядь</Link>
+            <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>панорама блядь</Link></button>
       
       
-                    <button>панорама блядь</button>
                     <button onClick={handleOpen}>Создать событие</button>
       <List>
         {placeEvents.map((event) => (
@@ -508,8 +494,9 @@ useEffect(() => {
             <p>{event?.description}</p>
             <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
 
+            <button onClick={() => deleteEventHandler(event.id)}>Удалить ивент</button>
+            <button><Link to={`/Event/${event.id}`} >посмотреть событие</Link></button>
             <div className={style.drag}>
-            <button onClick={() => deleteEventHandler(event.id)}></button>
 
             </div>
             </div>

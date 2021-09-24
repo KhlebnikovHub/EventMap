@@ -82,9 +82,16 @@ router.route('/edit/:id')
   .patch(async (req, res) => {
     const { id } = req.params;
     const { newFormData } = req.body;
-    const event = await Event.update({ name: newFormData.name, description: newFormData.description, image: newFormData.image, }, { where: { id } });
+    try {
+      const event = await Event.update({ name: newFormData.name, description: newFormData.description, image: newFormData.image, }, { where: { id } });
+      const editedEvent = await Event.findOne({ where: { id }, include: [{ model: Place }, { model: User }, { model: Image }]  })
+      console.log(editedEvent);
+  
+      return res.json(editedEvent);
+    } catch (error) {
+      return res.sendStatus(500).end();
+    }
 
-    res.json(event);
   })
 
 router.route('/profileEvents/:id')

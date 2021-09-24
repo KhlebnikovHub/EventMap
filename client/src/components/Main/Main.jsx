@@ -35,10 +35,7 @@ import MyPanorama from "../MyPanorama/MyPanorama.jsx";
 //     primary: {
 //       main: red[300],
 //     },
-//   },
-// });
-
-
+//   }, неотслеживаемые файлы в рабочем каталоге будут перезаписаны при 
 
 
 
