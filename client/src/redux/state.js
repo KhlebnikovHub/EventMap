@@ -19,7 +19,8 @@ export const initialState = {
   allPlaces: {
     list: [],
     isLoading: false,
-    error: false
+    error: false,
+    lastPlace: null
   },
   randomPlaces: {
     list: [],
@@ -27,12 +28,17 @@ export const initialState = {
     error: false
   },
   event: {
-    list: [],
+    list: {},
     isLoading: false,
     error: false
   },
   profileEvents: {
     list: [],
+    isLoading: false,
+    error: false
+  },
+  panorama: {
+    panorama: {},
     isLoading: false,
     error: false
   }

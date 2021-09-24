@@ -26,6 +26,7 @@
   border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
   overflow: hidden;
+  height: 400px;
   width: 100%;
 
   display: flex;
@@ -66,6 +67,7 @@
 }
 
 .event__text {
+  color: black;
   height: 40px;
   font-size: 1.2rem;
   margin: 0px;

@@ -76,6 +76,7 @@ const placeRouter = require('./routes/place');
 const userRouter = require('./routes/user');
 const driveRouter = require('./routes/googleDrive');
 const randomPlaces = require('./routes/randomPlaces');
+const panorama = require('./routes/panorama');
 
 
 app.use(morgan('dev'));
@@ -96,6 +97,7 @@ app.use(multer({ storage: storageConfig }).single('img'));
 
 
 
+app.use('/panorama', panorama);
 app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
 app.use('/place', placeRouter);

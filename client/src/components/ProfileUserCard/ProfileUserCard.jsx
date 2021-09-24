@@ -8,9 +8,9 @@ import exifr from "exifr";
 import Event from '../Event/Event.jsx';
 
 import style from "./ProfileUserCard.module.css";
+import OneUserEventList from "../OneUserEventList/OneUserEventList";
 
 function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
-  console.log("IDIDIDIDI", id);
 
   const dispatch = useDispatch();
   const { list, isLoading, error } = useSelector(
@@ -25,9 +25,6 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
     event.preventDefault();
 
     const file = event.target.img.files[0];
-
-    // let {latitude, longitude} = await exifr.gps(file);
-    // console.log(latitude, longitude)
 
     const formData = new FormData();
     formData.append("img", file);
@@ -46,8 +43,6 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
     event.preventDefault();
     let fileDrag = event.dataTransfer.files[0];
 
-    //et {latitude, longitude} = await exifr.gps(fileDrag);
-    //console.log('GPS', latitude, longitude)
 
     const formDragData = new FormData();
     formDragData.append("img", fileDrag);
@@ -98,7 +93,7 @@ function ProfileUserCard({ id, firstname, lastname, email, avatar }) {
 
         <div className={style.profile__profileEvents}>
         {list?.map((el) => {
-            return <Event key={el.id} {...el} />;
+            return <OneUserEventList key={el.id} {...el} />;
           })}
         </div>
       </section>

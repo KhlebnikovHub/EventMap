@@ -22,6 +22,7 @@ export const getProfileEvents = (id) => async (dispatch) => {
   }
 };
 
+
 export const setProfileEvents = (profileEvents) => ({
   type: SET_PROFILE_EVENTS,
   payload: { profileEvents }

@@ -3,7 +3,6 @@ import { Redirect, Route } from "react-router";
 
 function PrivateRoute({ children, ...rest }) {
   let auth = useSelector(state => state.currentuser);
-  auth ? console.log(auth) : console.log("false")
   return (
     <Route
       {...rest}

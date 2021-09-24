@@ -1,75 +1,154 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import AwesomeSlider from 'react-awesome-slider';
+import coreStyles from 'react-awesome-slider/src/core/styles.scss';
+import animationStyles from 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
+
 import { useParams } from "react-router";
 import { getEvent } from "../../redux/actions/getEvent.action.js";
-import { editEvent } from "../../redux/actions/editEvent.action.js";
+import { editEvent } from "../../redux/actions/getEvent.action.js";
 import EventEditForm from "../EventEditForm/EventEditForm.jsx";
 import style from "./Event.module.css";
 
-function Event({ id, name, description, Place, User, image }) {
-  // const currentUserFromState = useSelector((state) => state.currentuser);
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import OtherPhotoInput from "../OtherPhotoInput/OtherPhotoInput.jsx";
+import DiscInput from "../DiscInput/DiscInput.jsx";
 
-  // if (currentUserFromState) {
-  //   return <EventEditForm />
-  // }
+function Event() {
+  const currentUserFromState = useSelector((state) => state.currentuser);
+ 
+  const [showEditButton, setShowEditButton] = useState(true)
+  const [showSubmitButton, setShowSubmitButton] = useState(false)
+  const [showFileButton, setShowFileButton] = useState(false)
 
-  // const dispatch = useDispatch();
-  // const { list, isLoading, error } = useSelector((state) => state.event);
+  const [inputChange, setInputChange] = useState(<DiscInput />);
+  const dispatch = useDispatch();
+  const { list, isLoading, error } = useSelector((state) => {
+    
+    return state.event });
 
-  // const { id } = useParams();
+  const { id } = useParams();
 
-  // useEffect(() => {
-  //   dispatch(getEvent(id));
-  // }, []);
+  useEffect(() => {
+    dispatch(getEvent(id));
+  }, []);
 
-  // const editEventHandler = async (e) => {
-  //   e.preventDefault();
+  const editEventHandler = async (e) => {
+    e.preventDefault();
+    const newFormData = Object.fromEntries(new FormData(e.target));
+    dispatch(editEvent(id, newFormData));
+  }
 
-  //   const newFormData = Object.fromEntries(new FormData(e.target));
+  const switchEditFrom = () => {
+    setShowEditButton(!showEditButton)
+    setShowSubmitButton(!showSubmitButton)
+  }
 
-  //   dispatch(editEvent(id, newFormData));
-  // }
+  const switchFileButton = () => {
+    setShowFileButton(prev => !prev)
+  }
+
+  if(list) {
+    if (!list?.image?.includes("http")) {
+      list.image = `${process.env.REACT_APP_API_URL}${list?.image}`;
+       }
+  }
+  
+    
+    const DiscInputHandler = () => {
+      setInputChange(<DiscInput id={id} />);
+    };
+  const PhotoInputHandler = () => {
+    setInputChange(<OtherPhotoInput id={id} />);
+  };
+  
+
+  const slider = (
+    <AwesomeSlider
+    
+    animation="foldOutAnimation"
+    cssModule={[coreStyles, animationStyles]}
+  >
+    
+      {list?.Images?.map(image => {
+         return (  <div data-src={image?.path}  />
+          )})}
+         
+    </AwesomeSlider>
+  );
 
   return (
     <>
-      <div className={style.event}>
-        <div className={style.event__pic_wrapper}>
-          <img className={style.event__pic} src={image} alt="" />
-        </div>
+    
+   {list?.User?.email === currentUserFromState?.email ? 
+      <div>
+        <button onClick={DiscInputHandler}>
+          Загрузить данные с GoogleDisc
+        </button>
+        <button onClick={PhotoInputHandler}>
+          Загрузить обычное фото
+        </button>
+        <div>{inputChange}</div>
+      </div>
+   : ''} 
 
+  
+
+     {showEditButton && <div className={style.event}>
+        <div className={style.event__pic_wrapper}>
+          {/* <img className={style.event__pic} src={`${image}`} alt="" />
+        </div> */}
+          {slider}
+          <img className={style.event__pic} src={list?.image} alt="" />
+        </div>
+        {/* {list?.Images?.map(image => {
+         return (  <img className={style.event__pic} src={image?.path} alt="" />
+          )})} */}
+
+       
         <div className={style.event__info}>
+        
           <div className={style.event__text_box}>
-            <p className={style.event__text_title}>Название:</p>
-            <p className={style.event__text}>{name}</p>
+         
+            <p className={style.event__text_title}>Название: </p>
+            <p className={style.event__text}>{list?.name}</p>
           </div>
 
           <div className={style.event__text_box}>
-            <p className={style.event__text_title}>Описание:</p>
-            <p className={style.event__text}>{description}</p>
+          
+            <p className={style.event__text_title}>Описание: </p>
+            <p className={style.event__text}>{list?.description}</p>
           </div>
 
           <div className={style.event__text_box}>
             <p className={style.event__text_title}>Место:</p>
-            <p className={style.event__text}>{Place?.name}</p>
+            <p className={style.event__text}>{list?.Place?.name}</p>
           </div>
 
           <div className={style.event__text_box}>
             <p className={style.event__text_title}>Автор:</p>
             <p className={style.event__text}>
-              {User?.firstname} {User?.lastname}
+              {list?.User?.firstname} {list?.User?.lastname}
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* <form name="name" onSubmit={editEventHandler}>
-          <input name='name' placeholder="имя" type="text" />
-          <input name='description' placeholder="описание" type="text" />
-          <input name='image' placeholder="ссылка на картинку" type="text" />
-          <button>
-            аааа
+          {list?.User?.email === currentUserFromState?.email ? 
+            <button onClick={switchEditFrom}>
+            Редактировать
           </button>
-        </form> */}
+          : ''}
+          
+        </div>
+      </div>}
+
+      {showSubmitButton && 
+            <form name="name" onSubmit={(e) => { editEventHandler(e); switchEditFrom()}}>
+            <input name='name' placeholder="имя" type="text" />
+            <input name='description' placeholder="описание" type="text" />
+            <input name='image' placeholder="ссылка на картинку" type="text" />
+            <button type="submit" >
+              Принять
+            </button>
+          </form>  }
+
     </>
   );
 }

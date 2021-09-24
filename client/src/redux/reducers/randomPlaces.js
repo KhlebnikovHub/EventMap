@@ -4,7 +4,6 @@ import { SET_RANDOM_PLACES, SET_PLACE, SET_ERROR, SET_LOADING } from "../types/r
 export const randomPlacesReducer = (state = {}, action) => {
   const { type, payload, error } = action
   // const {response, idOfDevice} = payload
-  // console.log("CHANGE PAYL:OAD",payload);
 
   switch (type) {
       case SET_ERROR: {

@@ -48,7 +48,6 @@ export const approveRequest = (id, stateId) => async(dispatch) => {
     withCredentials: true
   })
   const newFriend = response.data
-  console.log('ADSADSDDSADSAD', newFriend);
   dispatch(setApproveRequest(newFriend))
 }
 

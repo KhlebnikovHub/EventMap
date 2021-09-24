@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_EVENT, SET_EVENT, SET_LOADING, SET_ERROR } from '../types/event';
+import { GET_EVENT, SET_EVENT, SET_LOADING, SET_ERROR, ADD_NEW_PHOTO, SET_EDIT_EVENT } from '../types/event';
 
 export const setLoading = () => ({
   type: SET_LOADING
@@ -15,6 +15,13 @@ export const setEvent = (event) => ({
   payload: {event}
 });
 
+export const setNewPhoto = (allEventPhoto) => ({
+  type: ADD_NEW_PHOTO,
+  payload: { allEventPhoto }
+});
+
+
+
 export const getEvent = (id) => async (dispatch) => {
   try {
     dispatch(setLoading())
@@ -28,3 +35,47 @@ export const getEvent = (id) => async (dispatch) => {
     dispatch(setError(error));
   }
 }
+
+export const setNewEventPhoto = ({id, googleDisc, otherPhoto}) => async (dispatch) => {
+  
+  try {
+    const response = await axios({
+      method: 'POST',
+      url:  `${process.env.REACT_APP_API_URL}/event/addPhotoEvent/${id}`,
+      data: { googleDisc, otherPhoto },
+      withCredentials: true
+    })
+    const allEventPhoto = response.data;
+
+  
+    dispatch(setNewPhoto(allEventPhoto));
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editEvent = (id, newFormData) => async (dispatch) => {
+  try {
+    const response = await axios({
+      method: 'PATCH',
+      url:  `${process.env.REACT_APP_API_URL}/event/edit/${id}`,
+      data: { newFormData },
+      withCredentials: true
+    })
+    const editedEvent = response.data;
+
+  
+    dispatch(setEditEvent(editedEvent));
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+export const setEditEvent = (editedEvent) => ({
+  type: SET_EDIT_EVENT,
+  payload: {editedEvent}
+});

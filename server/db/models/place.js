@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     time_work: DataTypes.STRING,
     site: DataTypes.TEXT,
+    panorama: DataTypes.TEXT,
     user_id: DataTypes.INTEGER
   }, {
     sequelize,
