@@ -7,9 +7,6 @@ import {
 } from "react-router-dom";
 import { useHistory, useLocation } from "react-router"
 
-import Random from '../Random/Random.jsx'
-
-
 import Friends from '../Friends/Friends.jsx'
 import Random from "../Random/Random.jsx"
 import Auth from '../Auth/Auth.jsx'
