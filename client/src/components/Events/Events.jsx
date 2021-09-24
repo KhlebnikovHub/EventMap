@@ -85,13 +85,6 @@ const modalStyle = {
 
 function Events() {
 
-  // const [state, setState] = React.useState({
-  //   top: false,
-  //   left: false,
-  //   bottom: false,
-  //   right: false,
-  // });
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -104,12 +97,8 @@ function Events() {
     setState({ ...state, [anchor]: open });
   };
 
-
-
-  
   const currentUserFromState = useSelector((state) => state.currentuser);
   const user_id = currentUserFromState?.id;
-
 
   const dispatch = useDispatch();
 
@@ -130,8 +119,6 @@ function Events() {
 
   const [lastAllPlaces, setLastAllPlaces] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [eventAdder, setEventAdder] = useState(false);
-  const [myAnchor, setMyAnchor] = useState(null)
   const [lastSelected, setLastSelected] = useState('')
   const [firstCounter, setFirstCounter] = useState(0);
   const [address, setAddress] = useState('')
