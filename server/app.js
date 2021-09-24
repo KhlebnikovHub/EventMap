@@ -97,6 +97,7 @@ app.use(multer({ storage: storageConfig }).single('img'));
 
 
 
+app.use('/panorama', panorama);
 app.use('/user', userRouter);
 app.use('/allUsers', allUsersRouter);
 app.use('/place', placeRouter);
@@ -105,7 +106,6 @@ app.use('/googleDrive', driveRouter);
 app.use('/random', randomPlaces);
 app.use(checkUser);
 
-app.use('/panorama', panorama);
 app.use('/profile', currentUser);
 app.use('/oneUser', oneUserRouter);
 app.use('/friends', friendsRouter);

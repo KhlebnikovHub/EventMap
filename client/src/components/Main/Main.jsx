@@ -27,6 +27,7 @@ import PrivateRoute from "../PrivateRouter/PrivateRouter.js";
 import Button from "@mui/material/Button";
 
 import { red } from "@mui/material/colors";
+import MyPanorama from "../MyPanorama/MyPanorama.jsx";
 
 // import Pin from '../Pin/Pin.jsx';
 
@@ -95,6 +96,10 @@ function Main() {
 
           <Route exact path="/AllUsers">
             <AllUsers />
+          </Route>
+
+          <Route exact path="/panorama/:id">
+            <MyPanorama/>
           </Route>
 
           <PrivateRoute exact path="/Event/:id">
