@@ -10,7 +10,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 
-function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files, handleClose, setNewCoords, placeEvents }) {
+function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files, handleClose, setNewCoords, placeEvents, place }) {
 
 
   const dispatch = useDispatch();
@@ -84,20 +84,24 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
   return (
 
     <form onSubmit={submitHandler} name="newEvent">
-      {placeEvents?.name ? '' :
+      {place ? '' :
+      (<>
       <Typography id="transition-modal-title" variant="h6" component="h2">
       Введите название места
     </Typography>
+     <TextField
+     id="outlined-multiline-flexible"
+     label="Название места"
+     multiline
+     maxRows={4}
+     name="place_name"
+   />
+   </>
+      )
       }
       
       
-      <TextField
-        id="outlined-multiline-flexible"
-        label="Название места"
-        multiline
-        maxRows={4}
-        name="place_name"
-      />
+     
       {address ? <Typography id="transition-modal-title" variant="h6" component="h2">
         Адрес: <p>{address}</p>
       </Typography> : ''}

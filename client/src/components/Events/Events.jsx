@@ -116,6 +116,7 @@ function Events() {
 
   let countPlaces = 0;
 
+  const [place, setPlace] = useState('')
   const [lastAllPlaces, setLastAllPlaces] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lastSelected, setLastSelected] = useState('')
@@ -157,7 +158,7 @@ function Events() {
   const handleOpen = () => {
 
     setOpen(true);
-    map.panTo(newCoords ? newCoords : map?.getCenter());
+    // map.panTo(newCoords ? newCoords : map?.getCenter());
 
   };
   const handleClose = () => {
@@ -350,6 +351,7 @@ function Events() {
 
         setAddress(response?.geoObjects.get(0)?.properties?._data?.text);
         // map?.panTo(newCoords);
+        setPlace(null); 
         handleOpen();
 
 
@@ -517,6 +519,7 @@ function Events() {
                 <Fade in={open}>
                   <Box sx={modalStyle}>
                     <AddEvent
+                      place={place}
                       placeEvents={placeEvents}
                       handleClose={handleClose}
                       setNewCoords={setNewCoords}
@@ -624,6 +627,7 @@ function Events() {
                           <Placemark
                             onClick={() => {
                               setPlaceEvents(place?.Events)
+                              setPlace(place);
                               setNewCoords([+place?.latitude, +place?.longitude])
                               setTimeout(
                               toggleDrawer(anchor, true), 100)
@@ -760,9 +764,9 @@ function Events() {
             open={state[anchor]}
             onClose={() => { 
                 setTimeout(
-                  toggleDrawer(anchor, false), 50)        
+                  toggleDrawer(anchor, false), 50)  
+                       
             }}
-
             onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
