@@ -1,4 +1,5 @@
-import { GET_ALL_PLACES, SET_PLACE, SET_LAST_PLACE, SET_EVENT,  ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
+import axios from 'axios';
+import { GET_ALL_PLACES, SET_PLACE, SET_LAST_PLACE, SET_EVENT,  ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING, DELETE_EVENT } from '../types/places'
 
 
 //middleware
@@ -41,6 +42,21 @@ export const addPlace = (data) => async (dispatch) => {
   }
 }
 
+export const deleteEvent = (id) => async (dispatch) => {
+
+  try {
+    dispatch(setLoading())
+    
+    const response = await axios.delete(`${process.env.REACT_APP_API_URL}/place/deleteEvent/${id}/`, { credentials: 'include' })
+    const deletedEvent = await response.data;
+    console.log("ID EVENT ON DELETE", deletedEvent);
+    
+    dispatch(setDeleteEvent(deletedEvent))
+  } catch(error) {
+    dispatch(setError(error))
+  }
+} 
+
 //actionCreater
 export const setAllPlaces = (allPlaces) => ({
   type: SET_ALL_PLACES,
@@ -62,6 +78,10 @@ export const setLastPlace = (place) => ({
   payload: { place }
 })
 
+export const setDeleteEvent = (deletedEvent) => ({
+  type: DELETE_EVENT,
+  payload: { deletedEvent }
+})
 
 export const setLoading = () => ({
   type: SET_LOADING
