@@ -14,7 +14,6 @@ router.route('/:id')
   })
   .get(async (req, res) => {
     const { id } = req.params;
-    console.log('=======>', id)
     try {
       const currentPlace = await Place.findOne({ where: { id } });
       res.json(currentPlace);

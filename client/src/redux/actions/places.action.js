@@ -9,7 +9,6 @@ export const getAllPlaces = (user_id) => async (dispatch) => {
     
     const response = await fetch(`${process.env.REACT_APP_API_URL}/place/allPlaces/${user_id}/`, { credentials: 'include' })
     const allPlaces = await response.json();
-    console.log("ALLPLACES", allPlaces);
     
     dispatch(setAllPlaces(allPlaces))
   } catch(error) {
@@ -30,7 +29,6 @@ export const addPlace = (data) => async (dispatch) => {
     })
     
     const place = await responseData.json();
-    console.log("PLACE FROM FROM ACTION", place);
     if(place?.Events.length === 1) {
       dispatch(setPlace(place))
     } else {
@@ -49,7 +47,6 @@ export const deleteEvent = (id) => async (dispatch) => {
     
     const response = await axios.delete(`${process.env.REACT_APP_API_URL}/place/deleteEvent/${id}/`, { credentials: 'include' })
     const deletedEvent = await response.data;
-    console.log("ID EVENT ON DELETE", deletedEvent);
     
     dispatch(setDeleteEvent(deletedEvent))
   } catch(error) {
