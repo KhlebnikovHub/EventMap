@@ -115,7 +115,6 @@ function Events() {
   }
 
   let countPlaces = 0;
-  
 
   const [lastAllPlaces, setLastAllPlaces] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -124,7 +123,6 @@ function Events() {
   const [address, setAddress] = useState('')
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [placeEvents, setPlaceEvents] = useState([]);
-  console.log('777', placeEvents)
   const [search, setSearch] = useState("");
   const [state, setState] = useState({ coords: [], right: false, });
   const [myYmaps, setMyYmaps] = useState('');
@@ -145,24 +143,24 @@ function Events() {
   let [map, setMap] = useState("");
   const [switcher, setSwitcher] = useState(false);
   const [open, setOpen] = useState(false);
- 
+
 
   const { list: allPlaces, isLoading, error, lastPlace } = useSelector(
-    (state) =>  {
-     countPlaces = state?.allPlaces?.list?.length;
-     return state?.allPlaces
+    (state) => {
+      countPlaces = state?.allPlaces?.list?.length;
+      return state?.allPlaces
     }
   );
 
 
 
-  const handleOpen = () =>  {
+  const handleOpen = () => {
 
     setOpen(true);
     map.panTo(newCoords ? newCoords : map?.getCenter());
 
   };
-  const handleClose = () => { 
+  const handleClose = () => {
     map.panTo(map.getCenter());
     setOpen(false);
   };
@@ -173,7 +171,6 @@ function Events() {
   };
 
   const setClusterIcon = (ymaps) => {
-    console.log(map);
     map?.geoObjects?.each((geoObject) => {
       if (geoObject._clusters) {
         let clusters = geoObject._clusters;
@@ -256,53 +253,53 @@ function Events() {
   };
 
 
-    const createTemplateLayoutFactory = (ymaps) => {
+  const createTemplateLayoutFactory = (ymaps) => {
 
-    
 
-    if(!yymap) {
+
+    if (!yymap) {
       yymap = myYmaps;
     }
-  
+
     // && !customState?.template || ymaps && !supercustom?.template
     if (allPlaces.length) {
       for (let i = 0; i < allPlaces?.length; i++) {
-            
-          setCustomState((prev) => [
-            ...prev,
-            {
-              id: allPlaces[i]?.id,
-              coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-              template: yymap?.templateLayoutFactory?.createClass(
-                `<div class="place__card">
+
+        setCustomState((prev) => [
+          ...prev,
+          {
+            id: allPlaces[i]?.id,
+            coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
+            template: yymap?.templateLayoutFactory?.createClass(
+              `<div class="place__card">
                 
                         <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
                   
                 
                 </div>`
-              ),
-            },
-          ]);
+            ),
+          },
+        ]);
 
-          setClusterState((prev) => [
-            ...prev,
-            {
-              coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
-              template: yymap?.templateLayoutFactory?.createClass(
-                `
+        setClusterState((prev) => [
+          ...prev,
+          {
+            coordinates: [+allPlaces[i].latitude, +allPlaces[i].longitude],
+            template: yymap?.templateLayoutFactory?.createClass(
+              `
 
                       <img width="100" height="80" src="${process.env.REACT_APP_API_URL}${allPlaces[i]?.Events[0]?.image}">
 
                 
               `
-              ),
-            },
-          ]);
-        
+            ),
+          },
+        ]);
+
 
       }
 
-     
+
     } else {
 
     }
@@ -321,19 +318,18 @@ function Events() {
   };
 
 
-useEffect(() => {
-  if(lastPlace) {
-    createTemplateLayoutFactory();
-    setTimeout(() => {
-      console.log("CUSTOMSTATE", customState);
-    }, 100)
-  }
-  
-  
- 
- 
-}, [lastPlace])
-  
+  useEffect(() => {
+    if (lastPlace) {
+      createTemplateLayoutFactory();
+      setTimeout(() => {
+      }, 100)
+    }
+
+
+
+
+  }, [lastPlace])
+
 
   const polyline = createRef(null);
 
@@ -346,7 +342,7 @@ useEffect(() => {
           };
         });
 
-        if(event?.get("coords")) {
+        if (event?.get("coords")) {
           setNewCoords(event?.get("coords"));
         }
 
@@ -356,15 +352,6 @@ useEffect(() => {
         // map?.panTo(newCoords);
         handleOpen();
 
-
-
-
-
-        // myYmaps?.geocode(newCoords).then(res => {
-        //   setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
-        //   handleOpen();
-        //   console.log("GEOCODISHE");
-        // })
 
       } catch (error) {
         console.log("ERRRRRRRRORRRRR", error);
@@ -400,12 +387,12 @@ useEffect(() => {
   const dropHandler = async (event) => {
     event.preventDefault()
     try {
-      if(switcher) {
+      if (switcher) {
         let fileDrag = event.dataTransfer.files[0];
         setFiles(event.dataTransfer.files);
         setImgName(event.dataTransfer.files[0].name);
         imgCoord = await exifr.gps(fileDrag);
-        if(imgCoord) {
+        if (imgCoord) {
           setNewCoords([imgCoord?.latitude, imgCoord?.longitude]);
           map?.panTo([imgCoord?.latitude, imgCoord?.longitude], { duration: 2000, flying: true });
           myYmaps?.geocode([imgCoord?.latitude, imgCoord?.longitude]).then(res => {
@@ -418,7 +405,7 @@ useEffect(() => {
           handleOpenSnack(TransitionLeft)
         }
       }
-     
+
     } catch (error) {
       console.log(error);
     }
@@ -432,31 +419,34 @@ useEffect(() => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-            <div className={style.drag}>
-              <DragPannellum id={placeEvents[0]?.place_id}/>
-            </div>
-            
+      <div className={style.drag}>
+        <DragPannellum id={placeEvents[0]?.place_id} />
+      </div>
 
-            <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>Открыть панораму</Link></button>   
 
-                    <button onClick={handleOpen}>Создать событие</button>
+      <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>Открыть панораму</Link></button>
+
+      <button onClick={() => {
+        toggleDrawer(anchor, true);
+        handleOpen();
+        }}>Создать событие</button>
       <List>
         {placeEvents.map((event) => (
           <>
             <div className={style.drawer}>
 
-          <DragPannellum {...event}/>
+              <DragPannellum {...event} />
 
-            <p>{event?.name}</p>
-            <Divider />
-            <p>{event?.description}</p>
-            <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap"/>
+              <p>{event?.name}</p>
+              <Divider />
+              <p>{event?.description}</p>
+              <img className={style.drawer__image} src={`${process.env.REACT_APP_API_URL}${event?.image}`} alt="eventmap" />
 
-            <button onClick={() => deleteEventHandler(event.id)}>Удалить ивент</button>
-            <button><Link to={`/Event/${event.id}`} >посмотреть событие</Link></button>
-            <div className={style.drag}>
+              <button onClick={() => deleteEventHandler(event.id)}>Удалить ивент</button>
+              <button><Link to={`/Event/${event.id}`} >посмотреть событие</Link></button>
+              <div className={style.drag}>
 
-            </div>
+              </div>
             </div>
           </>
         ))}
@@ -466,354 +456,320 @@ useEffect(() => {
     </Box>
   );
   return (
-  <>
-    {["right"].map((anchor) => (
-<React.Fragment key={anchor}>
-    
-    <div
-      className="App"
-      onClick={(event) => {
-        console.log("SEARCH RESULT", search?.getResult(0));
-        let geoObjectsArray = search?.getResultsArray();
-        const selectedIndex = search?.getSelectedIndex();
-        let selectedPlace = geoObjectsArray[selectedIndex];
-        console.log("SELECTED PLACE", selectedPlace);
-        if (selectedPlace && switcher) {
-          setSelectedOrganization(selectedPlace?.properties?._data);
-          setNewCoords(selectedPlace?.geometry?._coordinates);
-          setLastSelected(selectedPlace);
-          if (!open && selectedPlace != lastSelected) {
-            handleOpen();
-          }
-        }
-      }}
-    >
-                  {/* <Drawer /> */}
-      <div>
-        <div>
-          <FormGroup>
-            <FormControlLabel
-              className={style.events__modalButton}
-              // control={<Switch defaultChecked />}
-              control={<Switch />}
-              label="Режим создания"
-              // onClick={onSwitcher, toggleDrawer(anchor, true)}
-              //   />
-              //             {anchor}
+    <>
+      {["right"].map((anchor) => (
+        <React.Fragment key={anchor}>
 
-              onClick={onSwitcher}
-              />
+          <div
+            className="App"
+            onClick={(event) => {
+              let geoObjectsArray = search?.getResultsArray();
+              const selectedIndex = search?.getSelectedIndex();
+              let selectedPlace = geoObjectsArray[selectedIndex];
+              if (selectedPlace && switcher) {
+                setSelectedOrganization(selectedPlace?.properties?._data);
+                setNewCoords(selectedPlace?.geometry?._coordinates);
+                setLastSelected(selectedPlace);
+                if (!open && selectedPlace != lastSelected) {
+                  handleOpen();
+                }
+              }
+            }}
+          >
+            {/* <Drawer /> */}
+            <div>
+              <div>
+                <FormGroup>
+                  <FormControlLabel
+                    className={style.events__modalButton}
+                    // control={<Switch defaultChecked />}
+                    control={<Switch />}
+                    label="Режим создания"
+                    // onClick={onSwitcher, toggleDrawer(anchor, true)}
+                    //   />
+                    //             {anchor}
 
-            {/* <FormControlLabel 
+                    onClick={onSwitcher}
+                  />
+
+                  {/* <FormControlLabel 
                           className={style.events__modalButton}
                           label="Режим создания"
               onClick={onSwitcher}
               disabled control={<Switch />}
               label="Disabled" /> */}
-          </FormGroup>
+                </FormGroup>
 
-        </div>
-        {/* <Button onClick={handleOpen} className={style.events__modalButton}>Open modal</Button> */}
-        <Modal
-          className={style.events__modalWrapper}
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={open}
-          onClose={() => { handleClose(); setNewCoords([]) }}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={open}>
-            <Box sx={modalStyle}>
-              <AddEvent
-              handleClose={handleClose}
-                setNewCoords={setNewCoords}
-                newCoords={newCoords}
-                address={address}
-                selectedOrganization={selectedOrganization}
-                setImgName={setImgName}
-                files={files}
-                address={address}
-                selectedOrganization={selectedOrganization}
-              />
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
-
-      <YMaps
-        onLoad={ymaps => {
-          // ref.geocode([55, 37]).then(res => console.log("POPPPPER MOPPPER", res.geoObjects.get(0)))
-
-
-        }
-        }
-        onClick={(event) => console.log("YYYYYYMAAAAAAP", event.target)}
-        query={{
-          apikey: "ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU",
-        }}
-        version={"2.1"}
-      >
-        <div>
-          My awesome application with maps!
-          <div
-
-            name="img"
-            onDragStart={(e) => dragStartHandler(e)}
-            onDragLeave={(e) => dragLeaveHandler(e)}
-            onDragOver={(e) => dragStartHandler(e)}
-            onDrop={dropHandler}
-          >
-            <div className={style.events__mapWrapper}>
-              <Map
-                className={style.events__map}
-                instanceRef={(ref) => {
-                  setMap(ref);
-                  handlerInitMap();
-
-                }}
-                onLoad={(ymaps) => {
-                  if(!yymap) {
-                    yymap = ymaps;
-                  }
-                
-                  
-                  setMyYmaps(ymaps);
-                 setTimeout(() => {
-                   createTemplateLayoutFactory(yymap);
-                   console.log("YMAPSIK", ymaps);
-                 }, 100)
-                  
-                  handleApiAvaliable(ymaps);
-
-                  setClusterIcon(ymaps.map);
-
-                }}
-                modules={["templateLayoutFactory", "layout.ImageWithContent", "geolocation", "geocode"]}
-                defaultState={{ center: [55.75, 37.57], zoom: 9 }}
-                onClick={(event) => {
-                  try {
-                    if (event?.get("coords")) {
-                      console.log("IFIFIFIFIFIF", event?.get("coords"));
-
-                      onMapClick(event);
-                    }
-                  } catch (error) {
-                    console.log("ERRORRRRR", error);
-                  }
+              </div>
+              {/* <Button onClick={handleOpen} className={style.events__modalButton}>Open modal</Button> */}
+              <Modal
+                className={style.events__modalWrapper}
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={() => { handleClose(); setNewCoords([]) }}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
                 }}
               >
-                <Clusterer
-                  // instanceRef={ref => {
-                  //       if(ref) {
-                  //         console.log("REFAREFAREFAREFAREFA", ref?.getParent())
-                  //         console.log("REEEEEEEEEEEEEEEEFGGFGFG", ref?.getGeoObjects())
-                  //         console.log("GEOOBJECTS", ref?.properties?.geoObjects);
-                  //         console.log(Object.entries(ref));
-                  //        for(let key in ref) {
-                  //          if(key === "_clusters") {
-                  //          let clusters = ref[key];
-                  //          console.log('CLUSTERS', clusters);
-                  //          console.log(Object.keys(clusters))
-                  //          console.log(clusters);
+                <Fade in={open}>
+                  <Box sx={modalStyle}>
+                    <AddEvent
+                      placeEvents={placeEvents}
+                      handleClose={handleClose}
+                      setNewCoords={setNewCoords}
+                      newCoords={newCoords}
+                      address={address}
+                      selectedOrganization={selectedOrganization}
+                      setImgName={setImgName}
+                      files={files}
+                      address={address}
+                      selectedOrganization={selectedOrganization}
+                    />
+                  </Box>
+                </Fade>
+              </Modal>
+            </div>
 
-                  //        }
-                  //   }
-
-                  //       }
-                  // }
-                  // }
-
-                  options={{
-                    // preset: 'islands#invertedVioletClusterIcons',
-                    iconImageSize: [0, 0], // размер нашей картинки
-                        clusterIconLayout: "default#imageWithContent",
-
-                    // clusterIconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
-                    // clusterIconContentLayout: customState[0].template,
-
-                    // clusterIconContentLayout: customState.template,
-                    // iconContentSize: [100,100],
-
-                    // clusterIcons: [
-                    //   {
-                    //     href: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAgVBMVEX///8AAADMzMzd3d38/Pzz8/PFxcWqqqrl5eXa2trh4eGcnJxOTk7u7u7q6uppaWmkpKRAQEDBwcESEhJlZWW4uLgtLS3T09N8fHxdXV2YmJg7OzsiIiJ6enqwsLDPz89XV1eIiIhHR0dycnIWFhYwMDCRkZFFRUUfHx88PDyKiooVLgUlAAAIfElEQVR4nO2d6YKqOgyABwVccAFXXAdGx7O8/wNeZRmBAk1LAtx78/07Z9SQbkmTtHx8MAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMAzD/G+xvdnh4trDToQPbfdymHk2pQxzZyQcRmNKQQLj0SEVvTMJ5bhGht2xLSXHx1NWsEsnyfxt5AlWlO2ZCF0FBalnOqEjQ+DsEOvo7kShIzJpa1HYE0IdTbdU4ppK3qpUnGHcqdr0Wt6khrEiEjirkGcY3oBA3MCrlDcjEPdkXCnwyRJ7qFrLOnE0q/ixTqRhbFGFVc2IhCOqsJRTvVBjM0cTNa/twCcnNFEZhhKhT7D8qYFcFIXfKBmkESGKpBAgiWKYVq+kGb6bLwFj2WyIIFhN5xC5RvORagPl4E36lC1QsuE0EuNAxeAu3S98qGhj00DKBizFR9MspbitqOHL0pRhfcGFnFG1e2LCZT93jlMtGdNvFSHYThTARGXZa4iYqInAdoVLtoa1qC+pim1oXJE1vCjKV17rwGt1CvZSo7AGJKi18VX597+QNTwrP4FSrEF1Ehjoi6lVtduuAx4T01DQWOvapHKmGo8A70UdBQ1DzyRVsdd6BuBcVJ+DEToWqRrVpTwFsqIqr6IJn6gaQj1+AbldJPxpFXTbWd7Sn9q/jLu70FsLIur3xHpLWASuU9NAQ6NuVdeyQgm4cegmGnrZXYBp5f71q8Hv9kdDYzMZrLajh7+Zeafd793Jm238x2i7GkzgG15yDfVXGjpwVxrtJZ0QXGuha/Epwd0Ca3ptpOB6bYCQfuvgBvah8eA2QY4Ja+yAicEOJ/7pWiGBP8gayhJ67bNE1rC8KKJLsOuGJFnnDsCux1h0rZAAenqta4UEsBX8OMhltkqTHF454NRlSzRLxJahmBkiB78Yw2wQbyDgTlAu2C+bj23vX2hGponAL1Tom0VcEGgIKxlqCZryy0bxNmRoanb7tAvGr4iKKNbMd8eBRsEe7S+o6rz7431TKQgqMW0DmhroFxCTeA/t4XS4VfeAltvn9+zwDvgoiTGMuUmFH1N/caGm4zJ9avMh/eyNTkF5YDgbh1axn1n7Jo2vk54NlOyD84F2ePQqH1WSqEhlKmLqM5rF8Bc0PVjcr9fvtn9RKihZTIsfh2Y7hGFX/3G6pVS2zxcDCzBnPRC+JwmZTMg0lJwTEAXDZqIY25U0JcmJmRcygy8WXcBSx2Iy15J8g2icSktfRA1hqWMxmSvTELlqL0U6qdrrQ5odsLwco7V5aNDEaeQ5Ut21VOwQefgZ/bgFrDuK3yGyhxH4h/IhT1rsRBqfJgFbQVhRVCt+aQL2TASeRmhlbxGDfBoBXAb6aGF/mIB7nhse0r/7jfb4PmSPH4NbQduvtEwManLGVDo31xInzARbv7IyKZgBqb4lgGMw4zV9LBHGtYh9K1OIwSlWmE/tox/0K4efsg4uj+10ob3gTAfXMPD6qVuOU3AZDSZKek6vzqaP5qGec3C8Qrf+FLPO+Rzk+SSRAtSQwjaIgWqKMjJomHFOMfmKZ9j0z6xVswYnvymqLoqbHfXD4XLg8Sn4LR8K5DuRogsVjuiTuDD5BiYpzoE7OcWl5kueGQWQDfyinDLyi8UhCvmMZKk5/1q6q5ctNUsuL1Qm24kYXRjd8jldjS6z5OlULhs8zJZ/V/tMmABlaX/HtlGOwmUM0GJiP24zldSp4AKFMKHLMAz9Slvz7sTKLlz7z18ABhT+Sp9aBWCjR5U81Q5fOhOrZ+H368/AyiTc84fA6HUU96y+0DHN+1XnIaMMNjDOilywADvZFRmkmkh33Ow1AyKKLsHMMXLmAhhNDCSfjU1yjQZRhBBYIYgZTRyCrsEzEsewpkozDonXBLWj70Pd4hNWPt9ScOKiYVg5TKXzMErRKJgSH6XOdASPQicFWZUpgNQ1rXRKox2sigO1bl4sPKleGUuJGvVv+d8uP79aoURk4RRLkb1mQ9VSvuIrXktKLXrm9giztN1ij0BZ5KXBdUo6RyyigWaVaLCL50ycbZiXOLpe9KQ6p8Z1V9W91ibViztJ6MX4+T+OSS2MJRwsDuIuVpwVMV86Z/Mt3R1Tsg0tOCaP+H9fDlnibRXyhEkaWHfzfVMfqsKaHUL3xUnBkvX4cVDPYZJEiS1h0uAL/8dR+n4kDwits96Gxf/R8FLz48zby0ovBRU/zInrX26+s0/bN/W4Uw/c2jv+7eK7P+FcaP7369lY+eGsU0KU2+i77x4AcCvfx7wHbkWpCHhiRKMgVyegZTPe27Rl0gngC3PuJWNmnB0Us5IkvA12LZLsb+badr18cOqafP88bu2983k2hfjotLiEhIUI/KdCGOGneex0qmtW8sW295gZciqReM/Zp98cXsu2C8E13eGZe0fFSGRi92a8NL29JTVeXVYYTorWahcsb4dT9V5hfTrcloFimMvLP+Sr8bQLT8J1MQLZh4R+MX2/Wutf1mqJZrT7s7Kii1bymE1QdoyR0Z1yCnR7WJbo7SQ5LIz4ty473AFZAUl6EQjhqbUsDe6rbAhNiX6ZiiqhGzzurSn4NLNdXP11bvVddhY0gorHqZVFJkPbFacb+nfYFWm31g3/wh0AA4WXejTkN8VbzwDUvzgMkWXbU/CN3YrxJ7tBAYIVkuvnd9eBMUPa+0CCbl5bm2dAV6l56miFEbC1QvFS/pC++VeRz0Y3c5ey6Uv/pYwrkoaahO2+UBmIjbXoBJ3ah1qsa/Oy/sOV6BIoLOYrXz/M8e2vWtrFN8NcXHWSj5fRuP39QwMs2z3sYEN2vTu4dteeiybWJHqlfYWm693scHHtyb9UuSzWfDGe2Nur6zjHx9Fx3OvWnowX8/+AagzDMAzDMAzDMAzDMAzDMAzDMAzDMAzDMFn+AW2tg83OBpL7AAAAAElFTkSuQmCC',
-                    //     size: [40, 40],
-                    //     offset: [0, 10]
-                    //   },
-                    //   {
-                    //     href: 'https://cdn4.vectorstock.com/i/1000x1000/20/73/black-cat-icon-flat-vector-11112073.jpg',
-                    //     size: [60, 60],
-                    //     offset: [-30, -30]
-                    //   }],
-
-                    iconShape: {
-                      type: "Rectangle",
-                      coordinates: [
-                        [-50, -50],
-                        [100, 100],
-                      ],
-                    },
-
-                    // clusterDisableClickZoom: true,
-                    // clusterHideIconOnBalloonOpen: false,
-                    // geoObjectHideIconOnBalloonOpen: false
-                  }}
-                  >
-                  {allPlaces?.map((place, index) => (
-                    <Placemark
-                      onClick={() => {
-                        
-                    
-                      
-                        setPlaceEvents(place?.Events)
-                        setNewCoords([+place?.latitude, +place?.longitude])
-                        setTimeout(
-                          toggleDrawer(anchor, true), 100)
-                      }    
-                      }
-                      className="round"
-                      key={Math.round(Math.random() * 11532)}
-                      geometry={[+place?.latitude, +place?.longitude]}
-                      options={{
-                        // iconLayout: 'default#image',
-                        iconImageSize: [40, 40], // размер нашей картинки
-                        iconLayout: "default#imageWithContent",
-
-                        iconShape: {
-                          type: "Rectangle",
-                          // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
-                          coordinates: [
-                            [-50, -50],
-                            [100, 100],
-                          ],
-                        },
-                        //  customState[index]?.template
-                        iconContentLayout: customState?.find(oneCustom => {
-                          if(oneCustom.id == place.id) {
-                            console.log("ONECUSTOM", oneCustom?.id, "PLACEID", place?.id)
-                            console.log("TEMPLATE", oneCustom?.template)
-                            return true;
-                          }
-                           })?.template,
-                        iconContentSize: [70, 70],
-                        iconContentOffset: [-30, -90],
-
-                        iconImageHref:
-                          "https://i.ibb.co/zJwrByk/ssssss-01.png",
-                        hideIconOnBalloonOpen: false, 
-// POINTT
-                        balloonContentLayout: ballonstate.balloonContent,
-                        balloonPanelMaxMapArea: 1,
-                        openEmptyBalloon: true,
-                      }}
-                      modules={[
-                        "geoObject.addon.balloon",
-                        "geoObject.addon.hint",
-                      ]}
-                
-                      properties={
-                        {
-                          // iconCaption : 'asd'
-                        }
-                      }
-                    >
-                      {anchor}
-                    </Placemark>
-                  ))}
-                </Clusterer>
-
-           
-
-                {/* // метка при создании нового события  */}
-                {open &&
-                  <><Placemark
-                    geometry={newCoords}
-                    options={{
-                      iconImageSize: [40, 40], // размер нашей картинки
-                      iconLayout: "default#imageWithContent",
-
-                      iconShape: {
-                        type: "Rectangle",
-                        // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
-                        coordinates: [
-                          [-50, -50],
-                          [100, 100],
-                        ],
-                      },
-
-                      iconContentLayout: supercustom?.template,
-                      iconContentSize: [200, 200],
-                      iconContentOffset: [-30, -90],
-
-                      iconImageHref:
-                        "https://i.ibb.co/zJwrByk/ssssss-01.png",
-                    }}
-                  /></>}
-                <FullscreenControl />
-                <SearchControl
-                  instanceRef={(ref) => {
-                    if (ref) {
-                      setSearch(ref);
-                    }
-                  }}
-                  options={{
-                    provider: "yandex#search",
-                    position: {
-                      top: 50,
-                      left: 278
-                    },
-                  }}
-                />
-              </Map>
-{/* ДРОВЕР */}
+            <YMaps
+              query={{
+                apikey: "ca6c950f-dbfc-4b92-9866-e35c7b2be031&lang=ru_RU",
+              }}
+              version={"2.1"}
+            >
               <div>
-                {/* {placeEvents.map((event) => (
+                My awesome application with maps!
+                <div
+
+                  name="img"
+                  onDragStart={(e) => dragStartHandler(e)}
+                  onDragLeave={(e) => dragLeaveHandler(e)}
+                  onDragOver={(e) => dragStartHandler(e)}
+                  onDrop={dropHandler}
+                >
+                  <div className={style.events__mapWrapper}>
+                    <Map
+                      className={style.events__map}
+                      instanceRef={(ref) => {
+                        setMap(ref);
+                        handlerInitMap();
+
+                      }}
+                      onLoad={(ymaps) => {
+                        if (!yymap) {
+                          yymap = ymaps;
+                        }
+                        setMyYmaps(ymaps);
+                        setTimeout(() => {
+                          createTemplateLayoutFactory(yymap);
+                        }, 100)
+
+                        handleApiAvaliable(ymaps);
+                        setClusterIcon(ymaps.map);
+
+                      }}
+                      modules={["templateLayoutFactory", "layout.ImageWithContent", "geolocation", "geocode"]}
+                      defaultState={{ center: [55.75, 37.57], zoom: 9 }}
+                      onClick={(event) => {
+                        try {
+                          if (event?.get("coords")) {
+                            onMapClick(event);
+                          }
+                        } catch (error) {
+                          console.log("ERRORRRRR", error);
+                        }
+                      }}
+                    >
+                      <Clusterer
+                     
+                        options={{
+                          // preset: 'islands#invertedVioletClusterIcons',
+                          iconImageSize: [0, 0], // размер нашей картинки
+                          clusterIconLayout: "default#imageWithContent",
+
+                          // clusterIconImageHref: 'http://s49novouralsk.edusite.ru/images/knopka.png',
+                          // clusterIconContentLayout: customState[0].template,
+
+                          // clusterIconContentLayout: customState.template,
+                          // iconContentSize: [100,100],
+
+                          // clusterIcons: [
+                          //   {
+                          //     href: 'data:image/png;base64,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',
+                          //     size: [40, 40],
+                          //     offset: [0, 10]
+                          //   },
+                          //   {
+                          //     href: 'https://cdn4.vectorstock.com/i/1000x1000/20/73/black-cat-icon-flat-vector-11112073.jpg',
+                          //     size: [60, 60],
+                          //     offset: [-30, -30]
+                          //   }],
+
+                          iconShape: {
+                            type: "Rectangle",
+                            coordinates: [
+                              [-50, -50],
+                              [100, 100],
+                            ],
+                          },
+
+                          // clusterDisableClickZoom: true,
+                          // clusterHideIconOnBalloonOpen: false,
+                          // geoObjectHideIconOnBalloonOpen: false
+                        }}
+                      >
+                        {allPlaces?.map((place, index) => (
+                          <Placemark
+                            onClick={() => {
+                              setPlaceEvents(place?.Events)
+                              setNewCoords([+place?.latitude, +place?.longitude])
+                              setTimeout(
+                              toggleDrawer(anchor, true), 100)
+                            }
+                            }
+                            className="round"
+                            key={Math.round(Math.random() * 11532)}
+                            geometry={[+place?.latitude, +place?.longitude]}
+                            options={{
+                              // iconLayout: 'default#image',
+                              iconImageSize: [40, 40], // размер нашей картинки
+                              iconLayout: "default#imageWithContent",
+
+                              iconShape: {
+                                type: "Rectangle",
+                                // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
+                                coordinates: [
+                                  [-50, -50],
+                                  [100, 100],
+                                ],
+                              },
+                              //  customState[index]?.template
+                              iconContentLayout: customState?.find(oneCustom => {
+                                if (oneCustom.id == place.id) {
+                                  return true;
+                                }
+                              })?.template,
+                              iconContentSize: [70, 70],
+                              iconContentOffset: [-30, -90],
+
+                              iconImageHref:
+                                "https://i.ibb.co/zJwrByk/ssssss-01.png",
+                              hideIconOnBalloonOpen: false,
+                              // POINTT
+                              balloonContentLayout: ballonstate.balloonContent,
+                              balloonPanelMaxMapArea: 1,
+                              openEmptyBalloon: true,
+                            }}
+                            modules={[
+                              "geoObject.addon.balloon",
+                              "geoObject.addon.hint",
+                            ]}
+
+                            properties={
+                              {
+                                // iconCaption : 'asd'
+                              }
+                            }
+                          >
+                            {anchor}
+                          </Placemark>
+                        ))}
+                      </Clusterer>
+
+
+
+                      {/* // метка при создании нового события  */}
+                      {open &&
+                        <><Placemark
+                          geometry={newCoords}
+                          options={{
+                            iconImageSize: [40, 40], // размер нашей картинки
+                            iconLayout: "default#imageWithContent",
+
+                            iconShape: {
+                              type: "Rectangle",
+                              // Прямоугольник описывается в виде двух точек - верхней левой и нижней правой.
+                              coordinates: [
+                                [-50, -50],
+                                [100, 100],
+                              ],
+                            },
+
+                            iconContentLayout: supercustom?.template,
+                            iconContentSize: [200, 200],
+                            iconContentOffset: [-30, -90],
+
+                            iconImageHref:
+                              "https://i.ibb.co/zJwrByk/ssssss-01.png",
+                          }}
+                        /></>}
+                      <FullscreenControl />
+                      <SearchControl
+                        instanceRef={(ref) => {
+                          if (ref) {
+                            setSearch(ref);
+                          }
+                        }}
+                        options={{
+                          provider: "yandex#search",
+                          position: {
+                            top: 50,
+                            left: 278
+                          },
+                        }}
+                      />
+                    </Map>
+                    {/* ДРОВЕР */}
+                    <div>
+                      {/* {placeEvents.map((event) => (
                   <>
                     <p>{event?.name}</p>
                     <p>{event?.description}</p>
                   </>
                 ))} */}
-                {/* <Drawer /> */}
+                      {/* <Drawer /> */}
+                    </div>
+                    <div>
+                      <p>Адрес: {address}</p>
+                      Вы выбрали место:
+                      <p>{selectedOrganization?.name}</p>
+                      <p>{selectedOrganization?.description}</p>
+                      <p>{selectedOrganization?.workingTime}</p>
+                      <p>Координаты: {newCoords}</p>
+                    </div>
+                    <button onClick={() => setDrawerOpen(prev => !prev)}>Открыть</button>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p>Адрес: {address}</p>
-                Вы выбрали место:
-                <p>{selectedOrganization?.name}</p>
-                <p>{selectedOrganization?.description}</p>
-                <p>{selectedOrganization?.workingTime}</p>
-                <p>Координаты: {newCoords}</p>
-              </div>
-              <button onClick={() => setDrawerOpen(prev => !prev)}>Открыть</button>
-            </div>
-          </div>
-        </div>
-      </YMaps>
+            </YMaps>
 
-                <Snackbar
-                  open={openSnack}
-                  onClose={handleCloseSnack}
-                  TransitionComponent={transition}
-                  message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
-                  key={transition ? transition.name : ''}
-                />
-                
-    </div>
+            <Snackbar
+              open={openSnack}
+              onClose={handleCloseSnack}
+              TransitionComponent={transition}
+              message="Невозможно определить геолокацию по фото, кликнете по карте и создайте место в ручную"
+              key={transition ? transition.name : ''}
+            />
+
+          </div>
 
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            onClose={() => { 
+                setTimeout(
+                  toggleDrawer(anchor, false), 50)        
+            }}
+
             onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
           </SwipeableDrawer>
         </React.Fragment>
-    ))}
-      </>
+      ))}
+    </>
   );
 }
 

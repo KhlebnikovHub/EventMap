@@ -16,7 +16,7 @@ function DiscInput({id}) {
       <form onSubmit={setNewEventPhotoHandler}>
         <input name="folder" placeholder="FOLDER" type="text"/>
         <input name="photo" placeholder="PHOTO" type="text"/>
-        <button type="submit" > Prinyat' GOOGLEDISC </button>
+        <button type="submit" > Принять папку GOOGLEDISC </button>
       </form>
     </div>
   )
