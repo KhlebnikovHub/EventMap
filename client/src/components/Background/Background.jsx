@@ -16,6 +16,7 @@ const options = {
   backgroundColor: "#003e4231",
   useDevicePixelRatio: true,
 };
+
 const optionsOff = {
   numMetaballs: 1,
   minRadius: 0.0001,
@@ -25,27 +26,37 @@ const optionsOff = {
   backgroundColor: "#003e4231",
   useDevicePixelRatio: true,
 };
+
 function Background() {
   const canvasEl = useRef(null)
 
   const {switchAnimation} = useAnimationContext()
 
+
   useEffect(() => {
-   initMetaballs(canvasEl.current, options);
-}, [])
+    if(switchAnimation) {
+      initMetaballs(canvasEl.current, options);
+
+    } else {
+      initMetaballs(canvasEl.current, optionsOff);
+    }
+}, [switchAnimation])
 
   return (
   <div className={style.background__image}>
+
     { switchAnimation ?
      <canvas ref={canvasEl} className={style.canvas__wrapper} id="canvasId"></canvas>
     :
     <canvas ref={canvasEl} className={style.canvas__wrapper} id="canvasId" hidden></canvas>
   }
+
     <BackgroundSlider
       images={[image1, image2, image3, image4]}
       duration={7}
       transition={2}
     />
+
   </div>
 );
 }

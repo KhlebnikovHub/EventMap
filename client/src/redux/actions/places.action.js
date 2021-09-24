@@ -1,4 +1,4 @@
-import { GET_ALL_PLACES, SET_PLACE, ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
+import { GET_ALL_PLACES, SET_PLACE, SET_LAST_PLACE, SET_EVENT,  ADD_PLACE, SET_ALL_PLACES, SET_ERROR, SET_LOADING } from '../types/places'
 
 
 //middleware
@@ -30,8 +30,12 @@ export const addPlace = (data) => async (dispatch) => {
     
     const place = await responseData.json();
     console.log("PLACE FROM FROM ACTION", place);
-
-    dispatch(setPlace(place))
+    if(place?.Events.length === 1) {
+      dispatch(setPlace(place))
+    } else {
+      dispatch(addEvent(place));
+    }
+    dispatch(setLastPlace(place))
   } catch(error) {
     dispatch(setError(error))
   }
@@ -43,10 +47,21 @@ export const setAllPlaces = (allPlaces) => ({
   payload: {allPlaces}
 })
 
+export const addEvent = (place) => ({
+  type: SET_EVENT,
+  payload: { place }
+})
+
 export const setPlace = (place) => ({
   type: SET_PLACE,
   payload: { place }
 })
+
+export const setLastPlace = (place) => ({
+  type: SET_LAST_PLACE,
+  payload: { place }
+})
+
 
 export const setLoading = () => ({
   type: SET_LOADING

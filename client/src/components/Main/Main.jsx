@@ -11,7 +11,6 @@ import Auth from '../Auth/Auth.jsx'
 import Profile from '../Profile/Profile.jsx'
 import AllUsers from '../AllUsers/AllUsers.jsx'
 import Event from '../Event/Event.jsx'
-import Map from '../Map/Map.jsx'
 import OneUserInfo from "../OneUserInfo/OneUserInfo.jsx";
 import Random from '../Random/Random.jsx'
 
@@ -104,10 +103,6 @@ function Main() {
 
           <PrivateRoute exact path="/Event/:id">
             <Event />
-          </PrivateRoute>
-
-          <PrivateRoute exact path="/Map/:id">
-            <Map />
           </PrivateRoute>
 
           <PrivateRoute exact path="/User/:id">

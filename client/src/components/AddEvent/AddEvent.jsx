@@ -10,7 +10,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 
-function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files }) {
+function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganization, files, handleClose, setNewCoords }) {
 
 
   const dispatch = useDispatch();
@@ -155,7 +155,13 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
             sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
           />
         </div>
-        <button>Создать событие</button>
+        <button onClick={() => {
+          setTimeout(() => {
+            setNewCoords([])
+            handleClose();
+          }, 100)
+          
+        }}>Создать событие</button>
       </div>
     </form>
   )
