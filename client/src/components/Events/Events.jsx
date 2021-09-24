@@ -492,7 +492,7 @@ useEffect(() => {
             </div>
             
             <Link to={`/panorama/${placeEvents[0]?.place_id}`}>панорама блядь</Link>
-      >
+      
       
                     <button>панорама блядь</button>
                     <button onClick={handleOpen}>Создать событие</button>

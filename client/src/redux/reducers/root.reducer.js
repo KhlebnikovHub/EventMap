@@ -8,6 +8,7 @@ import { allPlacesReducer } from "./places.reducer";
 import { getEventReducer } from './getEvent.reducer';
 import { profileEventsReducer } from './profileEvents.reducer';
 import { randomPlacesReducer } from "./randomPlaces";
+import { panoramaReducer } from "./panorama.reducer";
 
 
 
@@ -20,5 +21,6 @@ export const rootReducer = combineReducers({
   allPlaces: allPlacesReducer,
   randomPlaces: randomPlacesReducer, 
   event: getEventReducer,
-  profileEvents: profileEventsReducer
+  profileEvents: profileEventsReducer,
+  panorama: panoramaReducer,
 })

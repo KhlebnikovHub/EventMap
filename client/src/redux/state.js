@@ -36,6 +36,11 @@ export const initialState = {
     list: [],
     isLoading: false,
     error: false
+  },
+  panorama: {
+    panorama: {},
+    isLoading: false,
+    error: false
   }
 }
 
