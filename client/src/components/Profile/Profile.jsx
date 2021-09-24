@@ -8,7 +8,6 @@ import './Profile.module.css';
 function Profile() {
 
   const currentUserFromState = useSelector((state) => state.currentuser);
-  console.log("CURENTUSER", currentUserFromState);
   const dispatch = useDispatch();
 
 

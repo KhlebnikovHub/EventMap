@@ -18,8 +18,6 @@ function MyPanorama() {
   
 
   const { panorama, isLoading, error } = useSelector((state) => {
-    console.log("PISYAPOPA", state.panorama);
-    
     return state.panorama });
 
   useEffect(() => {

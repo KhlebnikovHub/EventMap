@@ -5,7 +5,7 @@ import { ADD_TO_REQUEST } from "../types/friends"
 export const allUsersReducer = (state = {}, action) => {
   const { type, payload, error } = action
   // const {response, idOfDevice} = payload
-  // console.log("CHANGE PAYL:OAD",payload);
+
 
   switch (type) {
       case SET_ERROR: {

@@ -1,5 +1,5 @@
 function DragPannellum( {id} ) {
-  console.log('666', id)
+
 
   const dragStartHandler = (event) => {
     event.preventDefault();

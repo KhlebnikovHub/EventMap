@@ -4,7 +4,6 @@ import { SET_RANDOM_PLACES, SET_PANORAMA, SET_ERROR, SET_LOADING } from "../type
 export const panoramaReducer = (state = {}, action) => {
   const { type, payload, error } = action
   // const {response, idOfDevice} = payload
-  // console.log("CHANGE PAYL:OAD",payload);
 
   switch (type) {
       case SET_ERROR: {

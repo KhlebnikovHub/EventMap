@@ -46,7 +46,7 @@ export const setNewEventPhoto = ({id, googleDisc, otherPhoto}) => async (dispatc
       withCredentials: true
     })
     const allEventPhoto = response.data;
-    console.log('RESPONSE FROM ADDPHOTO', allEventPhoto );
+
   
     dispatch(setNewPhoto(allEventPhoto));
 
@@ -64,7 +64,7 @@ export const editEvent = (id, newFormData) => async (dispatch) => {
       withCredentials: true
     })
     const editedEvent = response.data;
-    console.log("NOWAYA INFA S BEKA", editedEvent);
+
   
     dispatch(setEditEvent(editedEvent));
 

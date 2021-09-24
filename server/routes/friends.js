@@ -37,7 +37,6 @@ router.route('/:id')
   .delete(async (req, res) => {
     const { id } = req.params;
     const respondentId = req.body;
-    console.log("PARAMS---->", req.params, '\nBODY-------------->', req.body);
     await Friend.destroy({ where: {
       friend_id: respondentId.id,
       user_id: id,
@@ -67,7 +66,6 @@ router.route('/requests/:id')
     res.json(allRequest);
   })
   .delete(async (req, res) => {
-    // console.log("req.params", req.params, '--------', '   req.body', req.body);
     const { id } = req.params;
     const applicantId = req.body;
     await Request.destroy({ where: { applicant_id: applicantId.id, respondent_id: id } });
@@ -76,8 +74,6 @@ router.route('/requests/:id')
   .post(async (req, res) => {
     const { id } = req.params;
     const applicantId = req.body;
-    // console.log('req.params', req.params, '--------', '   req.body', req.body);
-
     await Friend.create({
       user_id: applicantId.id,
       friend_id: id,

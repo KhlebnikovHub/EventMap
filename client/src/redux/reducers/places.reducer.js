@@ -4,7 +4,6 @@ import { SET_ALL_PLACES, SET_PLACE, SET_EVENT, SET_LAST_PLACE, SET_ERROR, SET_LO
 export const allPlacesReducer = (state = {}, action) => {
   const { type, payload, error } = action
   // const {response, idOfDevice} = payload
-  // console.log("CHANGE PAYL:OAD",payload);
 
   switch (type) {
     case SET_ERROR: {

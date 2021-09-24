@@ -5,12 +5,9 @@ const { User } = require('../db/models');
 
 router.get('/main', async (req, res) => {
 
-  console.log('MAIN>>>>>>>>>>>>>>>', 'REQ. USER', req.user);
-  console.log('REQ. SEEESION', req.session?.passport);
+
   if (req?.session?.passport) {
     res.locals.name = req.session.passport.user.displayName;
-    console.log('I\'m HERE! +=)+');
-    console.log(res.locals.name);
   }
   res.render('main');
 

@@ -11,14 +11,12 @@ function currentUserReducer(state = null, action) {
     
     case EDIT_USER_AVATAR: {
       const { newAvatar } = payload;
-      console.log('REDUCERAVATAR', newAvatar);
       return {
         ...state,
         avatar: newAvatar
       }
     }
     case LOG_OUT: {
-      console.log("KYKYKYKYKYK");
       return null
     }
 
