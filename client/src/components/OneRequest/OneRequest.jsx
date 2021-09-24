@@ -67,7 +67,7 @@ function OneRequest({ id, avatar, firstname, lastname, email }) {
             variant="contained"
             onClick={() => deleteRequestHandler(id)}
           >
-            Удалить
+            Отклонить
           </Button>
         </div>
       </div>

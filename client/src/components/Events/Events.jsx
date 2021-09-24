@@ -159,7 +159,7 @@ function Events() {
   const handleOpen = () =>  {
 
     setOpen(true);
-    map.panTo(map.getCenter());
+    map.panTo(newCoords ? newCoords : map?.getCenter());
 
   };
   const handleClose = () => { 
@@ -176,10 +176,8 @@ function Events() {
     console.log(map);
     map?.geoObjects?.each((geoObject) => {
       if (geoObject._clusters) {
-        console.log("geoOBJECT", geoObject);
         let clusters = geoObject._clusters;
         for (let key in clusters) {
-          console.log("CLUSTERYAGA", key, clusters[key]);
           if (clusters[key]?.clusterObject?.options) {
             const features = clusters[key].hash.features;
             let latestFeature;
@@ -199,8 +197,6 @@ function Events() {
                   ? features[i]
                   : latestFeature;
             }
-
-            console.log("LATEEEEESSSST FEAAATUUUUURE", latestFeature);
 
             let latestFeatureCoordinates = latestFeature.geometry.coordinates;
             const latestIndexTemplate = customState.findIndex((el) => {
@@ -234,7 +230,6 @@ function Events() {
       // map?.events.add("wheel", setClusterIcon);
       // map?.events.add("boundschange", setClusterIcon);
       map?.events.add("actionend", setClusterIcon);
-      console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter());
 
       if (!firstCounter) {
         map.panTo(map.getCenter());
@@ -260,28 +255,6 @@ function Events() {
     }
   };
 
-  // const createNewTemplate = (ymaps) => {
-  //   setCustomState((prev) => [
-  //     ...prev,
-  //     {
-  //       id: place?.id,
-  //       coordinates: [+place.latitude, +place.longitude],
-  //       template: ymaps?.templateLayoutFactory?.createClass(
-  //         `
-  //             <div class="card">
-  //               <div class="card-image">
-  //                 <img width="100px" height="auto" src="${process.env.REACT_APP_API_URL}${place?.Events[0]?.image}">
-  //               </div>
-  //             </div>
-            
-  //         `
-  //       ),
-  //     }
-    
-  //   ]);
-  // }
-
-  
 
     const createTemplateLayoutFactory = (ymaps) => {
 
@@ -290,15 +263,11 @@ function Events() {
     if(!yymap) {
       yymap = myYmaps;
     }
-    console.log("YMAPSIKKKKKK", yymap)
-    console.log("MYYMAPSIKKKKKK", myYmaps)
+  
     // && !customState?.template || ymaps && !supercustom?.template
     if (allPlaces.length) {
       for (let i = 0; i < allPlaces?.length; i++) {
-        // console.log(allPlaces[i]?.Events[0]?.image);
-        console.log("OLOLOSHENKKKKII")
-        
-          
+            
           setCustomState((prev) => [
             ...prev,
             {
@@ -338,8 +307,6 @@ function Events() {
 
     }
 
-
-    console.log("CUSTOM STATE", customState);
     setSupercustom({
       template: yymap?.templateLayoutFactory?.createClass(
         `
@@ -355,9 +322,7 @@ function Events() {
 
 
 useEffect(() => {
-  
   if(lastPlace) {
-    console.log("IGOOOOOOR");
     createTemplateLayoutFactory();
     setTimeout(() => {
       console.log("CUSTOMSTATE", customState);
@@ -388,7 +353,7 @@ useEffect(() => {
         let response = await myYmaps?.geocode(event?.get("coords"));
 
         setAddress(response?.geoObjects.get(0)?.properties?._data?.text);
-        console.log("ADDDRESSS", response?.geoObjects.get(0)?.properties?._data?.text)
+        // map?.panTo(newCoords);
         handleOpen();
 
 
@@ -460,13 +425,6 @@ useEffect(() => {
   };
 
 
-
-
-  // useEffect(() => {
-  // console.log('GPS', newCoords)
-
-  // }, [newCoords])
-
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : '25vw' }}
@@ -478,9 +436,9 @@ useEffect(() => {
               <DragPannellum id={placeEvents[0]?.place_id}/>
             </div>
             
-            <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>панорама блядь</Link></button>
-      
-      
+
+            <button><Link target="_blank" rel="noopener noreferrer" to={`/panorama/${placeEvents[0]?.place_id}`}>Открыть панораму</Link></button>   
+
                     <button onClick={handleOpen}>Создать событие</button>
       <List>
         {placeEvents.map((event) => (
@@ -756,32 +714,7 @@ useEffect(() => {
                         "geoObject.addon.balloon",
                         "geoObject.addon.hint",
                       ]}
-                      // instanceRef={ref => {
-                      //   if (ref) {
-
-                      //     console.log("RGREEEEF", ref.getParent()?._clusters)
-                      //     let clusters = ref.getParent()?._clusters;
-                      //     for (let cluster in clusters) {
-                      //       console.log('ONE_CLUSTER', clusters[cluster])
-                      //       console.log('ICOOOOOOOOOOOOOON', clusters[cluster].clusterObject?.options)
-                      //       if (clusters[cluster].clusterObject?.options) {
-                      //         console.log("FUUUUUU");
-                      //         clusters[cluster].clusterObject?.options.set('clusterIcons', [
-                      //           {
-                      //             href: "https://img2.freepng.ru/20190131/ilj/kisspng-black-cat-whiskers-kitten-clicker-training-kittens-clipart-catl-for-free-download-and-use-in-5c5304b658bc54.8871701115489445663635.jpg",
-                      //             size: [40, 40],
-                      //             offset: [-20, -20]
-                      //           }
-                      //         ])
-
-                      //         clusters[cluster].clusterObject?.options.set('clusterIconContentLayout', supercustom.template)
-                      //         setClusterIcon();
-
-                      //         clusters[cluster].clusterObject.options._cache.clusterIcons[1].href="https://img2.freepng.ru/20190131/ilj/kisspng-black-cat-whiskers-kitten-clicker-training-kittens-clipart-catl-for-free-download-and-use-in-5c5304b658bc54.8871701115489445663635.jpg"
-                      //       }
-                      //     }
-                      //   }
-                      // }}
+                
                       properties={
                         {
                           // iconCaption : 'asd'
@@ -824,11 +757,6 @@ useEffect(() => {
                 <SearchControl
                   instanceRef={(ref) => {
                     if (ref) {
-                      console.log(
-                        "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEFik",
-                        ref.getSelectedIndex()
-                      );
-                      console.log(ref.showResult(0));
                       setSearch(ref);
                     }
                   }}

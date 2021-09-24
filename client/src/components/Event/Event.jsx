@@ -20,7 +20,6 @@ function Event() {
   const [inputChange, setInputChange] = useState(<DiscInput />);
   const dispatch = useDispatch();
   const { list, isLoading, error } = useSelector((state) => {
-    console.log("PISYAPOPA", state.event.list);
     
     return state.event });
 
@@ -33,7 +32,6 @@ function Event() {
   const editEventHandler = async (e) => {
     e.preventDefault();
     const newFormData = Object.fromEntries(new FormData(e.target));
-    console.log("PISYAKAKAPISYAKAKA", newFormData);
     dispatch(editEvent(id, newFormData));
   }
 
@@ -42,10 +40,12 @@ function Event() {
     setShowSubmitButton(!showSubmitButton)
   }
 
+  if(list) {
+    if (!list?.image?.includes("http")) {
+      list.image = `${process.env.REACT_APP_API_URL}${list?.image}`;
+       }
+  }
   
-  if (!list?.image?.includes("http")) {
-   list.image = `${process.env.REACT_APP_API_URL}${list.image}`;
-    }
     
     const DiscInputHandler = () => {
       setInputChange(<DiscInput id={id} />);
@@ -53,9 +53,9 @@ function Event() {
   const PhotoInputHandler = () => {
     setInputChange(<OtherPhotoInput id={id} />);
   };
-  useEffect(() => {
-    console.log("NOVOE GAVNO", list)
-  }, [list])
+  // useEffect(() => {
+   
+  // }, [list])
 
   return (
     <>
