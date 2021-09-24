@@ -49,6 +49,7 @@ import style from "./Events.module.css";
 import PlaceIcon from '@mui/icons-material/Place';
 
 import "./Events.module.css";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -136,6 +137,7 @@ function Events() {
   const [address, setAddress] = useState('')
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [placeEvents, setPlaceEvents] = useState([]);
+  console.log('777', placeEvents)
   const [search, setSearch] = useState("");
   const [state, setState] = useState({ coords: [], right: false, });
   const [myYmaps, setMyYmaps] = useState('');
@@ -484,6 +486,12 @@ useEffect(() => {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+    >
+            <div className={style.drag}>
+              <DragPannellum id={placeEvents[0]?.place_id}/>
+            </div>
+            
+            <Link to={`/panorama/${placeEvents[0]?.place_id}`}>панорама блядь</Link>
       >
       
                     <button>панорама блядь</button>

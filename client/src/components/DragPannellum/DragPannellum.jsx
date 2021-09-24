@@ -1,4 +1,4 @@
-function DragPannellum({ id }) {
+function DragPannellum( {id} ) {
   console.log('666', id)
 
   const dragStartHandler = (event) => {
@@ -10,23 +10,21 @@ function DragPannellum({ id }) {
 
   const dropHandler = async (event) => {
     event.preventDefault();
-    let fileDrag = event.dataTransfer.files[0];
-    // const formDragData = new FormData();
-    // formDragData.append("img", fileDrag);
-    // console.log('13', formDragData)
+    let panorama = event.dataTransfer.files[0];
+    const panoramaFile = new FormData();
+    panoramaFile.append("img", panorama);
+    
     await fetch(`${process.env.REACT_APP_API_URL}/panorama/${id}`, {
       method: 'PATCH',
-      body: fileDrag,
+      body: panoramaFile,
     })
-
-
-    
 
   };
 
   return (
     <div
     encType="multipart/form-data"
+    name='img'
     onDragStart={(e) => dragStartHandler(e)}
     onDragLeave={(e) => dragLeaveHandler(e)}
     onDragOver={(e) => dragStartHandler(e)}

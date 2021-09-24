@@ -25,6 +25,7 @@
     "jquery": "^3.6.0",
     "metaballs-js": "^2.0.0",
     "node-sass": "^6.0.1",
+    "pannellum-react": "^1.2.4",
     "parcel-bundler": "^1.12.4",
     "react": "^17.0.2",
     "react-background-slider": "^2.0.0",
