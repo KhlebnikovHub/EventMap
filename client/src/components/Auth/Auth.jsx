@@ -9,7 +9,7 @@ function Auth() {
   let location = useLocation();
 
   let { from } = location.state || { from: { pathname: "/" } };
-  console.log('----------------------------_____>>', location.state);
+
 
 
   const dispatch = useDispatch()
@@ -25,7 +25,7 @@ function Auth() {
       });
       const currentuser = await response.json();
       dispatch(getCurrentUser(currentuser))
-      console.log("ANSWER FROM BACK", currentuser);
+
   }
 
   const authLogOut = async () => {

@@ -170,13 +170,10 @@ function Random({userMapId}) {
  
 
   const setClusterIcon = (ymaps) => {
-    console.log(map);
     map?.geoObjects?.each((geoObject) => {
       if (geoObject._clusters) {
-        console.log("geoOBJECT", geoObject);
         let clusters = geoObject._clusters;
         for (let key in clusters) {
-          console.log("CLUSTERYAGA", key, clusters[key]);
           if (clusters[key]?.clusterObject?.options) {
             const features = clusters[key].hash.features;
             let latestFeature;
@@ -197,7 +194,6 @@ function Random({userMapId}) {
                   : latestFeature;
             }
 
-            console.log("LATEEEEESSSST FEAAATUUUUURE", latestFeature);
 
             let latestFeatureCoordinates = latestFeature.geometry.coordinates;
             const latestIndexTemplate = customState.findIndex((el) => {
@@ -231,7 +227,6 @@ function Random({userMapId}) {
       // map?.events.add("wheel", setClusterIcon);
       // map?.events.add("boundschange", setClusterIcon);
       map?.events.add("actionend", setClusterIcon);
-      console.log("CENTTTTTEEEEREREEEEERERERERRR", map.getCenter());
 
       if (!firstCounter) {
         map.panTo(map.getCenter());
@@ -266,15 +261,10 @@ function Random({userMapId}) {
     if(!yymap) {
       yymap = myYmaps;
     }
-    console.log("YMAPSIKKKKKK", yymap)
-    console.log("MYYMAPSIKKKKKK", myYmaps)
     // && !customState?.template || ymaps && !supercustom?.template
     if (allPlaces.length) {
       for (let i = 0; i < allPlaces?.length; i++) {
-        // console.log(allPlaces[i]?.Events[0]?.image);
-        console.log("OLOLOSHENKKKKII")
         
-          
           setCustomState((prev) => [
             ...prev,
             {
@@ -315,7 +305,6 @@ function Random({userMapId}) {
     }
 
 
-    console.log("CUSTOM STATE", customState);
     setSupercustom({
       template: yymap?.templateLayoutFactory?.createClass(
         `
@@ -333,10 +322,8 @@ function Random({userMapId}) {
 useEffect(() => {
   
   if(lastPlace) {
-    console.log("IGOOOOOOR");
     createTemplateLayoutFactory();
     setTimeout(() => {
-      console.log("CUSTOMSTATE", customState);
     }, 100)
   }
   
@@ -364,21 +351,14 @@ useEffect(() => {
         let response = await myYmaps?.geocode(event?.get("coords"));
 
         setAddress(response?.geoObjects.get(0)?.properties?._data?.text);
-        console.log("ADDDRESSS", response?.geoObjects.get(0)?.properties?._data?.text)
-       
-
-
-
-
 
         // myYmaps?.geocode(newCoords).then(res => {
         //   setAddress(res?.geoObjects.get(0)?.properties?._data?.text)
         //   handleOpen();
-        //   console.log("GEOCODISHE");
         // })
 
       } catch (error) {
-        console.log("ERRRRRRRRORRRRR", error);
+        console.log(error);
       }
     }
   };
@@ -457,7 +437,6 @@ useEffect(() => {
                   setMyYmaps(ymaps);
                  setTimeout(() => {
                    createTemplateLayoutFactory(yymap);
-                   console.log("YMAPSIK", ymaps);
                  }, 100)
                   
                   handleApiAvaliable(ymaps);
@@ -474,7 +453,7 @@ useEffect(() => {
                       onMapClick(event);
                     }
                   } catch (error) {
-                    console.log("ERRORRRRR", error);
+                    console.log(error);
                   }
                 }}
               >
@@ -522,8 +501,6 @@ useEffect(() => {
                         //  customState[index]?.template
                         iconContentLayout: customState?.find(oneCustom => {
                           if(oneCustom.id == place.id) {
-                            console.log("ONECUSTOM", oneCustom?.id, "PLACEID", place?.id)
-                            console.log("TEMPLATE", oneCustom?.template)
                             return true;
                           }
                            })?.template,

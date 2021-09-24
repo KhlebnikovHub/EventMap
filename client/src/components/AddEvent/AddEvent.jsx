@@ -44,24 +44,12 @@ function AddEvent({ newCoords, imgName, address, setImgName, selectedOrganizatio
     
     const formData = new FormData()
     formData.append('img', file)
-    console.log('FORMDATAAA', formData);
+
     data.append('user_id', user_id)
     data.append('newCoords', newCoords);
-    console.log("COOOOOOORDISHE", newCoords);
-    console.log('FILEE', file);
+
 
     dispatch(addPlace(data));
-
-    // const responseData = await fetch(`${process.env.REACT_APP_API_URL}/event/newEvent`, {
-    //   method: 'POST',
-    //   // headers: { 'Content-Type': 'application/json;charset=utf-8' },
-    //   // body: JSON.stringify({ ...data, user_id, newCoords }),
-    //   body: data,
-    //   credentials: "include"
-    // })
-
-   
-
   };
 
   const dragStartHandler = (event) => {

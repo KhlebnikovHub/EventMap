@@ -10,8 +10,6 @@ const initUser = async (req, res, next) => {
     const firstName = req.session?.passport?.user?.name?.givenName;
     const lastName = req.session?.passport?.user?.name?.familyName;
     const ourUser = await User.findOne({ where: { email: req.session?.passport?.user?.emails[0]?.value } });
-    console.log('HEEEEEEEEEEEEEEEEERE', ourUser);
-
     if (ourUser) {
       req.session.passport.user.local_id = ourUser.id;
       return next();

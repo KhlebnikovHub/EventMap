@@ -9,7 +9,7 @@ function FriendList() {
   const dispatch = useDispatch()
   
   const { list, isLoading, error } = useSelector((state) => state.userFriends)
-  // console.log("KAKA", list);
+
 
   // useEffect(() => {
   //   dispatch(getAllUsers())

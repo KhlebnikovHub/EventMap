@@ -10,7 +10,6 @@ export const getPanorama = (id) => async (dispatch) => {
 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/panorama/${id}`, { credentials: 'include' })
     const panorama = await response.json();
-    console.log("PANORAMA", panorama);
     
     dispatch(setPanorama(panorama))
   } catch(error) {

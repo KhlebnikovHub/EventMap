@@ -8,7 +8,6 @@ export const getRandomPlaces = () => async (dispatch) => {
     
     const response = await fetch(`${process.env.REACT_APP_API_URL}/random/randomPlaces/`, { credentials: 'include' })
     const randomPlaces = await response.json();
-    console.log("RANDOMPLACES", randomPlaces);
     
     dispatch(setRandomPlaces(randomPlaces))
   } catch(error) {

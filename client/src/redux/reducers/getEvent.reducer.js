@@ -18,7 +18,6 @@ export const getEventReducer = (state = {}, action) => {
     }
     case ADD_NEW_PHOTO: {
       const { allEventPhoto } = payload
-      console.log('REDUCERGOVNA', allEventPhoto);
       state.list.Images = allEventPhoto
       return { ...state,  isLoading: false  }
     }
