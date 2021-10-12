@@ -12,6 +12,6 @@
 Также возможно добавление панорамы данного места 
 ![Screenshot from 2021-10-13 02-06-59](https://user-images.githubusercontent.com/86856652/137040794-32eb363e-da8c-4aac-b477-c0bae609d4ce.png)
 
-Пользователь может поделиться картой своей событий с другими, пригласить человека в друзья 
+Пользователь может поделиться картой своих событий с другими, пригласить человека в друзья 
 ![Screenshot from 2021-10-13 01-57-23](https://user-images.githubusercontent.com/86856652/137040347-28fb557e-44d3-4d44-99e2-96e7b8eb976b.png)
 ![Screenshot from 2021-10-13 01-57-54](https://user-images.githubusercontent.com/86856652/137040356-a206473e-c783-43d3-8822-13dc136e87c0.png)
