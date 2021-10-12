@@ -20,10 +20,8 @@ const initUser = async (req, res, next) => {
       });
       req.session.passport.user.local_id = newUser.id;
     }
-
   }
   return next();
-
 }
 
 
