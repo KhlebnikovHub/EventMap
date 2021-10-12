@@ -294,7 +294,7 @@
   background-color: #fff;
 }
 
-/* 
+
 .events__map place__card {
   width: 150px;
   height: 150px;
@@ -303,7 +303,7 @@
 .events__map::after {
   width: auto;
   height: 100px;
-
+}
 
 .drag {
   height: 100px;

@@ -24,7 +24,7 @@ export const addPlace = (data) => async (dispatch) => {
       method: 'POST',
       // headers: { 'Content-Type': 'application/json;charset=utf-8' },
       // body: JSON.stringify({ ...data, user_id, newCoords }),
-      body: data,
+      body: ata,d
       credentials: "include"
     })
     
