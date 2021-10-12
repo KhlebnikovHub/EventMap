@@ -1,4 +1,6 @@
-
+import AwesomeSlider from 'react-awesome-slider';
+import coreStyles from 'react-awesome-slider/src/core/styles.scss';
+import animationStyles from 'react-awesome-slider/src/styled/fold-out-animation/fold-out-animation.scss';
 
 import { useParams } from "react-router";
 import { getEvent } from "../../redux/actions/getEvent.action.js";
@@ -16,6 +18,7 @@ function Event() {
  
   const [showEditButton, setShowEditButton] = useState(true)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
+  const [showFileButton, setShowFileButton] = useState(false)
 
   const [inputChange, setInputChange] = useState(<DiscInput />);
   const dispatch = useDispatch();
@@ -40,6 +43,10 @@ function Event() {
     setShowSubmitButton(!showSubmitButton)
   }
 
+  const switchFileButton = () => {
+    setShowFileButton(prev => !prev)
+  }
+
   if(list) {
     if (!list?.image?.includes("http")) {
       list.image = `${process.env.REACT_APP_API_URL}${list?.image}`;
@@ -53,9 +60,21 @@ function Event() {
   const PhotoInputHandler = () => {
     setInputChange(<OtherPhotoInput id={id} />);
   };
-  // useEffect(() => {
-   
-  // }, [list])
+  
+
+  const slider = (
+    <AwesomeSlider
+    
+    animation="foldOutAnimation"
+    cssModule={[coreStyles, animationStyles]}
+  >
+    
+      {list?.Images?.map(image => {
+         return (  <div data-src={image?.path}  />
+          )})}
+         
+    </AwesomeSlider>
+  );
 
   return (
     <>
@@ -72,19 +91,22 @@ function Event() {
       </div>
    : ''} 
 
-   
+  
 
      {showEditButton && <div className={style.event}>
         <div className={style.event__pic_wrapper}>
           {/* <img className={style.event__pic} src={`${image}`} alt="" />
         </div> */}
-
+          {slider}
           <img className={style.event__pic} src={list?.image} alt="" />
         </div>
-        {list?.Images?.map(image => {
+        {/* {list?.Images?.map(image => {
          return (  <img className={style.event__pic} src={image?.path} alt="" />
-          )})}
+          )})} */}
+
+       
         <div className={style.event__info}>
+        
           <div className={style.event__text_box}>
          
             <p className={style.event__text_title}>Название: </p>
@@ -92,6 +114,7 @@ function Event() {
           </div>
 
           <div className={style.event__text_box}>
+          
             <p className={style.event__text_title}>Описание: </p>
             <p className={style.event__text}>{list?.description}</p>
           </div>

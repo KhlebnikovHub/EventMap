@@ -17,7 +17,7 @@ function OtherPhotoInput({id}) {
     <div>
       <form onSubmit={setNewEventPhotoHandler}>
       <input name="otherPhoto" type="text"></input>
-      <button type="submit" > Prinyat' obi4noe FOTO </button>
+      <button type="submit" > Принять одно фото </button>
       </form>
     </div>
   )
