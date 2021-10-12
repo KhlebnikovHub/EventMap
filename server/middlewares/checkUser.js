@@ -3,7 +3,7 @@ require('dotenv').config();
 const { User } = require('../db/models');
 
 const checkUser = async (req, res, next) => {
-  if (req.session?.passport?.user) {pxz
+  if (req.session?.passport?.user) {
     const email = req.session?.passport?.user?.emails[0]?.value;
     const firstName = req.session?.passport?.user?.name?.givenName;
     const lastName = req.session?.passport?.user?.name?.familyName;

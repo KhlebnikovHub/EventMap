@@ -39,25 +39,25 @@ app.use(
     saveUninitialized: false,
     secret: process.env.SESSIONSECRET,
     resave: false,
-    cookie: {  
+    cookie: {
       secure: false,
       httpOnly: false,
-      maxAge: 1e3 * 86400, 
+      maxAge: 1e3 * 86400,
       sameSite: false,
     },
   }),
 );
 
 // app.use(flash())
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:  
+      callbackURL:
         process.env.GOOGLE_REDIRECT_URL,
     },
     (accessToken, refreshToken, profile, done) => {

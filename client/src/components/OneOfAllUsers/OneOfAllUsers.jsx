@@ -35,10 +35,11 @@ export default function OneOfAllUsers({
   
   const currentUserFromState = useSelector((state) => state.currentuser);
   const { list, isLoading, error } = useSelector((state) => state.userFriends)
+  const allUsers = useSelector((state) => state.allUsers);
+
   if (!avatar?.includes("http")) {
     avatar = `${process.env.REACT_APP_API_URL}${avatar}`;
   }
-
   const stateId = currentUserFromState?.id
 
   const addToRequestHandler = async (id) => {
@@ -69,7 +70,7 @@ export default function OneOfAllUsers({
             Подробнее
           </Link>
 
-          {id !== stateId ? (
+          {id !== stateId && stateId ? (
             Friends?.find(
               (el) => el.user_id === stateId && el.friend_id === id
             ) ? (
