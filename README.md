@@ -15,3 +15,11 @@
 Пользователь может поделиться картой своих событий с другими, пригласить человека в друзья 
 ![Screenshot from 2021-10-13 01-57-23](https://user-images.githubusercontent.com/86856652/137040347-28fb557e-44d3-4d44-99e2-96e7b8eb976b.png)
 ![Screenshot from 2021-10-13 01-57-54](https://user-images.githubusercontent.com/86856652/137040356-a206473e-c783-43d3-8822-13dc136e87c0.png)
+
+Запуск проекта:
+В папке client
+npm install
+npm start
+В папке server
+npm install
+npm start/npm run dev
